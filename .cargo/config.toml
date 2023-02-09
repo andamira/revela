@@ -1,0 +1,137 @@
+[alias]
+
+# CHECK
+cl = "clippy"
+clq = "clippy --quiet"
+#
+cl_nc = "clippy --features=notcurses"
+cl_all = "clippy --features=all_backends"
+
+# CLEAN PACKAGE
+cp = "clean --package"
+crp = "clean --release --package"
+
+# DOC
+d = "doc --no-deps"
+do = "doc --no-deps --open"
+dd = "doc"
+ddo = "doc --open"
+#
+d_nc = "doc --no-deps --features=notcurses"
+do_nc = "doc --no-deps --open --features=notcurses"
+dd_nc = "doc --features=notcurses"
+ddo_nc = "doc --open --features=notcurses"
+#
+d_all = "doc --no-deps --features=all_backends"
+do_all = "doc --no-deps --open --features=all_backends"
+dd_all = "doc --features=all_backends"
+ddo_all = "doc --open --features=all_backends"
+# nightly:
+nd_all = "doc --no-deps --features=all_backends,nightly"
+ndo_all = "doc --no-deps --open --features=all_backends,nightly"
+ndd_all = "doc --features=all_backends,nightly"
+nddo_all = "doc --open --features=all_backends,nightly"
+
+# BUILD
+b = "build"
+bb = "build --bin"
+be = "build --example"
+bq = "build --quiet"
+br = "build --release"
+bqb = "build --quiet --bin"
+bqe = "build --quiet --example"
+brb = "build --release --bin"
+bre = "build --release --example"
+brqb = "build --release --quiet --bin"
+brqe = "build --release --quiet --example"
+#
+b_nc = "build --features=notcurses"
+bb_nc = "build --features=notcurses --bin"
+be_nc = "build --features=notcurses --example"
+br_nc = "build --release --features=notcurses"
+brb_nc = "build --release --features=notcurses --bin"
+bre_nc = "build --release --features=notcurses --example"
+#
+b_all = "build --features=all_backends"
+bb_all = "build --features=all_backends --bin"
+be_all = "build --features=all_backends --example"
+br_all = "build --release --features=all_backends"
+brb_all = "build --release --features=all_backends --bin"
+bre_all = "build --release --features=all_backends --example"
+
+# RUN
+r = "run"
+rb = "run --bin"
+re = "run --example"
+rq = "run --quiet"
+rr = "run --release"
+rqb = "run --quiet --bin"
+rqe = "run --quiet --example"
+rrb = "run --release --bin"
+rre = "run --release --example"
+rrqb = "run --release --quiet --bin"
+rrqe = "run --release --quiet --example"
+#
+r_nc = "run --features=notcurses"
+rr_nc = "run --release --features=notcurses"
+rb_nc = "run --features=notcurses --bin"
+re_nc = "run --features=notcurses --example"
+rrb_nc = "run --release --features=notcurses --bin"
+rre_nc = "run --release --features=notcurses --example"
+#
+r_all = "run --features=all_backends"
+rr_all = "run --release --features=all_backends"
+rb_all = "run --features=all_backends --bin"
+re_all = "run --features=all_backends --example"
+rrb_all = "run --release --features=all_backends --bin"
+rre_all = "run --release --features=all_backends --example"
+
+# TEST
+t = "test"
+td = "test --doc"
+t_ = "test -- --nocapture"
+t_1 = "test -- --test-threads 1 --nocapture"
+#
+t_nc = "test --features=notcurses"
+td_nc = "test --doc --features=notcurses"
+#
+t_all = "test --features=all_backends"
+td_all = "test --doc --features=all_backends"
+
+# TREE
+tr = "tree"
+trf = "tree --format {p}:{f}" # with feature list
+trr = "tree --format {p}:{r}" # with repository url
+#
+tr_nc = "tree --features=notcurses"
+trf_nc = "tree --format {p}:{f} --features=notcurses"
+trr_nc = "tree --format {p}:{r} --features=notcurses"
+#
+tr_all = "tree --features=all_backends"
+trf_all = "tree --format {p}:{f} --features=all_backends"
+trr_all = "tree --format {p}:{r} --features=all_backends"
+
+# PUBLISH
+p = "publish --dry-run"
+pa = "publish --dry-run --allow-dirty"
+pp = "publish"
+ppa = "publish --allow-dirty"
+
+# Cargo subcommands:
+## cargo-expand
+E = "expand"
+Eb = "expand --bin"
+Ee = "expand --example"
+El = "expand --lib"
+#
+E_nc = "expand  --features=notcurses"
+Eb_nc = "expand --bin --features=notcurses"
+Ee_nc = "expand --example --features=notcurses"
+El_nc = "expand --lib --features=notcurses"
+#
+E_all = "expand  --features=all_backends"
+Eb_all = "expand --bin --features=all_backends"
+Ee_all = "expand --example --features=all_backends"
+El_all = "expand --lib --features=all_backends"
+
+[build]
