@@ -30,7 +30,7 @@ pub mod all {
             Window, WindowEvent,
         },
         error::{UiError, UiResult},
-        layout::{Distance, Position, Size, Zone},
+        layout::{Clamper, Position, Size, Zone},
     };
 
     #[cfg(feature = "notcurses")]

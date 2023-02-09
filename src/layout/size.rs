@@ -3,7 +3,7 @@
 //!
 //
 
-use super::Distance as D;
+use super::Clamper as C;
 
 /// A 2D size.
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, PartialOrd, Ord)]
@@ -17,8 +17,8 @@ impl Size {
     /// which has to be at least `1`.
     pub const fn new(width: i32, height: i32) -> Self {
         Self {
-            w: D::clamp_positive(width),
-            h: D::clamp_positive(height),
+            w: C::clamp_positive(width),
+            h: C::clamp_positive(height),
         }
     }
 
@@ -36,17 +36,17 @@ impl Size {
     /// Set the width.
     #[inline]
     pub fn set_w(&mut self, width: i32) {
-        self.w = D::clamp(width);
+        self.w = C::clamp(width);
     }
     /// Set the height.
     #[inline]
     pub fn set_h(&mut self, height: i32) {
-        self.h = D::clamp(height);
+        self.h = C::clamp(height);
     }
 }
 
 mod conversions {
-    use super::{Size, D};
+    use super::{Size, C};
 
     /// # convert
     impl Size {
@@ -59,40 +59,40 @@ mod conversions {
 
         pub fn as_tuple_u32(&self) -> (u32, u32) {
             (
-                D::clamp_positive_to_u32(self.w),
-                D::clamp_positive_to_u32(self.h),
+                C::clamp_positive_to_u32(self.w),
+                C::clamp_positive_to_u32(self.h),
             )
         }
         pub fn from_tuple_u32(tup: (u32, u32)) -> Size {
             Self::new(
-                D::clamp_positive_from_u32(tup.0),
-                D::clamp_positive_from_u32(tup.1),
+                C::clamp_positive_from_u32(tup.0),
+                C::clamp_positive_from_u32(tup.1),
             )
         }
 
         pub fn as_tuple_i16(&self) -> (i16, i16) {
             (
-                D::clamp_positive_to_i16(self.w),
-                D::clamp_positive_to_i16(self.h),
+                C::clamp_positive_to_i16(self.w),
+                C::clamp_positive_to_i16(self.h),
             )
         }
         pub fn from_tuple_i16(tup: (i16, i16)) -> Size {
             Self::new(
-                D::clamp_positive_from_i16(tup.0),
-                D::clamp_positive_from_i16(tup.1),
+                C::clamp_positive_from_i16(tup.0),
+                C::clamp_positive_from_i16(tup.1),
             )
         }
 
         pub fn as_tuple_usize(&self) -> (usize, usize) {
             (
-                D::clamp_positive_to_usize(self.w),
-                D::clamp_positive_to_usize(self.h),
+                C::clamp_positive_to_usize(self.w),
+                C::clamp_positive_to_usize(self.h),
             )
         }
         pub fn from_tuple_usize(tup: (usize, usize)) -> Size {
             Self::new(
-                D::clamp_positive_from_usize(tup.0),
-                D::clamp_positive_from_usize(tup.1),
+                C::clamp_positive_from_usize(tup.0),
+                C::clamp_positive_from_usize(tup.1),
             )
         }
     }

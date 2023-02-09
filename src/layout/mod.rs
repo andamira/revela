@@ -3,12 +3,12 @@
 //! Layout types.
 //
 
-mod distance;
+mod clamper;
 mod position;
 mod size;
 mod zone;
 
-pub use distance::Distance;
+pub use clamper::Clamper;
 pub use position::Position;
 pub use size::Size;
 pub use zone::Zone;

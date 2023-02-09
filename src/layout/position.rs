@@ -2,7 +2,7 @@
 //
 ///
 //
-use super::Distance as D;
+use super::Clamper as C;
 
 /* definitions */
 
@@ -18,8 +18,8 @@ impl Position {
     #[inline]
     pub const fn new(x: i32, y: i32) -> Self {
         Self {
-            x: D::clamp(x),
-            y: D::clamp(y),
+            x: C::clamp(x),
+            y: C::clamp(y),
         }
     }
 
@@ -37,17 +37,17 @@ impl Position {
     /// Set x.
     #[inline]
     pub fn set_x(&mut self, x: i32) {
-        self.x = D::clamp(x);
+        self.x = C::clamp(x);
     }
     /// Set y.
     #[inline]
     pub fn set_y(&mut self, y: i32) {
-        self.y = D::clamp(y);
+        self.y = C::clamp(y);
     }
 }
 
 mod conversions {
-    use super::{Position, D};
+    use super::{Position, C};
 
     /// # convert
     impl Position {
@@ -55,33 +55,33 @@ mod conversions {
             (self.x, self.y)
         }
         pub const fn from_tuple(tup: (i32, i32)) -> Position {
-            Self::new(D::clamp(tup.0), D::clamp(tup.1))
+            Self::new(C::clamp(tup.0), C::clamp(tup.1))
         }
 
         pub const fn as_tuple_u32(&self) -> (u32, u32) {
-            (D::clamp_to_u32(self.x), D::clamp_to_u32(self.y))
+            (C::clamp_to_u32(self.x), C::clamp_to_u32(self.y))
         }
         pub const fn from_tuple_u32(tup: (u32, u32)) -> Position {
-            Self::new(D::clamp_from_u32(tup.0), D::clamp_from_u32(tup.1))
+            Self::new(C::clamp_from_u32(tup.0), C::clamp_from_u32(tup.1))
         }
 
         pub const fn as_tuple_i16(&self) -> (i16, i16) {
-            (D::clamp_to_i16(self.x), D::clamp_to_i16(self.y))
+            (C::clamp_to_i16(self.x), C::clamp_to_i16(self.y))
         }
         pub const fn from_tuple_i16(tup: (i16, i16)) -> Position {
-            Self::new(D::clamp_from_i16(tup.0), D::clamp_from_i16(tup.1))
+            Self::new(C::clamp_from_i16(tup.0), C::clamp_from_i16(tup.1))
         }
 
         pub fn as_tuple_usize(&self) -> (usize, usize) {
             (
-                D::clamp_positive_to_usize(self.x),
-                D::clamp_positive_to_usize(self.y),
+                C::clamp_positive_to_usize(self.x),
+                C::clamp_positive_to_usize(self.y),
             )
         }
         pub fn from_tuple_usize(tup: (usize, usize)) -> Position {
             Self::new(
-                D::clamp_positive_from_usize(tup.0),
-                D::clamp_positive_from_usize(tup.1),
+                C::clamp_positive_from_usize(tup.0),
+                C::clamp_positive_from_usize(tup.1),
             )
         }
     }
