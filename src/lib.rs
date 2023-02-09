@@ -1,6 +1,6 @@
 // revela
 //
-//!
+//! A user interface abstracted over a selection of user interfaces.
 //
 
 #![warn(clippy::all)]
@@ -30,7 +30,7 @@ pub mod all {
             Window, WindowEvent,
         },
         error::{UiError, UiResult},
-        layout::*,
+        layout::{Distance, Position, Size, Zone},
     };
 
     #[cfg(feature = "notcurses")]

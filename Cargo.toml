@@ -1,6 +1,6 @@
 [package]
 name = "revela"
-description = "user interface"
+description = "A user interface abstracted over a selection of user interfaces."
 version = "0.0.1"
 edition = "2021"
 resolver = "2"
