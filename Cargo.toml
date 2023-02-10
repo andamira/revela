@@ -10,11 +10,11 @@ repository = "https://github.com/andamira/revela"
 documentation = "https://docs.rs/revela"
 license = "MIT OR Apache-2.0"
 include = [
-	"/src/**/*.rs",
 	"/Cargo.toml",
-	"/res/*",
 	"/README.md",
 	"/LICENSE-*",
+	"/src/**/*.rs",
+	"/examples/ui-notcurses.rs",
 ]
 categories = ["gui"]
 keywords = ["terminal"] # cli, web, …

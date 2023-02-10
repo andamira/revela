@@ -4,7 +4,7 @@
 //
 
 use depura::*;
-use espera::*;
+use repite::*;
 use revela::all::*;
 
 fn main() -> UiResult<()> {
@@ -18,48 +18,57 @@ fn main() -> UiResult<()> {
     let mut nui = NotcursesUi::new()?;
     // nui.enable_mouse()?;
 
+    let mut l = Looper::new();
+    assert![l.add_rate("input", Rate::with_tps(60.), true).is_ok()];
+    assert![l.add_rate("render", Rate::with_tps(24.), true).is_ok()];
+    l.reset();
+
     loop {
-        /* input */
+        if let Some((now0, _delta0)) = l.measure() {
+            /* input */
 
-        let event = nui.wait_event()?;
-        // let event = nui.poll_event()?;
+            if let Some(_) = l.do_tick(now0, "input") {
+                if let Ok(event) = nui.poll_event() {
+                    // debug!["event: {event:?}"];
 
-        match event {
-            Event::Window(w) => {
-                debug!["window: {w:?}"];
-                match w {
-                    // FIXME: https://github.com/dankamongmen/notcurses/issues/2702
-                    WindowEvent::Continue => {
-                        debug!["Issue continuing from resize"];
+                    match event {
+                        Event::Window(w) => {
+                            debug!["window: {w:?}"];
+                            match w {
+                                // FIXME:
+                                // https://github.com/dankamongmen/notcurses/issues/2702
+                                WindowEvent::Continue => {
+                                    debug!["TODO: restore raw mode"];
+                                }
+                                WindowEvent::Resized => {
+                                    debug!["{:?}", nui.size()];
+                                }
+                                _ => (),
+                            }
+                        }
+                        Event::Key(k) => {
+                            debug!["key: {k:?}"];
+                            match k.code {
+                                Code::Escape | Code::Char('q') => break,
+                                Code::Char('l') => l.log_all_rates(),
+                                _ => (),
+                            }
+                        }
+                        // Event::Mouse(m) => {
+                        //     debug!["mouse: {m:?}"];
+                        // }
+                        _ => (),
                     }
-                    WindowEvent::Resized => {
-                        // Key::Resize => nui.refresh()?, // already does on render
-                    }
-                    _ => (),
                 }
             }
-            Event::Key(k) => {
-                debug!["key: {k:?}"];
-                match k.code {
-                    Code::Escape | Code::Char('q') => break,
-                    _ => (),
-                }
+
+            /* render */
+
+            if let Some(_) = l.do_tick(now0, "render") {
+                nui.render()?;
             }
-            // Event::Mouse(m) => {
-            //     debug!["mouse: {m:?}"];
-            // }
-            _ => (),
         }
-
-        /* render */
-
-        nui.render()?;
-
-        // TEMP print dimensions
-        // debug!["{:?}", nui.size()];
-
-        // info!["loop"];
-        sleep4![0, 40];
+        l.sleep(Duration::microseconds(1));
     }
 
     info!["bye!"];
