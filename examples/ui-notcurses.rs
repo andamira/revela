@@ -1,6 +1,8 @@
-// revela example ui-notcurses
+// revela::example::ui-notcurses
 //
+//! # Notcurses UI example
 //!
+//! Optionally supports `gilrs` backend.
 //
 
 use depura::*;
@@ -11,6 +13,10 @@ fn main() -> UiResult<()> {
     Logger::new("revela example ui-notcurses")
         .file("log-ui-notcurses.log")
         .target_level_all()
+        //
+        .ignore("gilrs::ff")
+        .ignore("gilrs_core")
+        //
         .init()
         .unwrap();
     info!["press Escape to exit"];
@@ -23,42 +29,57 @@ fn main() -> UiResult<()> {
     assert![l.add_rate("render", Rate::with_tps(24.), true).is_ok()];
     l.reset();
 
+    #[cfg(feature = "gilrs")]
+    let mut gilrs = GilrsUi::new()?;
+
     loop {
         if let Some((now0, _delta0)) = l.measure() {
             /* input */
 
             if let Some(_) = l.do_tick(now0, "input") {
-                if let Ok(event) = nui.poll_event() {
-                    // debug!["event: {event:?}"];
+                /* input: gamepad */
 
-                    match event {
-                        Event::Window(w) => {
-                            debug!["window: {w:?}"];
-                            match w {
-                                // FIXME:
-                                // https://github.com/dankamongmen/notcurses/issues/2702
-                                WindowEvent::Continue => {
-                                    debug!["TODO: restore raw mode"];
-                                }
-                                WindowEvent::Resized => {
-                                    debug!["{:?}", nui.size()];
-                                }
-                                _ => (),
-                            }
+                #[cfg(feature = "gilrs")]
+                {
+                    let gilrs_event = gilrs.poll_event()?;
+                    match gilrs_event {
+                        Event::Gamepad(g) => {
+                            debug!["gamepad: {g:?}"];
                         }
-                        Event::Key(k) => {
-                            debug!["key: {k:?}"];
-                            match k.code {
-                                Code::Escape | Code::Char('q') => break,
-                                Code::Char('l') => l.log_all_rates(),
-                                _ => (),
-                            }
-                        }
-                        // Event::Mouse(m) => {
-                        //     debug!["mouse: {m:?}"];
-                        // }
                         _ => (),
                     }
+                }
+
+                /* input: notcurses */
+
+                let nui_event = nui.poll_event()?;
+                match nui_event {
+                    Event::Window(w) => {
+                        debug!["window: {w:?}"];
+                        match w {
+                            // FIX: lost raw mode
+                            // https://github.com/dankamongmen/notcurses/issues/2702
+                            WindowEvent::Continue => {
+                                debug!["welcome back"];
+                            }
+                            WindowEvent::Resized => {
+                                debug!["{:?}", nui.size()];
+                            }
+                            _ => (),
+                        }
+                    }
+                    Event::Key(k) => {
+                        debug!["key: {k:?}"];
+                        match k.code {
+                            Code::Escape | Code::Char('q') => break,
+                            Code::Char('l') => l.log_all_rates(),
+                            _ => (),
+                        }
+                    }
+                    // Event::Mouse(m) => {
+                    //     debug!["mouse: {m:?}"];
+                    // }
+                    _ => (),
                 }
             }
 
