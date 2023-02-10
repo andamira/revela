@@ -3,6 +3,10 @@
 //! `notcurses` backend.
 //
 
+/// Re-export of the [`notcurses`](https://docs.rs/notcurses) crate.
+#[doc(inline)]
+pub use ::notcurses;
+
 // mod capabilities;
 mod events;
 mod ui;

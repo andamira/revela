@@ -1,6 +1,6 @@
 [package]
 name = "revela"
-description = "A user interface abstracted over a selection of user interfaces."
+description = "A user interface abstracted over a selection of backends."
 version = "0.0.1"
 edition = "2021"
 resolver = "2"
@@ -29,7 +29,7 @@ log = "0.4.17"
 ## backends 
 
 ### terminal
-notcurses = { version = "3.2.1", optional = true }
+notcurses = { version = "3.2.2", optional = true }
 # notcurses = { path = "../../notcurses/notcurses-rs", optional = true }
 # notcurses = { git = "https://github.com/dankamongmen/notcurses", optional = true }
 # crossterm = { version = "0.25.0", optional = true }
@@ -61,15 +61,6 @@ all_backends = ["notcurses", "gilrs"]
 notcurses = ["dep:notcurses", "acolor/notcurses"]
 # sdl2 = ["dep:sdl2", "acolor?/sdl2", "raw-window-handle"] # gpu
 
-[dev-dependencies]
-depura = "0.0.2"
-repite = "0.0.3"
-espera = "0.0.3"
-
-# [[example]]
-# name = "hello_world"
-# required-features = [""]
-
 [badges]
 maintenance = { status = "experimental" }
 
@@ -81,3 +72,12 @@ features = ["all_backends", "nightly"]
 #
 # [profile.dev]
 # split-debuginfo = "packed"
+
+[dev-dependencies]
+depura = "0.0.2"
+repite = "0.0.3"
+espera = "0.0.3"
+
+[[example]]
+name = "ui-notcurses"
+required-features = ["notcurses"]

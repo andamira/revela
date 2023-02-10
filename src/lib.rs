@@ -1,6 +1,6 @@
 // revela
 //
-//! A user interface abstracted over a selection of user interfaces.
+//! A user interface abstracted over a selection of [`backend`]s.
 //
 
 #![warn(clippy::all)]
