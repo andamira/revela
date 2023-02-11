@@ -9,13 +9,10 @@ mod window;
 
 #[doc(inline)]
 pub use events::{
+    gamepad::{GamepadAxis, GamepadButton, GamepadEvent, GamepadEventKind},
     keyboard::{Code, KeyEvent, KeyModifiers, MediaKey, ModifierKey},
-    // gamepad::{},
-    // midi::{},
-    // mouse::{},
     window::WindowEvent,
-    Event,
-    EventSource,
+    Event, EventSource,
 };
 pub use ui::Ui;
 pub use window::Window;

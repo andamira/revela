@@ -26,8 +26,13 @@ pub mod all {
     #[doc(inline)]
     pub use crate::{
         core::{
-            events::Event, Code, EventSource, KeyEvent, KeyModifiers, MediaKey, ModifierKey, Ui,
-            Window, WindowEvent,
+            events::{
+                gamepad::{GamepadAxis, GamepadButton, GamepadEvent, GamepadEventKind},
+                keyboard::{Code, KeyEvent, KeyModifiers, MediaKey, ModifierKey},
+                window::WindowEvent,
+                Event, EventSource,
+            },
+            Ui, Window,
         },
         error::{UiError, UiResult},
         layout::{Clamper, Position, Size, Zone},
@@ -35,5 +40,9 @@ pub mod all {
 
     #[cfg(feature = "notcurses")]
     #[doc(inline)]
-    pub use crate::backend::notcurses::*;
+    pub use crate::backend::notcurses::NotcursesUi;
+
+    #[cfg(feature = "gilrs")]
+    #[doc(inline)]
+    pub use crate::backend::gilrs::GilrsUi;
 }

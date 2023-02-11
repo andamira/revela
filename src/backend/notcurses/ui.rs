@@ -27,7 +27,7 @@ impl NotcursesUi {
 
     //
 
-    /// Creates a new `NotcursesUi` from an existing notcurses instance,
+    /// Creates a new `NotcursesUi` from an existing `notcurses` instance,
     /// and an optional `root` [`Plane`].
     ///
     /// When no plane is given, it will try to instantiate the *cli* plane.

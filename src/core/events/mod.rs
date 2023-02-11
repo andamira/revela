@@ -5,14 +5,15 @@
 
 use crate::all::UiResult;
 
-// mod gamepad;
+pub mod gamepad;
 pub mod keyboard;
-// mod mouse;
+// pub mod mouse;
 pub mod window;
-// pub use gamepad::{GamepadEvent, GamepadEventKind, GamepadButton, GamepadAxis};
+pub use gamepad::{GamepadAxis, GamepadButton, GamepadEvent, GamepadEventKind};
 #[doc(inline)]
 pub use keyboard::{Code, KeyEvent, KeyModifiers, MediaKey, ModifierKey};
-// pub use mouse::{MouseEvent, MouseButton};
+// #[doc(inline)]
+// pub use mouse::{MouseButton, MouseEvent};
 #[doc(inline)]
 pub use window::WindowEvent;
 
@@ -56,14 +57,11 @@ pub enum Event {
 
     /// A keyboard event.
     Key(KeyEvent),
+
     // /// A mouse event.
-    // // WIP
     // Mouse(MouseEvent),
-
-    // /// A gamepad event.
-    // // WIP
-    // Gamepad(GamepadEvent),
-
+    /// A gamepad event.
+    Gamepad(GamepadEvent),
     // /// A midi event.
     // // TODO
     // Midi(MidiEvent),

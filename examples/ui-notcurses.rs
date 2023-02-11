@@ -25,7 +25,7 @@ fn main() -> UiResult<()> {
     // nui.enable_mouse()?;
 
     let mut l = Looper::new();
-    assert![l.add_rate("input", Rate::with_tps(60.), true).is_ok()];
+    assert![l.add_rate("input", Rate::with_tps(200.), true).is_ok()];
     assert![l.add_rate("render", Rate::with_tps(24.), true).is_ok()];
     l.reset();
 
@@ -44,10 +44,12 @@ fn main() -> UiResult<()> {
                     let gilrs_event = gilrs.poll_event()?;
                     match gilrs_event {
                         Event::Gamepad(g) => {
-                            debug!["gamepad: {g:?}"];
+                            debug!["gilrs: {g:?}"];
+                            debug!["counter: {:?}", gilrs.counter()];
                         }
                         _ => (),
                     }
+                    gilrs.increment();
                 }
 
                 /* input: notcurses */
