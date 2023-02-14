@@ -2,13 +2,13 @@
 //
 //! Ui wrapper for notcurses
 //
+// TODO: Capabilities, Code, Unit
 
 use notcurses::{Notcurses, Plane};
 
-use crate::all::{Code, Event, EventSource, Size, Ui, UiResult, Window};
-// Capabilities, Unit
+use crate::all::{Event, EventSource, Size, Ui, UiResult, Window};
 
-/// `notcurses` user interface.
+/// `notcurses` interface.
 ///
 /// It implements the following traits: [`Ui`], [`Window`], [`EventSource`].
 pub struct NotcursesUi {
@@ -69,10 +69,11 @@ impl NotcursesUi {
 }
 
 impl Ui for NotcursesUi {
-    // impl Capabilities?
+    // TODO
     // fn capabilities(&self) -> Capabilities {
     //     self.inner.capabilities().into()
     // }
+
     fn version(&self) -> (u32, u32, u32) {
         let v = Notcurses::version_components();
         (v.0, v.1, v.2)

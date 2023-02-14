@@ -21,7 +21,7 @@ use ::gilrs::{
     ev::filter::FilterFn, Axis, Button, Event as GilrsEvent, EventType, Gilrs, GilrsBuilder,
 };
 
-///
+/// `gilrs` interface.
 #[derive(Debug)]
 pub struct GilrsUi {
     inner: Gilrs,

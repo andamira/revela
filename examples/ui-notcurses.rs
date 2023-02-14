@@ -21,7 +21,8 @@ fn main() -> UiResult<()> {
         .unwrap();
     info!["press Escape to exit"];
 
-    let mut nui = NotcursesUi::new()?;
+    let mut notcurses_ui = NotcursesUi::new()?;
+    let nui = &mut notcurses_ui;
     // nui.enable_mouse()?;
 
     let mut l = Looper::new();
@@ -37,20 +38,11 @@ fn main() -> UiResult<()> {
             /* input */
 
             if let Some(_) = l.do_tick(now0, "input") {
+
                 /* input: gamepad */
 
                 #[cfg(feature = "gilrs")]
-                {
-                    let gilrs_event = gilrs.poll_event()?;
-                    match gilrs_event {
-                        Event::Gamepad(g) => {
-                            debug!["gilrs: {g:?}"];
-                            debug!["counter: {:?}", gilrs.counter()];
-                        }
-                        _ => (),
-                    }
-                    gilrs.increment();
-                }
+                input_gilrs(&mut gilrs)?;
 
                 /* input: notcurses */
 
@@ -95,5 +87,19 @@ fn main() -> UiResult<()> {
     }
 
     info!["bye!"];
+    Ok(())
+}
+
+#[cfg(feature = "gilrs")]
+fn input_gilrs(gilrs: &mut GilrsUi) -> UiResult<()> {
+    let gilrs_event = gilrs.poll_event()?;
+    match gilrs_event {
+        Event::Gamepad(g) => {
+            debug!["gilrs: {g:?}"];
+            debug!["counter: {:?}", gilrs.counter()];
+        }
+        _ => (),
+    }
+    gilrs.increment();
     Ok(())
 }

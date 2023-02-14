@@ -50,46 +50,46 @@ mod conversions {
 
     /// # convert
     impl Size {
-        pub fn as_tuple(&self) -> (i32, i32) {
+        pub const fn as_tuple(&self) -> (i32, i32) {
             (self.w, self.h)
         }
-        pub fn from_tuple(tup: (i32, i32)) -> Size {
+        pub const fn from_tuple(tup: (i32, i32)) -> Size {
             Self::new(tup.0, tup.1)
         }
 
-        pub fn as_tuple_u32(&self) -> (u32, u32) {
+        pub const fn as_tuple_u32(&self) -> (u32, u32) {
             (
                 C::clamp_positive_to_u32(self.w),
                 C::clamp_positive_to_u32(self.h),
             )
         }
-        pub fn from_tuple_u32(tup: (u32, u32)) -> Size {
+        pub const fn from_tuple_u32(tup: (u32, u32)) -> Size {
             Self::new(
                 C::clamp_positive_from_u32(tup.0),
                 C::clamp_positive_from_u32(tup.1),
             )
         }
 
-        pub fn as_tuple_i16(&self) -> (i16, i16) {
+        pub const fn as_tuple_i16(&self) -> (i16, i16) {
             (
                 C::clamp_positive_to_i16(self.w),
                 C::clamp_positive_to_i16(self.h),
             )
         }
-        pub fn from_tuple_i16(tup: (i16, i16)) -> Size {
+        pub const fn from_tuple_i16(tup: (i16, i16)) -> Size {
             Self::new(
                 C::clamp_positive_from_i16(tup.0),
                 C::clamp_positive_from_i16(tup.1),
             )
         }
 
-        pub fn as_tuple_usize(&self) -> (usize, usize) {
+        pub const fn as_tuple_usize(&self) -> (usize, usize) {
             (
                 C::clamp_positive_to_usize(self.w),
                 C::clamp_positive_to_usize(self.h),
             )
         }
-        pub fn from_tuple_usize(tup: (usize, usize)) -> Size {
+        pub const fn from_tuple_usize(tup: (usize, usize)) -> Size {
             Self::new(
                 C::clamp_positive_from_usize(tup.0),
                 C::clamp_positive_from_usize(tup.1),
@@ -127,6 +127,17 @@ mod conversions {
     impl From<Size> for (u32, u32) {
         fn from(s: Size) -> (u32, u32) {
             s.as_tuple_u32()
+        }
+    }
+
+    impl From<(usize, usize)> for Size {
+        fn from(tup: (usize, usize)) -> Size {
+            Self::from_tuple_usize(tup)
+        }
+    }
+    impl From<Size> for (usize, usize) {
+        fn from(s: Size) -> (usize, usize) {
+            s.as_tuple_usize()
         }
     }
 }

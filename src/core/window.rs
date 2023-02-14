@@ -5,7 +5,7 @@
 
 use crate::all::{Size, UiResult};
 
-/// Comon window trait.
+/// Window trait.
 pub trait Window {
     /// Refreshes the window contents.
     //

@@ -1,4 +1,4 @@
-// uiuiui::backend::nc
+// revela::backend::nc
 //
 //! `notcurses` backend.
 //
@@ -9,11 +9,11 @@ pub use ::notcurses;
 
 // mod capabilities;
 mod events;
+mod text;
 mod ui;
-// mod widget;
 
+pub use text::NotcursesTextGrid;
 pub use ui::NotcursesUi;
-// pub use widget::{NotcursesText, NotcursesWidget, NotcursesWidgets};
 
 /// General conversions
 mod conversions {

@@ -1,4 +1,4 @@
-// uiuiui::error
+// revela::error
 //
 //! Error types.
 //

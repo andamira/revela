@@ -72,13 +72,13 @@ mod conversions {
             Self::new(C::clamp_from_i16(tup.0), C::clamp_from_i16(tup.1))
         }
 
-        pub fn as_tuple_usize(&self) -> (usize, usize) {
+        pub const fn as_tuple_usize(&self) -> (usize, usize) {
             (
                 C::clamp_positive_to_usize(self.x),
                 C::clamp_positive_to_usize(self.y),
             )
         }
-        pub fn from_tuple_usize(tup: (usize, usize)) -> Position {
+        pub const fn from_tuple_usize(tup: (usize, usize)) -> Position {
             Self::new(
                 C::clamp_positive_from_usize(tup.0),
                 C::clamp_positive_from_usize(tup.1),
@@ -116,6 +116,17 @@ mod conversions {
     impl From<Position> for (u32, u32) {
         fn from(s: Position) -> (u32, u32) {
             s.as_tuple_u32()
+        }
+    }
+
+    impl From<(usize, usize)> for Position {
+        fn from(tup: (usize, usize)) -> Position {
+            Self::from_tuple_usize(tup)
+        }
+    }
+    impl From<Position> for (usize, usize) {
+        fn from(s: Position) -> (usize, usize) {
+            s.as_tuple_usize()
         }
     }
 }

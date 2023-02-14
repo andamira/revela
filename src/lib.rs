@@ -25,6 +25,9 @@ pub mod layout;
 pub mod all {
     #[doc(inline)]
     pub use crate::{
+        backend::{
+            capabilities::{Capabilities, PixelCapabilities, TextGridCapabilities},
+        },
         core::{
             events::{
                 gamepad::{GamepadAxis, GamepadButton, GamepadEvent, GamepadEventKind},
@@ -32,6 +35,7 @@ pub mod all {
                 window::WindowEvent,
                 Event, EventSource,
             },
+            text::TextGrid,
             Ui, Window,
         },
         error::{UiError, UiResult},
@@ -40,7 +44,7 @@ pub mod all {
 
     #[cfg(feature = "notcurses")]
     #[doc(inline)]
-    pub use crate::backend::notcurses::NotcursesUi;
+    pub use crate::backend::notcurses::{NotcursesTextGrid, NotcursesUi};
 
     #[cfg(feature = "gilrs")]
     #[doc(inline)]

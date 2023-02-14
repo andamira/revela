@@ -2,8 +2,9 @@
 //
 //! Events types conversions.
 //
+// TODO: KeyEvent
 
-use crate::all::{Code, Event, KeyEvent, KeyModifiers, MediaKey, ModifierKey, WindowEvent};
+use crate::all::{Code, Event, KeyModifiers, MediaKey, ModifierKey, WindowEvent};
 use ::notcurses::{Input, Key as NcKey, KeyMod, Received};
 
 impl From<KeyMod> for KeyModifiers {
