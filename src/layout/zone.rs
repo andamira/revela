@@ -12,7 +12,6 @@ pub struct Zone {
     pub s: Size,
 }
 
-/// # accesors
 impl Zone {
     /// Returns a new zone from the provided position and size.
     pub const fn new(position: Position, size: Size) -> Self {
@@ -28,7 +27,7 @@ impl Zone {
     }
 
     /// Gets a tuple with the position and size.
-    pub fn position_size(&self) -> (Position, Size) {
+    pub const fn position_size(&self) -> (Position, Size) {
         (self.p, self.s)
     }
 
@@ -101,56 +100,55 @@ impl Zone {
     }
 }
 
-mod conversions {
-    use super::{Position, Size, Zone};
-
-    /// # convert
-    impl Zone {
-        /// Returns a tuple with the `(x, y, width, height)` components.
-        pub const fn as_tuple(&self) -> (i32, i32, i32, i32) {
-            (self.p.x(), self.p.y(), self.s.w(), self.s.h())
-        }
-        /// Creates a zone from a tuple with `(x, y, width, height)` components.
-        pub const fn from_tuple(tup: (i32, i32, i32, i32)) -> Zone {
-            Self::new_raw(tup.0, tup.1, tup.2, tup.3)
-        }
-
-        pub const fn as_tuple_u32(&self) -> (u32, u32, u32, u32) {
-            let p = self.p.as_tuple_u32();
-            let s = self.s.as_tuple_u32();
-            (p.0, p.1, s.0, s.1)
-        }
-        pub const fn from_tuple_u32(tup: (u32, u32, u32, u32)) -> Zone {
-            Self::new(
-                Position::from_tuple_u32((tup.0, tup.1)),
-                Size::from_tuple_u32((tup.2, tup.3)),
-            )
-        }
-
-        pub const fn as_tuple_i16(&self) -> (i16, i16, i16, i16) {
-            let p = self.p.as_tuple_i16();
-            let s = self.s.as_tuple_i16();
-            (p.0, p.1, s.0, s.1)
-        }
-        pub const fn from_tuple_i16(tup: (i16, i16, i16, i16)) -> Zone {
-            Self::new(
-                Position::from_tuple_i16((tup.0, tup.1)),
-                Size::from_tuple_i16((tup.2, tup.3)),
-            )
-        }
-
-        pub fn as_tuple_usize(&self) -> (usize, usize, usize, usize) {
-            let p = self.p.as_tuple_usize();
-            let s = self.s.as_tuple_usize();
-            (p.0, p.1, s.0, s.1)
-        }
-        pub fn from_tuple_usize(tup: (usize, usize, usize, usize)) -> Zone {
-            Self::new(
-                Position::from_tuple_usize((tup.0, tup.1)),
-                Size::from_tuple_usize((tup.2, tup.3)),
-            )
-        }
+impl Zone {
+    /// Returns a tuple with the `(x, y, width, height)` components.
+    pub const fn as_tuple(&self) -> (i32, i32, i32, i32) {
+        (self.p.x(), self.p.y(), self.s.w(), self.s.h())
     }
+    /// Creates a zone from a tuple with `(x, y, width, height)` components.
+    pub const fn from_tuple(tup: (i32, i32, i32, i32)) -> Zone {
+        Self::new_raw(tup.0, tup.1, tup.2, tup.3)
+    }
+
+    pub const fn as_tuple_u32(&self) -> (u32, u32, u32, u32) {
+        let p = self.p.as_tuple_u32();
+        let s = self.s.as_tuple_u32();
+        (p.0, p.1, s.0, s.1)
+    }
+    pub const fn from_tuple_u32(tup: (u32, u32, u32, u32)) -> Zone {
+        Self::new(
+            Position::from_tuple_u32((tup.0, tup.1)),
+            Size::from_tuple_u32((tup.2, tup.3)),
+        )
+    }
+
+    pub const fn as_tuple_i16(&self) -> (i16, i16, i16, i16) {
+        let p = self.p.as_tuple_i16();
+        let s = self.s.as_tuple_i16();
+        (p.0, p.1, s.0, s.1)
+    }
+    pub const fn from_tuple_i16(tup: (i16, i16, i16, i16)) -> Zone {
+        Self::new(
+            Position::from_tuple_i16((tup.0, tup.1)),
+            Size::from_tuple_i16((tup.2, tup.3)),
+        )
+    }
+
+    pub const fn as_tuple_usize(&self) -> (usize, usize, usize, usize) {
+        let p = self.p.as_tuple_usize();
+        let s = self.s.as_tuple_usize();
+        (p.0, p.1, s.0, s.1)
+    }
+    pub const fn from_tuple_usize(tup: (usize, usize, usize, usize)) -> Zone {
+        Self::new(
+            Position::from_tuple_usize((tup.0, tup.1)),
+            Size::from_tuple_usize((tup.2, tup.3)),
+        )
+    }
+}
+
+mod conversions {
+    use super::Zone;
 
     impl From<(i32, i32, i32, i32)> for Zone {
         fn from(tup: (i32, i32, i32, i32)) -> Zone {
