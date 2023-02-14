@@ -25,6 +25,14 @@ fn main() -> UiResult<()> {
     let nui = &mut notcurses_ui;
     // nui.enable_mouse()?;
 
+    /* */
+
+    // TEMP
+    let mut t0 = nui.new_root_child((1, 2, 12, 7))?;
+    debug!["t0 putstr: {:?}", t0.putstr("hello world")?];
+
+    /* */
+
     let mut l = Looper::new();
     assert![l.add_rate("input", Rate::with_tps(200.), true).is_ok()];
     assert![l.add_rate("render", Rate::with_tps(24.), true).is_ok()];
@@ -67,6 +75,11 @@ fn main() -> UiResult<()> {
                         match k.code {
                             Code::Escape | Code::Char('q') => break,
                             Code::Char('l') => l.log_all_rates(),
+                            // TEMP
+                            Code::Up => t0.offset((0, -1))?,
+                            Code::Down => t0.offset((0, 1))?,
+                            Code::Left => t0.offset((-1, 0))?,
+                            Code::Right => t0.offset((1, 0))?,
                             _ => (),
                         }
                     }

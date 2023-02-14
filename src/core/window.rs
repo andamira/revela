@@ -14,12 +14,16 @@ pub trait Window {
     // - other backends: check
     fn refresh(&mut self) -> UiResult<()>;
 
+    // MAYBE
+    // fn raster(&mut self) -> UiResult<()>;
+
     /// Renders the window contents.
     //
     // - notcurses: renders the root plane. (retained)
     // - other backends: maybe no-op.
     fn render(&mut self) -> UiResult<()>;
 
-    /// Returns the window size in the requested `unit`, if possible.
+    // RETHINK
+    /// Returns the window size, in native pixels if possible.
     fn size(&self) -> Size;
 }

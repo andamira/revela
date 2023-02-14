@@ -7,6 +7,7 @@
 // - https://docs.rs/gilrs/latest/gilrs/ev/enum.AxisOrBtn.html
 // - https://docs.rs/gilrs/latest/gilrs/ev/filter/index.html
 // - access state
+// - ev::filter::FilterFn,
 
 /// Re-export of the [`gilrs`](https://docs.rs/gilrs) crate.
 #[doc(inline)]
@@ -17,9 +18,7 @@ use crate::all::{
     UiResult,
 };
 
-use ::gilrs::{
-    ev::filter::FilterFn, Axis, Button, Event as GilrsEvent, EventType, Gilrs, GilrsBuilder,
-};
+use ::gilrs::{Axis, Button, Event as GilrsEvent, EventType, Gilrs, GilrsBuilder};
 
 /// `gilrs` interface.
 #[derive(Debug)]
@@ -56,8 +55,8 @@ impl GilrsUi {
     //
     // https://docs.rs/gilrs/latest/gilrs/struct.GilrsBuilder.html#method.new
     pub fn new() -> UiResult<Self> {
-        let mut inner = GilrsBuilder::new().build()?;
-        // let mut inner = GilrsBuilder::new().set_update_state(false).build()?;
+        let inner = GilrsBuilder::new().build()?;
+        // let inner = GilrsBuilder::new().set_update_state(false).build()?;
 
         Ok(Self { inner })
     }

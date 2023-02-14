@@ -4,25 +4,41 @@
 //
 // TODO: Capabilities, Code, Unit
 
+use super::NotcursesTextGrid;
 use notcurses::{Notcurses, Plane};
 
-use crate::all::{Event, EventSource, Size, Ui, UiResult, Window};
+use crate::all::{Event, EventSource, Size, TextGrid, Ui, UiResult as Result, Window, Zone};
 
 /// `notcurses` interface.
 ///
 /// It implements the following traits: [`Ui`], [`Window`], [`EventSource`].
 pub struct NotcursesUi {
     inner: Notcurses,
-    /// the root *cli* plane
-    pub(crate) root: Plane, // MAYBE remove the pub(crate)
+
+    /// the root text grid, (should be the *cli* plane).
+    root: NotcursesTextGrid,
 }
 
 impl NotcursesUi {
     /// Creates a new `NotcursesUi`.
-    pub fn new() -> UiResult<Self> {
+    pub fn new() -> Result<Self> {
         let mut inner = Notcurses::new()?;
-        let root = inner.cli_plane()?;
+        let root = NotcursesTextGrid::from_plane(inner.cli_plane()?);
         Ok(Self { inner, root })
+    }
+
+    /// Returns a shared reference to the root text grid of the window.
+    pub fn ref_root(&self) -> &NotcursesTextGrid {
+        &self.root
+    }
+
+    /// Returns an exclusive reference to the root text grid of the window.
+    pub fn mut_root(&mut self) -> &mut NotcursesTextGrid {
+        &mut self.root
+    }
+
+    pub fn new_root_child(&mut self, zone: impl Into<Zone>) -> Result<NotcursesTextGrid> {
+        self.root.new_child(zone)
     }
 
     //
@@ -34,17 +50,18 @@ impl NotcursesUi {
     ///
     /// # Errors
     /// Returns an error if the CLI plane has been already instantiated.
-    pub fn from_notcurses(nc: Notcurses, root: Option<Plane>) -> UiResult<Self> {
+    pub fn from_notcurses(nc: Notcurses, root: Option<Plane>) -> Result<Self> {
         let mut inner = nc;
-        let root = if let Some(plane) = root {
-            plane
-        } else {
-            inner.cli_plane()?
-        };
+        let root = NotcursesTextGrid::from_plane(
+            // inner.cli_plane()?
+            if let Some(plane) = root {
+                plane
+            } else {
+                inner.cli_plane()?
+            },
+        );
         Ok(Self { inner, root })
     }
-
-    //
 
     pub fn into_inner(self) -> Notcurses {
         self.inner
@@ -59,11 +76,11 @@ impl NotcursesUi {
 
 impl NotcursesUi {
     /// Enables receiving mouse events.
-    pub fn enable_mouse(&mut self) -> UiResult<()> {
+    pub fn enable_mouse(&mut self) -> Result<()> {
         Ok(self.inner.mice_enable(::notcurses::MiceEvents::All)?)
     }
     /// Disables receiving mouse events.
-    pub fn disable_mouse(&mut self) -> UiResult<()> {
+    pub fn disable_mouse(&mut self) -> Result<()> {
         Ok(self.inner.mice_disable()?)
     }
 }
@@ -89,21 +106,21 @@ impl Ui for NotcursesUi {
 }
 
 impl EventSource for NotcursesUi {
-    fn wait_event(&mut self) -> UiResult<Event> {
+    fn wait_event(&mut self) -> Result<Event> {
         Ok(self.inner.get_event()?.into())
     }
 
-    fn poll_event(&mut self) -> UiResult<Event> {
+    fn poll_event(&mut self) -> Result<Event> {
         Ok(self.inner.poll_event()?.into())
     }
 }
 
 impl Window for NotcursesUi {
-    fn refresh(&mut self) -> UiResult<()> {
+    fn refresh(&mut self) -> Result<()> {
         let _ = self.inner.refresh()?;
         Ok(())
     }
-    fn render(&mut self) -> UiResult<()> {
+    fn render(&mut self) -> Result<()> {
         self.root.render()?;
         Ok(())
     }
