@@ -21,3 +21,11 @@ pub mod gilrs;
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "gilrs")))]
 #[doc(inline)]
 pub use self::gilrs::GilrsUi;
+
+#[cfg(feature = "midir")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "midir")))]
+pub mod midir;
+#[cfg(feature = "midir")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "midir")))]
+#[doc(inline)]
+pub use self::midir::MidirUi;

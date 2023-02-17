@@ -7,11 +7,17 @@ use crate::all::UiResult;
 
 pub mod gamepad;
 pub mod keyboard;
+pub mod midi;
 // pub mod mouse;
 pub mod window;
+
 pub use gamepad::{GamepadAxis, GamepadButton, GamepadEvent, GamepadEventKind};
 #[doc(inline)]
 pub use keyboard::{Code, KeyEvent, KeyModifiers, MediaKey, ModifierKey};
+#[doc(inline)]
+pub use midi::{
+    MidiChannel, MidiControl, MidiEvent, MidiFrame, MidiNote, MidiProgram, MidiValue14, MidiValue7,
+};
 // #[doc(inline)]
 // pub use mouse::{MouseButton, MouseEvent};
 #[doc(inline)]
@@ -30,11 +36,14 @@ pub trait EventSource {
     fn poll_event(&mut self) -> UiResult<Event>;
 }
 
-// MAYBE DESIGN
+// ///
+//
+// IMPROVE DESIGN
+// -
+// #[derive(Clone, Copy)]
 // pub struct Event {
-//     source: Backends,
-//     // THINK
-//     // time: Timestamp32,
+//     kind: EventKind,
+//     // stamp: Option<NonZeroU64>
 // }
 
 /// A an enumeration of events.
@@ -58,14 +67,13 @@ pub enum Event {
     /// A keyboard event.
     Key(KeyEvent),
 
+    /// A midi event.
+    Midi(MidiEvent),
+
     // /// A mouse event.
     // Mouse(MouseEvent),
     /// A gamepad event.
     Gamepad(GamepadEvent),
-    // /// A midi event.
-    // // TODO
-    // Midi(MidiEvent),
-
     // crossterm, maybe other
     // Paste(String),
 }
@@ -94,17 +102,23 @@ impl Event {
         matches![self, Event::Key(_)]
     }
 
+    /// Returns `true` if it's a keyboard event.
+    #[inline(always)]
+    pub fn is_midi(&self) -> bool {
+        matches![self, Event::Midi(_)]
+    }
+
     // /// Returns `true` if it's a mouse event.
     // #[inline(always)]
     // pub fn is_mouse(&self) -> bool {
     //     matches![self, Event::Mouse(_)]
     // }
 
-    // /// Returns `true` if it's a mouse event.
-    // #[inline(always)]
-    // pub fn is_gamepad(&self) -> bool {
-    //     matches![self, Event::Gamepad(_)]
-    // }
+    /// Returns `true` if it's a mouse event.
+    #[inline(always)]
+    pub fn is_gamepad(&self) -> bool {
+        matches![self, Event::Gamepad(_)]
+    }
 
     //
 

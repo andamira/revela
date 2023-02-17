@@ -9,10 +9,21 @@ use core::result;
 use std::io::Error as IoError;
 
 #[cfg(feature = "notcurses")]
-use notcurses::Error as NotcursesError;
+use ::notcurses::Error as NotcursesError;
 
 #[cfg(feature = "gilrs")]
-use gilrs::Error as GilrsError;
+use ::gilrs::Error as GilrsError;
+
+#[cfg(feature = "midir")]
+mod midir;
+#[cfg(feature = "midir")]
+pub use self::midir::{MidirError, MidirInitError, MidirPortInfoError};
+
+#[cfg(feature = "midi-convert")]
+pub use ::midi_convert::MidiParseError as MidiConvertParseError;
+
+#[cfg(feature = "flume")]
+mod flume;
 
 // #[cfg(feature = "sdl2")]
 // use sdl2::Error as Sdl2Error;
@@ -44,6 +55,18 @@ pub enum UiError {
     #[cfg(feature = "gilrs")]
     Gilrs(GilrsError),
 
+    /// A [`midir`] error.
+    #[cfg(feature = "midir")]
+    Midir(MidirError),
+
+    /// A [`flume`] error.
+    #[cfg(feature = "flume")]
+    Flume,
+
+    /// A [`midi-convert`] error.
+    #[cfg(feature = "midi-convert")]
+    MidiConvert(MidiConvertParseError),
+
     // /// A [`png`] encoding error.
     // PngEncoding(PngEncodingError),
 
@@ -53,6 +76,36 @@ pub enum UiError {
     // FailedConversion(String, String),
     /// This functionality is not supported.
     NotSupported,
+
+    String(String),
+}
+impl UiError {
+    /// Returns a `string` error.
+    pub fn string(string: impl ToString) -> Self {
+        Self::String(string.to_string())
+    }
+}
+
+#[cfg(feature = "gilrs")]
+mod gilrs_impls {
+    use super::{GilrsError, UiError};
+
+    impl From<GilrsError> for UiError {
+        fn from(err: GilrsError) -> Self {
+            UiError::Gilrs(err)
+        }
+    }
+}
+
+#[cfg(feature = "notcurses")]
+mod notcurses_impls {
+    use super::{NotcursesError, UiError};
+
+    impl From<NotcursesError> for UiError {
+        fn from(err: NotcursesError) -> Self {
+            UiError::Notcurses(err)
+        }
+    }
 }
 
 // mod png_impls {
@@ -65,16 +118,6 @@ pub enum UiError {
 //     }
 // }
 
-#[cfg(feature = "notcurses")]
-mod notcurses_impls {
-    use super::{NotcursesError, UiError};
-
-    impl From<NotcursesError> for UiError {
-        fn from(err: NotcursesError) -> Self {
-            UiError::Notcurses(err)
-        }
-    }
-}
 // #[cfg(feature = "sdl2")]
 // mod sdl2_impls {
 //     use super::{UiError, Sdl2Error};
@@ -98,9 +141,6 @@ mod core_impls {
     use super::UiError;
     use core::fmt::{self, Debug};
 
-    #[cfg(feature = "gilrs")]
-    use super::GilrsError;
-
     impl fmt::Display for UiError {
         fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
             match self {
@@ -115,20 +155,25 @@ mod core_impls {
                 #[cfg(feature = "gilrs")]
                 UiError::Gilrs(e) => Debug::fmt(e, f),
 
+                #[cfg(feature = "midir")]
+                UiError::Midir(e) => Debug::fmt(e, f),
+
+                #[cfg(feature = "midi-convert")]
+                UiError::MidiConvert(e) => Debug::fmt(e, f),
+
+                #[cfg(feature = "flume")]
+                UiError::Flume => write!(f, "Flume error"),
+
                 // UiError::PngEncoding(e) => Debug::fmt(e, f),
                 //
                 // UiError::FailedConversion(from, to) => write!(f, "FailedConversion {from} -> {to}"),
                 UiError::NotSupported => write!(f, "NotSupported"),
+
+                #[cfg(feature = "std")]
+                UiError::String(e) => write!(f, "{}", e),
                 // #[allow(unreachable_patterns)]
                 // _ => write!(f, "UiError"),
             }
-        }
-    }
-
-    #[cfg(feature = "gilrs")]
-    impl From<GilrsError> for UiError {
-        fn from(err: GilrsError) -> Self {
-            UiError::Gilrs(err)
         }
     }
 }
@@ -144,6 +189,12 @@ mod std_impls {
     impl From<IoError> for UiError {
         fn from(err: IoError) -> Self {
             UiError::Io(err)
+        }
+    }
+
+    impl From<String> for UiError {
+        fn from(err: String) -> Self {
+            UiError::String(err)
         }
     }
 }

@@ -41,11 +41,23 @@ fn main() -> UiResult<()> {
     #[cfg(feature = "gilrs")]
     let mut gilrs = GilrsUi::new()?;
 
+    #[cfg(feature = "midir")]
+    let mut midir = {
+        let mut midir = MidirUi::new()?;
+        midir.in_connect_all()?;
+        debug!["{midir:?}"];
+        midir
+    };
+
     loop {
         if let Some((now0, _delta0)) = l.measure() {
-            /* input */
+            /* all kinds of input */
 
             if let Some(_) = l.do_tick(now0, "input") {
+                /* input: midi */
+
+                #[cfg(feature = "midir")]
+                input_midir(&mut midir)?;
 
                 /* input: gamepad */
 
@@ -75,7 +87,6 @@ fn main() -> UiResult<()> {
                         match k.code {
                             Code::Escape | Code::Char('q') => break,
                             Code::Char('l') => l.log_all_rates(),
-                            // TEMP
                             Code::Up => t0.offset((0, -1))?,
                             Code::Down => t0.offset((0, 1))?,
                             Code::Left => t0.offset((-1, 0))?,
@@ -114,5 +125,17 @@ fn input_gilrs(gilrs: &mut GilrsUi) -> UiResult<()> {
         _ => (),
     }
     gilrs.increment();
+    Ok(())
+}
+
+#[cfg(feature = "midir")]
+fn input_midir(midir: &mut MidirUi) -> UiResult<()> {
+    let midir_event = midir.poll_event()?;
+    match midir_event {
+        Event::Midi(m) => {
+            trace!["midir: {m:?}"];
+        }
+        _ => (),
+    }
     Ok(())
 }

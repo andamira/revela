@@ -9,7 +9,8 @@
     clippy::implicit_return,
     clippy::needless_return,
     clippy::blanket_clippy_restriction_lints,
-    clippy::pattern_type_mismatch
+    clippy::pattern_type_mismatch,
+    uncommon_codepoints
 )]
 //
 #![cfg_attr(not(feature = "std"), no_std)]
@@ -25,13 +26,15 @@ pub mod layout;
 pub mod all {
     #[doc(inline)]
     pub use crate::{
-        backend::{
-            capabilities::{Capabilities, PixelCapabilities, TextGridCapabilities},
-        },
+        backend::capabilities::{Capabilities, PixelCapabilities, TextGridCapabilities},
         core::{
             events::{
                 gamepad::{GamepadAxis, GamepadButton, GamepadEvent, GamepadEventKind},
                 keyboard::{Code, KeyEvent, KeyModifiers, MediaKey, ModifierKey},
+                midi::{
+                    MidiChannel, MidiControl, MidiEvent, MidiFrame, MidiNote, MidiProgram,
+                    MidiValue14, MidiValue7,
+                },
                 window::WindowEvent,
                 Event, EventSource,
             },
@@ -49,4 +52,8 @@ pub mod all {
     #[cfg(feature = "gilrs")]
     #[doc(inline)]
     pub use crate::backend::gilrs::GilrsUi;
+
+    #[cfg(feature = "midir")]
+    #[doc(inline)]
+    pub use crate::backend::midir::MidirUi;
 }
