@@ -55,11 +55,13 @@ midi-convert = { version = "0.1.1", default-features = false }
 
 [features]
 default = ["std", "safe"]
-std = ["acolor/std"]
 safe = ["acolor/safe"]
+std = ["acolor/std"]
+no-std = ["acolor/no-std"]
 nightly = []
 
 all_backends = ["notcurses", "gilrs", "midir"]
+all_nostd_backends = []
 
 midir = ["dep:midir", "std", "flume"]
 notcurses = ["dep:notcurses", "std", "acolor/notcurses"]

@@ -3,9 +3,11 @@
 # CHECK
 cl = "clippy"
 clq = "clippy --quiet"
+cl_nostd = "clippy --no-default-features --features=no-std"
 #
 cl_nc = "clippy --features=notcurses"
 cl_all = "clippy --features=all_backends"
+cl_all_nostd = "clippy --features=all_nostd_backends"
 
 # CLEAN PACKAGE
 cp = "clean --package"
