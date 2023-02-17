@@ -3,21 +3,27 @@
 //!
 //
 
-use crate::all::Event;
+use crate::all::{Event, EventKind};
 
-/// A gamepad event.
-// WIP
-#[derive(Clone, Copy, Debug, PartialEq)]
-pub struct GamepadEvent {
-    pub kind: GamepadEventKind,
-    // pub id: GamepadId,
-    // pub id: usize, // RETHINK
-    // pub event: EventType,
-    // pub time: SystemTime, // -> to Event struct timestamp field (but monotonic‥)
+// /// A gamepad event.
+// // WIP
+// #[derive(Clone, Copy, Debug, PartialEq)]
+// pub struct GamepadEvent {
+//     pub kind: GamepadEventKind,
+//     // pub id: GamepadId,
+//     // pub id: usize, // RETHINK
+//     // pub event: EventType,
+//     // pub time: SystemTime, // -> to Event struct timestamp field (but monotonic‥)
+// }
+
+impl From<GamepadEvent> for EventKind {
+    fn from(gamepad_event: GamepadEvent) -> EventKind {
+        EventKind::Gamepad(gamepad_event)
+    }
 }
 impl From<GamepadEvent> for Event {
     fn from(gamepad_event: GamepadEvent) -> Event {
-        Event::Gamepad(gamepad_event)
+        EventKind::from(gamepad_event).into()
     }
 }
 
@@ -37,7 +43,7 @@ impl From<GamepadEvent> for Event {
 // WIP
 #[derive(Clone, Copy, Debug, PartialEq)]
 #[non_exhaustive]
-pub enum GamepadEventKind {
+pub enum GamepadEvent {
     ///
     // ButtonPressed(GamepadButton, Code),
     ButtonPressed(GamepadButton),

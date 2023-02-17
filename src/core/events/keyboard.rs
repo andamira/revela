@@ -5,7 +5,7 @@
 
 #![allow(non_upper_case_globals)]
 
-use super::Event;
+use super::{Event, EventKind};
 
 ///  Keyboard events.
 //
@@ -56,9 +56,33 @@ impl From<(ModifierKey, KeyModifiers)> for KeyEvent {
     }
 }
 
+impl From<KeyEvent> for EventKind {
+    fn from(key_event: KeyEvent) -> EventKind {
+        EventKind::Key(key_event)
+    }
+}
+// MAYBE:
+impl From<(Code, KeyModifiers)> for EventKind {
+    fn from(t: (Code, KeyModifiers)) -> EventKind {
+        KeyEvent::from(t).into()
+    }
+}
+impl From<(MediaKey, KeyModifiers)> for EventKind {
+    fn from(t: (MediaKey, KeyModifiers)) -> EventKind {
+        log::debug!["nc: converting to event…"];
+        KeyEvent::from(t).into()
+    }
+}
+impl From<(ModifierKey, KeyModifiers)> for EventKind {
+    // RETHINK duplication?
+    fn from(t: (ModifierKey, KeyModifiers)) -> EventKind {
+        KeyEvent::from(t).into()
+    }
+}
+
 impl From<KeyEvent> for Event {
     fn from(key_event: KeyEvent) -> Event {
-        Event::Key(key_event)
+        EventKind::from(key_event).into()
     }
 }
 // MAYBE:

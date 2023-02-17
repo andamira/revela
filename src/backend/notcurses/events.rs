@@ -4,7 +4,7 @@
 //
 // TODO: KeyEvent
 
-use crate::all::{Code, Event, KeyModifiers, MediaKey, ModifierKey, WindowEvent};
+use crate::all::{Code, Event, EventKind, KeyModifiers, MediaKey, ModifierKey, WindowEvent};
 use ::notcurses::{Input, Key as NcKey, KeyMod, Received};
 
 impl From<KeyMod> for KeyModifiers {
@@ -15,6 +15,12 @@ impl From<KeyMod> for KeyModifiers {
 
 impl From<Input> for Event {
     fn from(input: Input) -> Event {
+        EventKind::from(input).into()
+    }
+}
+
+impl From<Input> for EventKind {
+    fn from(input: Input) -> EventKind {
         // 1. modifiers
         // - https://docs.rs/notcurses/latest/notcurses/struct.KeyMod.html
 
@@ -24,7 +30,7 @@ impl From<Input> for Event {
             Received::Char(c) => (Code::Char(c), input.keymod.into()).into(),
             Received::Key(k) => {
                 match k {
-                    NcKey::Invalid => Event::None,
+                    NcKey::Invalid => EventKind::None,
 
                     // we received `sigwinch`.
                     NcKey::Resize => WindowEvent::Resized.into(),
@@ -203,10 +209,10 @@ impl From<Input> for Event {
 
                     /* // WIP
                      */ //WIP
-                    _ => Event::None,
+                    _ => EventKind::None,
                 }
             }
-            _ => Event::None,
+            _ => EventKind::None,
         }
     }
 }

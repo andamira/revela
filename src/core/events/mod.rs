@@ -9,9 +9,10 @@ pub mod gamepad;
 pub mod keyboard;
 pub mod midi;
 // pub mod mouse;
+pub mod time;
 pub mod window;
 
-pub use gamepad::{GamepadAxis, GamepadButton, GamepadEvent, GamepadEventKind};
+pub use gamepad::{GamepadAxis, GamepadButton, GamepadEvent};
 #[doc(inline)]
 pub use keyboard::{Code, KeyEvent, KeyModifiers, MediaKey, ModifierKey};
 #[doc(inline)]
@@ -20,6 +21,7 @@ pub use midi::{
 };
 // #[doc(inline)]
 // pub use mouse::{MouseButton, MouseEvent};
+pub use time::EventTimeStamp;
 #[doc(inline)]
 pub use window::WindowEvent;
 
@@ -28,25 +30,50 @@ pub trait EventSource {
     /// Waits for an event, blocking.
     fn wait_event(&mut self) -> UiResult<Event>;
 
-    // /// Waits for an event blocking for the provided `duration`.
     // MAYBE
+    // /// Waits for an event blocking for the provided `duration`.
     // fn wait_event_for(&mut self, duration: Duration) -> UiResult<BackendEvent>;
+    // MAYBE
+    // ///
+    // fn poll_events(&mut self, duration: Duration) -> UiResult<BackendEvent>;
 
     /// Polls for an event, non-blocking.
     fn poll_event(&mut self) -> UiResult<Event>;
 }
 
-// ///
-//
-// IMPROVE DESIGN
-// -
-// #[derive(Clone, Copy)]
-// pub struct Event {
-//     kind: EventKind,
-//     // stamp: Option<NonZeroU64>
-// }
+/// An event.
+#[derive(Clone, Copy)]
+pub struct Event {
+    pub kind: EventKind,
+    // midir
+    pub emitted: Option<EventTimeStamp>,
+    // TODO
+    // processed: Option<EventTimeStamp>, // revela
+    // count: Option<EventCounter>, // gilrs
+}
+impl Event {
+    /// A `None` event.
+    #[allow(non_upper_case_globals)]
+    pub const None: Event = Event {
+        kind: EventKind::None,
+        emitted: None,
+    };
 
-/// A an enumeration of events.
+    /// Returns a new event.
+    pub fn new(kind: EventKind, emitted: Option<EventTimeStamp>) -> Event {
+        Self { kind, emitted }
+    }
+}
+impl From<EventKind> for Event {
+    fn from(kind: EventKind) -> Event {
+        Self {
+            kind,
+            emitted: None,
+        }
+    }
+}
+
+/// A an enumeration of kinds of events.
 //
 // - https://docs.rs/crossterm/latest/crossterm/event/enum.Event.html
 //   - https://github.com/crossterm-rs/crossterm/blob/master/src/event/sys/unix/parse.rs
@@ -56,7 +83,7 @@ pub trait EventSource {
 //
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 // pub enum EventData {
-pub enum Event {
+pub enum EventKind {
     /// An unknown, empty or absent event.
     #[default]
     None,
@@ -78,46 +105,46 @@ pub enum Event {
     // Paste(String),
 }
 
-impl Event {
+impl EventKind {
     /// Returns `true` if it's some event.
     #[inline(always)]
     pub fn is_some(&self) -> bool {
-        !matches![self, Event::None]
+        !matches![self, EventKind::None]
     }
     /// Returns `true` if there's no event.
     #[inline(always)]
     pub fn is_none(&self) -> bool {
-        matches![self, Event::None]
+        matches![self, EventKind::None]
     }
 
     /// Returns `true` if it's a window event.
     #[inline(always)]
     pub fn is_window(&self) -> bool {
-        matches![self, Event::Window(_)]
+        matches![self, EventKind::Window(_)]
     }
 
     /// Returns `true` if it's a keyboard event.
     #[inline(always)]
     pub fn is_key(&self) -> bool {
-        matches![self, Event::Key(_)]
+        matches![self, EventKind::Key(_)]
     }
 
     /// Returns `true` if it's a keyboard event.
     #[inline(always)]
     pub fn is_midi(&self) -> bool {
-        matches![self, Event::Midi(_)]
+        matches![self, EventKind::Midi(_)]
     }
 
     // /// Returns `true` if it's a mouse event.
     // #[inline(always)]
     // pub fn is_mouse(&self) -> bool {
-    //     matches![self, Event::Mouse(_)]
+    //     matches![self, EventKind::Mouse(_)]
     // }
 
     /// Returns `true` if it's a mouse event.
     #[inline(always)]
     pub fn is_gamepad(&self) -> bool {
-        matches![self, Event::Gamepad(_)]
+        matches![self, EventKind::Gamepad(_)]
     }
 
     //

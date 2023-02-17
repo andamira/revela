@@ -3,7 +3,7 @@
 //!
 //
 
-use super::Event;
+use super::{Event, EventKind};
 use midi_convert::midi_types::MidiMessage;
 
 pub use midi_convert::midi_types::{
@@ -14,6 +14,8 @@ pub use midi_convert::midi_types::{
 ///
 // TEMP: until original derives Copy
 // https://github.com/rust-midi/midi-types/pull/13
+//
+// size: 4 bytes
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum MidiEvent {
     NoteOff(MidiChannel, MidiNote, MidiValue7),
@@ -60,8 +62,13 @@ impl From<MidiMessage> for MidiEvent {
     }
 }
 
+impl From<MidiEvent> for EventKind {
+    fn from(from: MidiEvent) -> EventKind {
+        EventKind::Midi(from)
+    }
+}
 impl From<MidiEvent> for Event {
     fn from(from: MidiEvent) -> Event {
-        Event::Midi(from)
+        EventKind::from(from).into()
     }
 }

@@ -29,14 +29,14 @@ pub mod all {
         backend::capabilities::{Capabilities, PixelCapabilities, TextGridCapabilities},
         core::{
             events::{
-                gamepad::{GamepadAxis, GamepadButton, GamepadEvent, GamepadEventKind},
+                gamepad::{GamepadAxis, GamepadButton, GamepadEvent},
                 keyboard::{Code, KeyEvent, KeyModifiers, MediaKey, ModifierKey},
                 midi::{
                     MidiChannel, MidiControl, MidiEvent, MidiFrame, MidiNote, MidiProgram,
                     MidiValue14, MidiValue7,
                 },
                 window::WindowEvent,
-                Event, EventSource,
+                Event, EventKind, EventTimeStamp, EventSource,
             },
             text::TextGrid,
             Ui, Window,

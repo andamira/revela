@@ -3,7 +3,7 @@
 //! Window events.
 //
 
-use super::Event;
+use super::{Event, EventKind};
 
 /// Events related to the [`Window`][crate::all::Window].
 //
@@ -47,8 +47,13 @@ pub enum WindowEvent {
     // TakeFocus,
     // HitTest,
 }
+impl From<WindowEvent> for EventKind {
+    fn from(window_event: WindowEvent) -> EventKind {
+        EventKind::Window(window_event)
+    }
+}
 impl From<WindowEvent> for Event {
     fn from(window_event: WindowEvent) -> Event {
-        Event::Window(window_event)
+        EventKind::from(window_event).into()
     }
 }

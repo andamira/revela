@@ -14,7 +14,7 @@ pub use window::Window;
 pub mod events;
 #[doc(inline)]
 pub use events::{
-    gamepad::{GamepadAxis, GamepadButton, GamepadEvent, GamepadEventKind},
+    gamepad::{GamepadAxis, GamepadButton, GamepadEvent},
     keyboard::{Code, KeyEvent, KeyModifiers, MediaKey, ModifierKey},
     window::WindowEvent,
     Event, EventSource,

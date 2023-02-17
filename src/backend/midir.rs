@@ -37,8 +37,8 @@ pub struct MidirUi {
     /// list of connected output ports.
     output_connections: HashMap<String, MidirOutputConnection>,
 
-    input_producer: Sender<MidiEvent>,
-    input_consumer: Receiver<MidiEvent>,
+    input_producer: Sender<(MidiEvent, u64)>,
+    input_consumer: Receiver<(MidiEvent, u64)>,
 
     // MAYBE
     // ignored: MidirIgnore,
@@ -58,12 +58,12 @@ impl EventSource for MidirUi {
     fn wait_event(&mut self) -> Result<Event> {
         // TODO
         // self.input_consumer.recv()
-        Err(UiError::NotSupported)
+        Err(Error::NotSupported)
     }
     // https://docs.rs/flume/latest/flume/struct.Receiver.html
     fn poll_event(&mut self) -> Result<Event> {
         match self.input_consumer.try_recv() {
-            Ok(event) => Ok(event.into()),
+            Ok((event, µs)) => Ok(Event::new(event.into(), Some(µs.into()))),
             Err(e) => match e {
                 TryRecvError::Empty => Ok(Event::None),
                 TryRecvError::Disconnected => Err(e.into()),
@@ -134,8 +134,8 @@ impl MidirUi {
             name,
             move |µs: u64, bytes: &[u8], _data| {
                 // log::trace!["producing event: {µs} {bytes:?} {_data:?}"];
-                let event = MidiMessage::try_parse_slice(bytes).expect("midi parse error");
-                producer.send(event.into()).expect("send");
+                let kind = MidiMessage::try_parse_slice(bytes).expect("midi parse error");
+                producer.send((kind.into(), µs)).expect("send");
             },
             (),
         )?;

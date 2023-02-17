@@ -77,10 +77,12 @@ pub enum UiError {
     /// This functionality is not supported.
     NotSupported,
 
+    #[cfg(feature = "std")]
     String(String),
 }
 impl UiError {
     /// Returns a `string` error.
+    #[cfg(feature = "std")]
     pub fn string(string: impl ToString) -> Self {
         Self::String(string.to_string())
     }
@@ -139,27 +141,27 @@ mod notcurses_impls {
 
 mod core_impls {
     use super::UiError;
-    use core::fmt::{self, Debug};
+    use core::fmt;
 
     impl fmt::Display for UiError {
         fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
             match self {
                 #[cfg(feature = "notcurses")]
-                UiError::Notcurses(e) => Debug::fmt(e, f),
+                UiError::Notcurses(e) => fmt::Debug::fmt(e, f),
 
                 // #[cfg(feature = "sdl2")]
                 // UiError::Sdl2(e) => Debug::fmt(e, f),
                 #[cfg(feature = "std")]
-                UiError::Io(e) => Debug::fmt(e, f),
+                UiError::Io(e) => fmt::Debug::fmt(e, f),
 
                 #[cfg(feature = "gilrs")]
-                UiError::Gilrs(e) => Debug::fmt(e, f),
+                UiError::Gilrs(e) => fmt::Debug::fmt(e, f),
 
                 #[cfg(feature = "midir")]
-                UiError::Midir(e) => Debug::fmt(e, f),
+                UiError::Midir(e) => fmt::Debug::fmt(e, f),
 
                 #[cfg(feature = "midi-convert")]
-                UiError::MidiConvert(e) => Debug::fmt(e, f),
+                UiError::MidiConvert(e) => fmt::Debug::fmt(e, f),
 
                 #[cfg(feature = "flume")]
                 UiError::Flume => write!(f, "Flume error"),

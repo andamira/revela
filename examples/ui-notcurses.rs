@@ -67,8 +67,8 @@ fn main() -> UiResult<()> {
                 /* input: notcurses */
 
                 let nui_event = nui.poll_event()?;
-                match nui_event {
-                    Event::Window(w) => {
+                match nui_event.kind {
+                    EventKind::Window(w) => {
                         debug!["window: {w:?}"];
                         match w {
                             // FIX: lost raw mode
@@ -82,7 +82,7 @@ fn main() -> UiResult<()> {
                             _ => (),
                         }
                     }
-                    Event::Key(k) => {
+                    EventKind::Key(k) => {
                         debug!["key: {k:?}"];
                         match k.code {
                             Code::Escape | Code::Char('q') => break,
@@ -116,9 +116,9 @@ fn main() -> UiResult<()> {
 
 #[cfg(feature = "gilrs")]
 fn input_gilrs(gilrs: &mut GilrsUi) -> UiResult<()> {
-    let gilrs_event = gilrs.poll_event()?;
-    match gilrs_event {
-        Event::Gamepad(g) => {
+    let event = gilrs.poll_event()?;
+    match event.kind {
+        EventKind::Gamepad(g) => {
             debug!["gilrs: {g:?}"];
             debug!["counter: {:?}", gilrs.counter()];
         }
@@ -130,10 +130,11 @@ fn input_gilrs(gilrs: &mut GilrsUi) -> UiResult<()> {
 
 #[cfg(feature = "midir")]
 fn input_midir(midir: &mut MidirUi) -> UiResult<()> {
-    let midir_event = midir.poll_event()?;
-    match midir_event {
-        Event::Midi(m) => {
-            trace!["midir: {m:?}"];
+    let event = midir.poll_event()?;
+    let t = event.emitted.unwrap_or_default();
+    match event.kind {
+        EventKind::Midi(m) => {
+            trace!["midir [{t}]: {m:?}"];
         }
         _ => (),
     }

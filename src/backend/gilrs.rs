@@ -8,13 +8,17 @@
 // - https://docs.rs/gilrs/latest/gilrs/ev/filter/index.html
 // - access state
 // - ev::filter::FilterFn,
+//
+// IMPROVE:
+// - support different gamepads
+// - support timestamp (convert to EventTimeStamp?)
 
 /// Re-export of the [`gilrs`](https://docs.rs/gilrs) crate.
 #[doc(inline)]
 pub use ::gilrs;
 
 use crate::all::{
-    Event, EventSource, GamepadAxis, GamepadButton, GamepadEvent, GamepadEventKind, Ui, UiError,
+    Event, EventKind, EventSource, GamepadAxis, GamepadButton, GamepadEvent, Ui, UiError,
     UiResult,
 };
 
@@ -45,7 +49,7 @@ impl EventSource for GilrsUi {
             // Ok((event, inner.counter().into()) // MAYBE
             Ok(event.into())
         } else {
-            Ok(Event::None)
+            Ok(EventKind::None.into())
         }
     }
 }
@@ -99,14 +103,8 @@ impl GilrsUi {
 }
 
 impl From<GilrsEvent> for Event {
-    /// Converts a tuple of
     fn from(from: GilrsEvent) -> Event {
-        GamepadEvent {
-            kind: from.event.into(),
-            // id: from.id.into(), MAYBE
-            // time: from.time.into()?
-        }
-        .into()
+        GamepadEvent::from(from.event).into()
     }
 }
 // MAYBE: counter state
@@ -123,9 +121,9 @@ impl From<GilrsEvent> for Event {
 //     }
 // }
 
-impl From<EventType> for GamepadEventKind {
-    fn from(from: EventType) -> GamepadEventKind {
-        use GamepadEventKind::*;
+impl From<EventType> for GamepadEvent {
+    fn from(from: EventType) -> GamepadEvent {
+        use GamepadEvent::*;
         match from {
             EventType::ButtonPressed(b, _c) => ButtonPressed(b.into()),
             EventType::ButtonRepeated(b, _c) => ButtonRepeated(b.into()),
