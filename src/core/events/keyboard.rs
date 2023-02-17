@@ -12,7 +12,7 @@ use super::{Event, EventKind};
 // - https://docs.rs/crossterm/latest/crossterm/event/struct.KeyEvent.html
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct KeyEvent {
-    pub code: Code,
+    pub code: KeyCode,
     pub mods: KeyModifiers,
     // WIP
     // pub kind: KeyEventKind,
@@ -21,14 +21,14 @@ pub struct KeyEvent {
 
 impl KeyEvent {
     // TODO: IMPROVE const? or impl Into<KeyModifiers?>
-    pub fn new(code: Code, mods: KeyModifiers /*kind: KeyEventKind*/) -> Self {
+    pub fn new(code: KeyCode, mods: KeyModifiers /*kind: KeyEventKind*/) -> Self {
         Self { code, mods }
     }
 }
 
-// TEMP IMPROVE From<(Code, KeyModifiers, KeyEventKind)> for KeyEvent {
-impl From<(Code, KeyModifiers)> for KeyEvent {
-    fn from(t: (Code, KeyModifiers)) -> KeyEvent {
+// TEMP IMPROVE From<(KeyCode, KeyModifiers, KeyEventKind)> for KeyEvent {
+impl From<(KeyCode, KeyModifiers)> for KeyEvent {
+    fn from(t: (KeyCode, KeyModifiers)) -> KeyEvent {
         KeyEvent {
             code: t.0,
             mods: t.1,
@@ -62,8 +62,8 @@ impl From<KeyEvent> for EventKind {
     }
 }
 // MAYBE:
-impl From<(Code, KeyModifiers)> for EventKind {
-    fn from(t: (Code, KeyModifiers)) -> EventKind {
+impl From<(KeyCode, KeyModifiers)> for EventKind {
+    fn from(t: (KeyCode, KeyModifiers)) -> EventKind {
         KeyEvent::from(t).into()
     }
 }
@@ -86,8 +86,8 @@ impl From<KeyEvent> for Event {
     }
 }
 // MAYBE:
-impl From<(Code, KeyModifiers)> for Event {
-    fn from(t: (Code, KeyModifiers)) -> Event {
+impl From<(KeyCode, KeyModifiers)> for Event {
+    fn from(t: (KeyCode, KeyModifiers)) -> Event {
         KeyEvent::from(t).into()
     }
 }
@@ -115,7 +115,7 @@ impl From<(ModifierKey, KeyModifiers)> for Event {
 //   - NOTE difference with scan code https://stackoverflow.com/a/57124957/940200
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 #[non_exhaustive]
-pub enum Code {
+pub enum KeyCode {
     // Null, // from crossterm
     /// Backspace key.
     Backspace,
@@ -187,13 +187,13 @@ pub enum Code {
     Modifier(ModifierKey),
 }
 /// # aliases
-impl Code {
-    /// Alias of [`Escape`][Code::Escape].
-    pub const Esc: Code = Code::Escape;
-    /// Alias of [`Insert`][Code::Insert].
-    pub const Ins: Code = Code::Insert;
-    /// Alias of [`Delete`][Code::Delete].
-    pub const Del: Code = Code::Delete;
+impl KeyCode {
+    /// Alias of [`Escape`][KeyCode::Escape].
+    pub const Esc: KeyCode = KeyCode::Escape;
+    /// Alias of [`Insert`][KeyCode::Insert].
+    pub const Ins: KeyCode = KeyCode::Insert;
+    /// Alias of [`Delete`][KeyCode::Delete].
+    pub const Del: KeyCode = KeyCode::Delete;
 }
 
 /// Media key codes.
@@ -216,9 +216,9 @@ pub enum MediaKey {
     RaiseVolume,
     MuteVolume,
 }
-impl From<MediaKey> for Code {
-    fn from(code: MediaKey) -> Code {
-        Code::Media(code)
+impl From<MediaKey> for KeyCode {
+    fn from(code: MediaKey) -> KeyCode {
+        KeyCode::Media(code)
     }
 }
 
@@ -243,9 +243,9 @@ pub enum ModifierKey {
     IsoLevel3Shift,
     IsoLevel5Shift,
 }
-impl From<ModifierKey> for Code {
-    fn from(code: ModifierKey) -> Code {
-        Code::Modifier(code)
+impl From<ModifierKey> for KeyCode {
+    fn from(code: ModifierKey) -> KeyCode {
+        KeyCode::Modifier(code)
     }
 }
 impl ModifierKey {

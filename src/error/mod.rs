@@ -37,7 +37,7 @@ pub type UiResult<N> = result::Result<N, UiError>;
 #[non_exhaustive]
 #[derive(Debug)]
 pub enum UiError {
-    /// A [`notcurses`] error.
+    /// A [`notcurses`][::notcurses] error.
     // https://docs.rs/notcurses/latest/notcurses/enum.Error.html
     #[cfg(feature = "notcurses")]
     Notcurses(NotcursesError),
@@ -63,7 +63,7 @@ pub enum UiError {
     #[cfg(feature = "flume")]
     Flume,
 
-    /// A [`midi-convert`] error.
+    /// A [`midi-convert`][::midi-convert] error.
     // #[cfg(feature = "midi-convert")]
     MidiConvert(MidiConvertParseError),
 
@@ -77,6 +77,7 @@ pub enum UiError {
     /// This functionality is not supported.
     NotSupported,
 
+    /// A custom error message.
     #[cfg(feature = "std")]
     String(String),
 }

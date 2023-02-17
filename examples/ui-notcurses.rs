@@ -22,13 +22,13 @@ fn main() -> UiResult<()> {
     info!["press Escape to exit"];
 
     let mut notcurses_ui = NotcursesUi::new()?;
-    let nui = &mut notcurses_ui;
-    // nui.enable_mouse()?;
+    let nc = &mut notcurses_ui;
+    // nc.enable_mouse()?;
 
     /* */
 
     // TEMP
-    let mut t0 = nui.new_root_child((1, 2, 12, 7))?;
+    let mut t0 = nc.new_root_child((1, 2, 12, 7))?;
     debug!["t0 putstr: {:?}", t0.putstr("hello world")?];
 
     /* */
@@ -51,23 +51,19 @@ fn main() -> UiResult<()> {
 
     loop {
         if let Some((now0, _delta0)) = l.measure() {
-            /* all kinds of input */
+            /* inputs */
 
             if let Some(_) = l.do_tick(now0, "input") {
-                /* input: midi */
-
                 #[cfg(feature = "midir")]
                 input_midir(&mut midir)?;
-
-                /* input: gamepad */
 
                 #[cfg(feature = "gilrs")]
                 input_gilrs(&mut gilrs)?;
 
-                /* input: notcurses */
-
-                let nui_event = nui.poll_event()?;
-                match nui_event.kind {
+                // #[cfg(feature = "notcurses")]
+                // input_notcurses(&mut nc)?;
+                let nc_event = nc.poll_event()?;
+                match nc_event.kind {
                     EventKind::Window(w) => {
                         debug!["window: {w:?}"];
                         match w {
@@ -77,20 +73,20 @@ fn main() -> UiResult<()> {
                                 debug!["welcome back"];
                             }
                             WindowEvent::Resized => {
-                                debug!["{:?}", nui.size()];
+                                debug!["{:?}", nc.size()];
                             }
                             _ => (),
                         }
                     }
-                    EventKind::Key(k) => {
-                        debug!["key: {k:?}"];
-                        match k.code {
-                            Code::Escape | Code::Char('q') => break,
-                            Code::Char('l') => l.log_all_rates(),
-                            Code::Up => t0.offset((0, -1))?,
-                            Code::Down => t0.offset((0, 1))?,
-                            Code::Left => t0.offset((-1, 0))?,
-                            Code::Right => t0.offset((1, 0))?,
+                    EventKind::Key(key) => {
+                        debug!["key: {key:?}"];
+                        match key.code {
+                            KeyCode::Escape | KeyCode::Char('q') => break,
+                            KeyCode::Char('l') => l.log_all_rates(),
+                            KeyCode::Up => t0.offset((0, -1))?,
+                            KeyCode::Down => t0.offset((0, 1))?,
+                            KeyCode::Left => t0.offset((-1, 0))?,
+                            KeyCode::Right => t0.offset((1, 0))?,
                             _ => (),
                         }
                     }
@@ -104,7 +100,7 @@ fn main() -> UiResult<()> {
             /* render */
 
             if let Some(_) = l.do_tick(now0, "render") {
-                nui.render()?;
+                nc.render()?;
             }
         }
         l.sleep(Duration::microseconds(1));
@@ -140,3 +136,9 @@ fn input_midir(midir: &mut MidirUi) -> UiResult<()> {
     }
     Ok(())
 }
+
+// TODO: needs control messaging system
+// #[cfg(feature = "notcurses")]
+// fn input_notcurses(nc: &mut NotcursesUi) -> UiResult<()> {
+//     Ok(())
+// }

@@ -17,7 +17,7 @@ pub(crate) mod all {
     #[doc(inline)]
     pub use super::{
         gamepad::{GamepadAxis, GamepadButton, GamepadEvent},
-        keyboard::{Code, KeyEvent, KeyModifiers, MediaKey, ModifierKey},
+        keyboard::{KeyCode, KeyEvent, KeyModifiers, MediaKey, ModifierKey},
         midi::{
             MidiChannel, MidiControl, MidiEvent, MidiFrame, MidiNote, MidiProgram, MidiValue14,
             MidiValue7,

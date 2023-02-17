@@ -29,6 +29,8 @@ do_all = "doc --no-deps --open --features=all_backends"
 dd_all = "doc --features=all_backends"
 ddo_all = "doc --open --features=all_backends"
 # nightly:
+nd = "doc --no-deps --features=nightly"
+ndo = "doc --no-deps --open --features=nightly"
 nd_all = "doc --no-deps --features=all_backends,nightly"
 ndo_all = "doc --no-deps --open --features=all_backends,nightly"
 ndd_all = "doc --features=all_backends,nightly"
