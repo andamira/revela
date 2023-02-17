@@ -19,7 +19,7 @@ mod midir;
 #[cfg(feature = "midir")]
 pub use self::midir::{MidirError, MidirInitError, MidirPortInfoError};
 
-#[cfg(feature = "midi-convert")]
+// #[cfg(feature = "midi-convert")]
 pub use ::midi_convert::MidiParseError as MidiConvertParseError;
 
 #[cfg(feature = "flume")]
@@ -50,21 +50,21 @@ pub enum UiError {
     #[cfg_attr(feature = "nightly", doc(cfg(feature = "std")))]
     Io(IoError),
 
-    /// A [`gilrs`] error.
+    /// A [`gilrs`][`::gilrs`] error.
     // https://docs.rs/gilrs/latest/gilrs/enum.Error.html
     #[cfg(feature = "gilrs")]
     Gilrs(GilrsError),
 
-    /// A [`midir`] error.
+    /// A [`midir`][::midir] error.
     #[cfg(feature = "midir")]
     Midir(MidirError),
 
-    /// A [`flume`] error.
+    /// A [`flume`][::flume] error.
     #[cfg(feature = "flume")]
     Flume,
 
     /// A [`midi-convert`] error.
-    #[cfg(feature = "midi-convert")]
+    // #[cfg(feature = "midi-convert")]
     MidiConvert(MidiConvertParseError),
 
     // /// A [`png`] encoding error.
@@ -160,7 +160,7 @@ mod core_impls {
                 #[cfg(feature = "midir")]
                 UiError::Midir(e) => fmt::Debug::fmt(e, f),
 
-                #[cfg(feature = "midi-convert")]
+                // #[cfg(feature = "midi-convert")]
                 UiError::MidiConvert(e) => fmt::Debug::fmt(e, f),
 
                 #[cfg(feature = "flume")]
