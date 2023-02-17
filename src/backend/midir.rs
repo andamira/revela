@@ -21,12 +21,14 @@ use midir::{
 use flume::{self, Receiver, Sender, TryRecvError};
 use midi_convert::{midi_types::MidiMessage, MidiTryParseSlice};
 
-use crate::all::{Event, EventSource, MidiEvent, RevelaError as Error, RevelaResult as Result, Ui};
+use crate::all::{
+    Backend, Event, EventSource, MidiEvent, RevelaError as Error, RevelaResult as Result,
+};
 
 use std::collections::HashMap;
 
 /// `midir` interface.
-pub struct MidirUi {
+pub struct MidirBackend {
     /// unconnected input port, used for querying.
     input: MidirInput,
     /// list of connected input ports.
@@ -43,7 +45,7 @@ pub struct MidirUi {
     // ignored: MidirIgnore,
 }
 
-impl Ui for MidirUi {
+impl Backend for MidirBackend {
     // fn capabilities(&self) -> Capabilities {
     //     self.inner.capabilities().into()
     // }
@@ -53,7 +55,7 @@ impl Ui for MidirUi {
     }
 }
 
-impl EventSource for MidirUi {
+impl EventSource for MidirBackend {
     fn wait_event(&mut self) -> Result<Event> {
         // TODO
         // self.input_consumer.recv()
@@ -71,7 +73,7 @@ impl EventSource for MidirUi {
     }
 }
 
-impl MidirUi {
+impl MidirBackend {
     /// Returns a new midir gamepad event source, with default settings
     pub fn new() -> Result<Self> {
         let input = MidirInput::new("midir default input")?;
@@ -212,14 +214,14 @@ impl MidirUi {
 }
 
 mod std_impls {
-    use super::{MidirUi, Ui};
+    use super::{Backend, MidirBackend};
     use std::fmt;
 
-    impl fmt::Debug for MidirUi {
+    impl fmt::Debug for MidirBackend {
         fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
             write!(
                 f,
-                "MidirUi {{ {}, in:{}/{} out:{}/{} }}",
+                "MidirBackend {{ {}, in:{}/{} out:{}/{} }}",
                 self.version_string(),
                 self.in_connections(),
                 self.in_count(),

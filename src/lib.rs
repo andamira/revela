@@ -34,13 +34,13 @@ pub mod all {
 
     #[cfg(feature = "notcurses")]
     #[doc(inline)]
-    pub use crate::backend::notcurses::{NotcursesTextGrid, NotcursesUi};
+    pub use crate::backend::notcurses::{NotcursesBackend, NotcursesTextGrid};
 
     #[cfg(feature = "gilrs")]
     #[doc(inline)]
-    pub use crate::backend::gilrs::GilrsUi;
+    pub use crate::backend::gilrs::GilrsBackend;
 
     #[cfg(feature = "midir")]
     #[doc(inline)]
-    pub use crate::backend::midir::MidirUi;
+    pub use crate::backend::midir::MidirBackend;
 }

@@ -3,7 +3,7 @@
 //!
 //
 
-use super::NotcursesUi;
+use super::NotcursesBackend;
 use crate::all::{Clamper as C, Position, RevelaResult as Result, Size, TextGrid, Zone};
 use ::notcurses::Plane;
 
@@ -15,10 +15,10 @@ pub struct NotcursesTextGrid {
 
 impl NotcursesTextGrid {
     /// Creates a new standalone text grid.
-    pub fn new(ui: &mut NotcursesUi, zone: impl Into<Zone>) -> Result<Self> {
+    pub fn new(nc: &mut NotcursesBackend, zone: impl Into<Zone>) -> Result<Self> {
         let zone = zone.into();
         Ok(Self {
-            inner: Plane::new_sized_at(ui.mut_inner(), zone.s, zone.p)?,
+            inner: Plane::new_sized_at(nc.mut_inner(), zone.s, zone.p)?,
         })
     }
 

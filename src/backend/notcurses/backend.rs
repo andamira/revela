@@ -1,26 +1,28 @@
-// revela::backend::nc::ui
+// revela::backend::nc::backend
 //
-//! Ui wrapper for notcurses
+//! Backend wrapper for `notcurses`
 //
 // TODO: Capabilities, Code, Unit
 
 use super::NotcursesTextGrid;
 use notcurses::{Notcurses, Plane};
 
-use crate::all::{Event, EventSource, RevelaResult as Result, Size, TextGrid, Ui, Window, Zone};
+use crate::all::{
+    Backend, Event, EventSource, RevelaResult as Result, Size, TextGrid, Window, Zone,
+};
 
 /// `notcurses` interface.
 ///
-/// It implements the following traits: [`Ui`], [`Window`], [`EventSource`].
-pub struct NotcursesUi {
+/// It implements the following traits: [`Backend`], [`Window`], [`EventSource`].
+pub struct NotcursesBackend {
     inner: Notcurses,
 
     /// the root text grid, (should be the *cli* plane).
     root: NotcursesTextGrid,
 }
 
-impl NotcursesUi {
-    /// Creates a new `NotcursesUi`.
+impl NotcursesBackend {
+    /// Creates a new `NotcursesBackend`.
     pub fn new() -> Result<Self> {
         let mut inner = Notcurses::new()?;
         let root = NotcursesTextGrid::from_plane(inner.cli_plane()?);
@@ -43,7 +45,7 @@ impl NotcursesUi {
 
     //
 
-    /// Creates a new `NotcursesUi` from an existing `notcurses` instance,
+    /// Creates a new `NotcursesBackend` from an existing `notcurses` instance,
     /// and an optional `root` [`Plane`].
     ///
     /// When no plane is given, it will try to instantiate the *cli* plane.
@@ -74,7 +76,7 @@ impl NotcursesUi {
     }
 }
 
-impl NotcursesUi {
+impl NotcursesBackend {
     /// Enables receiving mouse events.
     pub fn enable_mouse(&mut self) -> Result<()> {
         Ok(self.inner.mice_enable(::notcurses::MiceEvents::All)?)
@@ -85,7 +87,7 @@ impl NotcursesUi {
     }
 }
 
-impl Ui for NotcursesUi {
+impl Backend for NotcursesBackend {
     // TODO
     // fn capabilities(&self) -> Capabilities {
     //     self.inner.capabilities().into()
@@ -96,16 +98,16 @@ impl Ui for NotcursesUi {
         (v.0, v.1, v.2)
     }
 
-    // fn try_into_backend(self, backend: Backend) -> Option<BackendElement> {
+    // fn try_into_backend(self, backend: Backends) -> Option<BackendElement> {
     //     match backend {
-    //         Backend::Notcurses => Some(BackendElement::NotcursesUi(self)),
+    //         Backends::Notcurses => Some(BackendElement::NotcursesBackend(self)),
     //         #[allow(unreachable_patterns)] // TEMP
     //         _ => None,
     //     }
     // }
 }
 
-impl EventSource for NotcursesUi {
+impl EventSource for NotcursesBackend {
     fn wait_event(&mut self) -> Result<Event> {
         Ok(self.inner.get_event()?.into())
     }
@@ -115,7 +117,7 @@ impl EventSource for NotcursesUi {
     }
 }
 
-impl Window for NotcursesUi {
+impl Window for NotcursesBackend {
     fn refresh(&mut self) -> Result<()> {
         let _ = self.inner.refresh()?;
         Ok(())
@@ -131,14 +133,14 @@ impl Window for NotcursesUi {
 }
 
 mod std_impls {
-    use super::{NotcursesUi, Ui};
+    use super::{Backend, NotcursesBackend};
     use std::fmt;
 
-    impl fmt::Debug for NotcursesUi {
+    impl fmt::Debug for NotcursesBackend {
         fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
             write!(
                 f,
-                "NotcursesUi {{ {}, {:?}, {:?} }}",
+                "NotcursesBackend {{ {}, {:?}, {:?} }}",
                 self.version_string(),
                 self.inner,
                 self.root,
@@ -146,17 +148,17 @@ mod std_impls {
         }
     }
 
-    // impl From<Notcurses> for NotcursesUi {
-    //     fn from(nc: Notcurses) -> NotcursesUi {
+    // impl From<Notcurses> for NotcursesBackend {
+    //     fn from(nc: Notcurses) -> NotcursesBackend {
     //         let root: nc.cli_plane().unwrap() // can fail :S
-    //         NotcursesUi {
+    //         NotcursesBackend {
     //             inner: nc,
     //             root,
     //         }
     //     }
     // }
-    // impl From<NotcursesUi> for Notcurses {
-    //     fn from(ui: NotcursesUi) -> Notcurses {
+    // impl From<NotcursesBackend> for Notcurses {
+    //     fn from(ui: NotcursesBackend) -> Notcurses {
     //         ui.inner
     //     }
     // }

@@ -7,13 +7,13 @@
 #[doc(inline)]
 pub use ::notcurses;
 
+mod backend;
 // mod capabilities;
 mod events;
 mod text;
-mod ui;
 
+pub use backend::NotcursesBackend;
 pub use text::NotcursesTextGrid;
-pub use ui::NotcursesUi;
 
 /// General conversions
 mod conversions {

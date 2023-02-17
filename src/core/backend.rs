@@ -1,15 +1,15 @@
-// revela::base::ui
+// revela::core::backend
 //
 //!
 //
 
-pub trait Ui {
-    // /// Returns the Ui capabilities.
+pub trait Backend {
+    // /// Returns the Backend capabilities.
     // fn capabilities(&self) -> Capabilities;
 
     // MAYBE
-    // /// Allows getting the specific Ui struct from a Ui trait object.
-    // fn try_into_backend(self, backend: Backend) -> Option<BackendUi>;
+    // /// Allows getting the specific Backend struct from a Backend trait object.
+    // fn try_into_backend(self, backend: Backend) -> Option<Backends>;
 
     /// Returns the inner backend version numbers (major, minor, patch).
     fn version(&self) -> (u32, u32, u32);

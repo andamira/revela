@@ -18,19 +18,19 @@
 pub use ::gilrs;
 
 use crate::all::{
-    Event, EventKind, EventSource, GamepadAxis, GamepadButton, GamepadEvent, RevelaError as Error,
-    RevelaResult as Result, Ui,
+    Backend, Event, EventKind, EventSource, GamepadAxis, GamepadButton, GamepadEvent,
+    RevelaError as Error, RevelaResult as Result,
 };
 
 use ::gilrs::{Axis, Button, Event as GilrsEvent, EventType, Gilrs, GilrsBuilder};
 
 /// `gilrs` interface.
 #[derive(Debug)]
-pub struct GilrsUi {
+pub struct GilrsBackend {
     inner: Gilrs,
 }
 
-impl Ui for GilrsUi {
+impl Backend for GilrsBackend {
     // fn capabilities(&self) -> Capabilities {
     //     self.inner.capabilities().into()
     // }
@@ -40,7 +40,7 @@ impl Ui for GilrsUi {
     }
 }
 
-impl EventSource for GilrsUi {
+impl EventSource for GilrsBackend {
     fn wait_event(&mut self) -> Result<Event> {
         Err(Error::NotSupported)
     }
@@ -54,7 +54,7 @@ impl EventSource for GilrsUi {
     }
 }
 
-impl GilrsUi {
+impl GilrsBackend {
     /// Returns a new gilrs gamepad event source, with default settings
     //
     // https://docs.rs/gilrs/latest/gilrs/struct.GilrsBuilder.html#method.new
@@ -67,7 +67,7 @@ impl GilrsUi {
 
     //
 
-    /// Creates a new `GilrsUi` from an existing `gilrs` instance.
+    /// Creates a new `GilrsBackend` from an existing `gilrs` instance.
     pub fn from_gilrs(gilrs: Gilrs) -> Result<Self> {
         Ok(Self { inner: gilrs })
     }

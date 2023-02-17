@@ -7,7 +7,7 @@
 
 use depura::*;
 use repite::*;
-use revela::all::{*, RevelaResult as Result};
+use revela::all::{RevelaResult as Result, *};
 
 fn main() -> Result<()> {
     Logger::new("revela example ui-notcurses")
@@ -21,7 +21,7 @@ fn main() -> Result<()> {
         .unwrap();
     info!["press Escape to exit"];
 
-    let mut notcurses_ui = NotcursesUi::new()?;
+    let mut notcurses_ui = NotcursesBackend::new()?;
     let nc = &mut notcurses_ui;
     // nc.enable_mouse()?;
 
@@ -39,11 +39,11 @@ fn main() -> Result<()> {
     l.reset();
 
     #[cfg(feature = "gilrs")]
-    let mut gilrs = GilrsUi::new()?;
+    let mut gilrs = GilrsBackend::new()?;
 
     #[cfg(feature = "midir")]
     let mut midir = {
-        let mut midir = MidirUi::new()?;
+        let mut midir = MidirBackend::new()?;
         midir.in_connect_all()?;
         debug!["{midir:?}"];
         midir
@@ -111,7 +111,7 @@ fn main() -> Result<()> {
 }
 
 #[cfg(feature = "gilrs")]
-fn input_gilrs(gilrs: &mut GilrsUi) -> Result<()> {
+fn input_gilrs(gilrs: &mut GilrsBackend) -> Result<()> {
     let event = gilrs.poll_event()?;
     match event.kind {
         EventKind::Gamepad(g) => {
@@ -125,7 +125,7 @@ fn input_gilrs(gilrs: &mut GilrsUi) -> Result<()> {
 }
 
 #[cfg(feature = "midir")]
-fn input_midir(midir: &mut MidirUi) -> Result<()> {
+fn input_midir(midir: &mut MidirBackend) -> Result<()> {
     let event = midir.poll_event()?;
     let t = event.emitted.unwrap_or_default();
     match event.kind {
@@ -139,6 +139,6 @@ fn input_midir(midir: &mut MidirUi) -> Result<()> {
 
 // TODO: needs control messaging system
 // #[cfg(feature = "notcurses")]
-// fn input_notcurses(nc: &mut NotcursesUi) -> Result<()> {
+// fn input_notcurses(nc: &mut NotcursesBackend) -> Result<()> {
 //     Ok(())
 // }
