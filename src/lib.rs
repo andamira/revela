@@ -28,7 +28,7 @@ pub mod all {
     pub use crate::{
         backend::capabilities::{Capabilities, PixelCapabilities, TextGridCapabilities},
         core::all::*,
-        error::{UiError, UiResult},
+        error::{RevelaError, RevelaResult},
         layout::{Clamper, Position, Size, Zone},
     };
 

@@ -18,7 +18,8 @@
 pub use ::gilrs;
 
 use crate::all::{
-    Event, EventKind, EventSource, GamepadAxis, GamepadButton, GamepadEvent, Ui, UiError, UiResult,
+    Event, EventKind, EventSource, GamepadAxis, GamepadButton, GamepadEvent, RevelaError as Error,
+    RevelaResult as Result, Ui,
 };
 
 use ::gilrs::{Axis, Button, Event as GilrsEvent, EventType, Gilrs, GilrsBuilder};
@@ -40,10 +41,10 @@ impl Ui for GilrsUi {
 }
 
 impl EventSource for GilrsUi {
-    fn wait_event(&mut self) -> UiResult<Event> {
-        Err(UiError::NotSupported)
+    fn wait_event(&mut self) -> Result<Event> {
+        Err(Error::NotSupported)
     }
-    fn poll_event(&mut self) -> UiResult<Event> {
+    fn poll_event(&mut self) -> Result<Event> {
         if let Some(event) = self.inner.next_event() {
             // Ok((event, inner.counter().into()) // MAYBE
             Ok(event.into())
@@ -57,7 +58,7 @@ impl GilrsUi {
     /// Returns a new gilrs gamepad event source, with default settings
     //
     // https://docs.rs/gilrs/latest/gilrs/struct.GilrsBuilder.html#method.new
-    pub fn new() -> UiResult<Self> {
+    pub fn new() -> Result<Self> {
         let inner = GilrsBuilder::new().build()?;
         // let inner = GilrsBuilder::new().set_update_state(false).build()?;
 
@@ -67,7 +68,7 @@ impl GilrsUi {
     //
 
     /// Creates a new `GilrsUi` from an existing `gilrs` instance.
-    pub fn from_gilrs(gilrs: Gilrs) -> UiResult<Self> {
+    pub fn from_gilrs(gilrs: Gilrs) -> Result<Self> {
         Ok(Self { inner: gilrs })
     }
 

@@ -2,14 +2,14 @@
 //
 //! # Notcurses UI example
 //!
-//! Optionally supports `gilrs` backend.
+//! Optionally supported backends: `gilrs`, `midir`.
 //
 
 use depura::*;
 use repite::*;
-use revela::all::*;
+use revela::all::{*, RevelaResult as Result};
 
-fn main() -> UiResult<()> {
+fn main() -> Result<()> {
     Logger::new("revela example ui-notcurses")
         .file("log-ui-notcurses.log")
         .target_level_all()
@@ -111,7 +111,7 @@ fn main() -> UiResult<()> {
 }
 
 #[cfg(feature = "gilrs")]
-fn input_gilrs(gilrs: &mut GilrsUi) -> UiResult<()> {
+fn input_gilrs(gilrs: &mut GilrsUi) -> Result<()> {
     let event = gilrs.poll_event()?;
     match event.kind {
         EventKind::Gamepad(g) => {
@@ -125,7 +125,7 @@ fn input_gilrs(gilrs: &mut GilrsUi) -> UiResult<()> {
 }
 
 #[cfg(feature = "midir")]
-fn input_midir(midir: &mut MidirUi) -> UiResult<()> {
+fn input_midir(midir: &mut MidirUi) -> Result<()> {
     let event = midir.poll_event()?;
     let t = event.emitted.unwrap_or_default();
     match event.kind {
@@ -139,6 +139,6 @@ fn input_midir(midir: &mut MidirUi) -> UiResult<()> {
 
 // TODO: needs control messaging system
 // #[cfg(feature = "notcurses")]
-// fn input_notcurses(nc: &mut NotcursesUi) -> UiResult<()> {
+// fn input_notcurses(nc: &mut NotcursesUi) -> Result<()> {
 //     Ok(())
 // }

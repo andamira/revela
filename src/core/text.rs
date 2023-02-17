@@ -3,7 +3,7 @@
 //! Working with texts.
 //
 
-use crate::all::{Position, Size, UiResult as Result};
+use crate::all::{Position, RevelaResult as Result, Size};
 
 /// A multi-layered grid of text.
 pub trait TextGrid {

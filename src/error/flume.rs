@@ -3,40 +3,40 @@
 //!
 //
 
-use super::UiError;
+use super::RevelaError as Error;
 
 pub use ::flume::{
     RecvError, RecvTimeoutError, SendError, SendTimeoutError, TryRecvError, TrySendError,
 };
 
-impl From<RecvError> for UiError {
+impl From<RecvError> for Error {
     fn from(_err: RecvError) -> Self {
-        UiError::Flume
+        Error::Flume
     }
 }
-impl From<TryRecvError> for UiError {
+impl From<TryRecvError> for Error {
     fn from(_err: TryRecvError) -> Self {
-        UiError::Flume
+        Error::Flume
     }
 }
-impl From<RecvTimeoutError> for UiError {
+impl From<RecvTimeoutError> for Error {
     fn from(_err: RecvTimeoutError) -> Self {
-        UiError::Flume
+        Error::Flume
     }
 }
-impl<T> From<SendError<T>> for UiError {
+impl<T> From<SendError<T>> for Error {
     fn from(_err: SendError<T>) -> Self {
-        UiError::Flume
+        Error::Flume
     }
 }
-impl<T> From<TrySendError<T>> for UiError {
+impl<T> From<TrySendError<T>> for Error {
     fn from(_err: TrySendError<T>) -> Self {
-        UiError::Flume
+        Error::Flume
     }
 }
 
-impl<T> From<SendTimeoutError<T>> for UiError {
+impl<T> From<SendTimeoutError<T>> for Error {
     fn from(_err: SendTimeoutError<T>) -> Self {
-        UiError::Flume
+        Error::Flume
     }
 }

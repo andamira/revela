@@ -7,7 +7,7 @@
 use super::NotcursesTextGrid;
 use notcurses::{Notcurses, Plane};
 
-use crate::all::{Event, EventSource, Size, TextGrid, Ui, UiResult as Result, Window, Zone};
+use crate::all::{Event, EventSource, RevelaResult as Result, Size, TextGrid, Ui, Window, Zone};
 
 /// `notcurses` interface.
 ///

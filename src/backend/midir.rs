@@ -21,7 +21,7 @@ use midir::{
 use flume::{self, Receiver, Sender, TryRecvError};
 use midi_convert::{midi_types::MidiMessage, MidiTryParseSlice};
 
-use crate::all::{Event, EventSource, MidiEvent, Ui, UiError as Error, UiResult as Result};
+use crate::all::{Event, EventSource, MidiEvent, RevelaError as Error, RevelaResult as Result, Ui};
 
 use std::collections::HashMap;
 

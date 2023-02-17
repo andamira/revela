@@ -3,7 +3,7 @@
 //!
 //
 
-use super::UiError;
+use super::RevelaError as Error;
 
 pub use ::midir::{
     ConnectError as MidirConnectError, ConnectErrorKind as MidirConnectErrorKind,
@@ -18,13 +18,13 @@ pub enum MidirError {
     PortInfo(MidirPortInfoError),
 }
 
-impl From<MidirInitError> for UiError {
+impl From<MidirInitError> for Error {
     fn from(err: MidirInitError) -> Self {
-        UiError::Midir(MidirError::Init(err))
+        Error::Midir(MidirError::Init(err))
     }
 }
-impl<T> From<MidirConnectError<T>> for UiError {
+impl<T> From<MidirConnectError<T>> for Error {
     fn from(_err: MidirConnectError<T>) -> Self {
-        UiError::Midir(MidirError::Connect)
+        Error::Midir(MidirError::Connect)
     }
 }

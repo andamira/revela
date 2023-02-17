@@ -31,12 +31,12 @@ mod flume;
 // use png::EncodingError as PngEncodingError;
 
 /// Main *revela* result type.
-pub type UiResult<N> = result::Result<N, UiError>;
+pub type RevelaResult<N> = result::Result<N, RevelaError>;
 
 /// Main *revela* error type.
 #[non_exhaustive]
 #[derive(Debug)]
-pub enum UiError {
+pub enum RevelaError {
     /// A [`notcurses`][::notcurses] error.
     // https://docs.rs/notcurses/latest/notcurses/enum.Error.html
     #[cfg(feature = "notcurses")]
@@ -81,7 +81,7 @@ pub enum UiError {
     #[cfg(feature = "std")]
     String(String),
 }
-impl UiError {
+impl RevelaError {
     /// Returns a `string` error.
     #[cfg(feature = "std")]
     pub fn string(string: impl ToString) -> Self {
@@ -91,41 +91,41 @@ impl UiError {
 
 #[cfg(feature = "gilrs")]
 mod gilrs_impls {
-    use super::{GilrsError, UiError};
+    use super::{GilrsError, RevelaError};
 
-    impl From<GilrsError> for UiError {
+    impl From<GilrsError> for RevelaError {
         fn from(err: GilrsError) -> Self {
-            UiError::Gilrs(err)
+            RevelaError::Gilrs(err)
         }
     }
 }
 
 #[cfg(feature = "notcurses")]
 mod notcurses_impls {
-    use super::{NotcursesError, UiError};
+    use super::{NotcursesError, RevelaError};
 
-    impl From<NotcursesError> for UiError {
+    impl From<NotcursesError> for RevelaError {
         fn from(err: NotcursesError) -> Self {
-            UiError::Notcurses(err)
+            RevelaError::Notcurses(err)
         }
     }
 }
 
 // mod png_impls {
-//     use super::{PngEncodingError, UiError};
+//     use super::{PngEncodingError, RevelaError};
 //
-//     impl From<PngEncodingError> for UiError {
+//     impl From<PngEncodingError> for RevelaError {
 //         fn from(err: PngEncodingError) -> Self {
-//             UiError::PngEncoding(err)
+//             RevelaError::PngEncoding(err)
 //         }
 //     }
 // }
 
 // #[cfg(feature = "sdl2")]
 // mod sdl2_impls {
-//     use super::{UiError, Sdl2Error};
+//     use super::{RevelaError, Sdl2Error};
 //
-//     impl UiError {
+//     impl RevelaError {
 //         // https://docs.rs/sdl2/latest/sdl2/fn.get_error.html
 //         // https://docs.rs/sdl2-sys/latest/sdl2_sys/fn.SDL_GetError.html
 //         pub fn get_error() -> Self {
@@ -133,49 +133,49 @@ mod notcurses_impls {
 //         }
 //     }
 //
-//     impl From<Sdl2Error> for UiError {
+//     impl From<Sdl2Error> for RevelaError {
 //         fn from(err: Sdl2Error) -> Self {
-//             UiError::Sdl2(err)
+//             RevelaError::Sdl2(err)
 //         }
 //     }
 // }
 
 mod core_impls {
-    use super::UiError;
+    use super::RevelaError;
     use core::fmt;
 
-    impl fmt::Display for UiError {
+    impl fmt::Display for RevelaError {
         fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
             match self {
                 #[cfg(feature = "notcurses")]
-                UiError::Notcurses(e) => fmt::Debug::fmt(e, f),
+                RevelaError::Notcurses(e) => fmt::Debug::fmt(e, f),
 
                 // #[cfg(feature = "sdl2")]
-                // UiError::Sdl2(e) => Debug::fmt(e, f),
+                // RevelaError::Sdl2(e) => Debug::fmt(e, f),
                 #[cfg(feature = "std")]
-                UiError::Io(e) => fmt::Debug::fmt(e, f),
+                RevelaError::Io(e) => fmt::Debug::fmt(e, f),
 
                 #[cfg(feature = "gilrs")]
-                UiError::Gilrs(e) => fmt::Debug::fmt(e, f),
+                RevelaError::Gilrs(e) => fmt::Debug::fmt(e, f),
 
                 #[cfg(feature = "midir")]
-                UiError::Midir(e) => fmt::Debug::fmt(e, f),
+                RevelaError::Midir(e) => fmt::Debug::fmt(e, f),
 
                 // #[cfg(feature = "midi-convert")]
-                UiError::MidiConvert(e) => fmt::Debug::fmt(e, f),
+                RevelaError::MidiConvert(e) => fmt::Debug::fmt(e, f),
 
                 #[cfg(feature = "flume")]
-                UiError::Flume => write!(f, "Flume error"),
+                RevelaError::Flume => write!(f, "Flume error"),
 
-                // UiError::PngEncoding(e) => Debug::fmt(e, f),
+                // RevelaError::PngEncoding(e) => Debug::fmt(e, f),
                 //
-                // UiError::FailedConversion(from, to) => write!(f, "FailedConversion {from} -> {to}"),
-                UiError::NotSupported => write!(f, "NotSupported"),
+                // RevelaError::FailedConversion(from, to) => write!(f, "FailedConversion {from} -> {to}"),
+                RevelaError::NotSupported => write!(f, "NotSupported"),
 
                 #[cfg(feature = "std")]
-                UiError::String(e) => write!(f, "{}", e),
+                RevelaError::String(e) => write!(f, "{}", e),
                 // #[allow(unreachable_patterns)]
-                // _ => write!(f, "UiError"),
+                // _ => write!(f, "RevelaError"),
             }
         }
     }
@@ -184,20 +184,20 @@ mod core_impls {
 #[cfg(feature = "std")]
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "std")))]
 mod std_impls {
-    use super::{IoError, UiError};
+    use super::{IoError, RevelaError};
     use std::error::Error as StdError;
 
-    impl StdError for UiError {}
+    impl StdError for RevelaError {}
 
-    impl From<IoError> for UiError {
+    impl From<IoError> for RevelaError {
         fn from(err: IoError) -> Self {
-            UiError::Io(err)
+            RevelaError::Io(err)
         }
     }
 
-    impl From<String> for UiError {
+    impl From<String> for RevelaError {
         fn from(err: String) -> Self {
-            UiError::String(err)
+            RevelaError::String(err)
         }
     }
 }

@@ -3,7 +3,7 @@
 //! Event related types and traits.
 //
 
-use crate::all::UiResult;
+use crate::all::RevelaResult as Result;
 
 pub mod gamepad;
 pub mod keyboard;
@@ -34,17 +34,17 @@ pub(crate) mod all {
 /// A source of events.
 pub trait EventSource {
     /// Waits for an event, blocking.
-    fn wait_event(&mut self) -> UiResult<Event>;
+    fn wait_event(&mut self) -> Result<Event>;
 
     // MAYBE
     // /// Waits for an event blocking for the provided `duration`.
-    // fn wait_event_for(&mut self, duration: Duration) -> UiResult<BackendEvent>;
+    // fn wait_event_for(&mut self, duration: Duration) -> Result<BackendEvent>;
     // MAYBE
     // ///
-    // fn poll_events(&mut self, duration: Duration) -> UiResult<BackendEvent>;
+    // fn poll_events(&mut self, duration: Duration) -> Result<BackendEvent>;
 
     /// Polls for an event, non-blocking.
-    fn poll_event(&mut self) -> UiResult<Event>;
+    fn poll_event(&mut self) -> Result<Event>;
 }
 
 /// An event.

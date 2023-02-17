@@ -4,7 +4,7 @@
 //
 
 use super::NotcursesUi;
-use crate::all::{Clamper as C, Position, Size, TextGrid, UiResult as Result, Zone};
+use crate::all::{Clamper as C, Position, RevelaResult as Result, Size, TextGrid, Zone};
 use ::notcurses::Plane;
 
 #[derive(Debug)]
