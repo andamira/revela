@@ -3,19 +3,13 @@
 //! Core traits and types.
 //
 
+pub mod events;
 pub mod text;
 mod ui;
 mod window;
 
-pub use text::TextGrid;
-pub use ui::Ui;
-pub use window::Window;
-
-pub mod events;
-#[doc(inline)]
-pub use events::{
-    gamepad::{GamepadAxis, GamepadButton, GamepadEvent},
-    keyboard::{Code, KeyEvent, KeyModifiers, MediaKey, ModifierKey},
-    window::WindowEvent,
-    Event, EventSource,
-};
+pub use all::*;
+pub(crate) mod all {
+    #[doc(inline)]
+    pub use super::{events::all::*, text::TextGrid, ui::Ui, window::Window};
+}

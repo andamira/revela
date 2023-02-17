@@ -18,8 +18,7 @@
 pub use ::gilrs;
 
 use crate::all::{
-    Event, EventKind, EventSource, GamepadAxis, GamepadButton, GamepadEvent, Ui, UiError,
-    UiResult,
+    Event, EventKind, EventSource, GamepadAxis, GamepadButton, GamepadEvent, Ui, UiError, UiResult,
 };
 
 use ::gilrs::{Axis, Button, Event as GilrsEvent, EventType, Gilrs, GilrsBuilder};

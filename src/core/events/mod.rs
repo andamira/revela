@@ -9,21 +9,27 @@ pub mod gamepad;
 pub mod keyboard;
 pub mod midi;
 // pub mod mouse;
-pub mod time;
-pub mod window;
+mod time;
+mod window;
 
-pub use gamepad::{GamepadAxis, GamepadButton, GamepadEvent};
-#[doc(inline)]
-pub use keyboard::{Code, KeyEvent, KeyModifiers, MediaKey, ModifierKey};
-#[doc(inline)]
-pub use midi::{
-    MidiChannel, MidiControl, MidiEvent, MidiFrame, MidiNote, MidiProgram, MidiValue14, MidiValue7,
-};
-// #[doc(inline)]
-// pub use mouse::{MouseButton, MouseEvent};
-pub use time::EventTimeStamp;
-#[doc(inline)]
-pub use window::WindowEvent;
+pub use all::*;
+pub(crate) mod all {
+    #[doc(inline)]
+    pub use super::{
+        gamepad::{GamepadAxis, GamepadButton, GamepadEvent},
+        keyboard::{Code, KeyEvent, KeyModifiers, MediaKey, ModifierKey},
+        midi::{
+            MidiChannel, MidiControl, MidiEvent, MidiFrame, MidiNote, MidiProgram, MidiValue14,
+            MidiValue7,
+        },
+        // pub use mouse::{MouseButton, MouseEvent},
+        time::EventTimeStamp,
+        window::WindowEvent,
+        Event,
+        EventKind,
+        EventSource,
+    };
+}
 
 /// A source of events.
 pub trait EventSource {

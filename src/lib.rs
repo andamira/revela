@@ -27,20 +27,7 @@ pub mod all {
     #[doc(inline)]
     pub use crate::{
         backend::capabilities::{Capabilities, PixelCapabilities, TextGridCapabilities},
-        core::{
-            events::{
-                gamepad::{GamepadAxis, GamepadButton, GamepadEvent},
-                keyboard::{Code, KeyEvent, KeyModifiers, MediaKey, ModifierKey},
-                midi::{
-                    MidiChannel, MidiControl, MidiEvent, MidiFrame, MidiNote, MidiProgram,
-                    MidiValue14, MidiValue7,
-                },
-                window::WindowEvent,
-                Event, EventKind, EventTimeStamp, EventSource,
-            },
-            text::TextGrid,
-            Ui, Window,
-        },
+        core::all::*,
         error::{UiError, UiResult},
         layout::{Clamper, Position, Size, Zone},
     };

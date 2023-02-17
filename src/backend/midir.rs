@@ -39,7 +39,6 @@ pub struct MidirUi {
 
     input_producer: Sender<(MidiEvent, u64)>,
     input_consumer: Receiver<(MidiEvent, u64)>,
-
     // MAYBE
     // ignored: MidirIgnore,
 }
