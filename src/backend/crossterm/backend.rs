@@ -6,27 +6,39 @@
 // - signals
 //   - add Event::Terminate: https://github.com/crossterm-rs/crossterm/issues/554
 //   - support ctrl+z + fg: https://github.com/crossterm-rs/crossterm/issues/494
+//
+// TODO
+// - window refresh, render
 
 use ::crossterm::{event, execute, terminal};
 
 use core::time::Duration;
-use std::io::{self, Write};
+use std::io;
 
 use crate::all::{Backend, Event, EventSource, RevelaResult as Result, Size, Window};
 
 /// `crossterm` interface.
 ///
-// /// It implements the following traits: [`Backend`], [`Window`], [`EventSource`].
+/// It implements the following traits: [`Backend`], [`Window`], [`EventSource`].
 //
 // https://docs.rs/crossterm/latest/crossterm/terminal/index.html
-pub struct CrosstermBackend {}
+pub struct CrosstermBackend {
+    // raw_mode: bool,
+}
+// impl Drop for CrosstermBackend {
+//     fn drop(&mut self)  {
+//         if self.raw_mode {
+//             self.set_raw_mode(false);
+//         }
+//     }
+// }
 
 impl CrosstermBackend {
     /// Creates a new `CrosstermBackend`.
     pub fn new() -> Result<Self> {
         // let mut inner = Notcurses::new()?;
         // let root = NotcursesTextGrid::from_plane(inner.cli_plane()?);
-        Ok(Self {})
+        Ok(Self { /* raw_mode: false */ })
     }
 
     /// Tells whether the raw mode is enabled.
@@ -181,11 +193,9 @@ mod std_impls {
         fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
             write!(
                 f,
-                // "CrosstermBackend {{ {}, {:?}, {:?} }}",
                 "CrosstermBackend {{ {} }}",
                 self.version_string(),
-                // self.inner,
-                // self.root,
+                // self.…,
             )
         }
     }

@@ -337,4 +337,66 @@ impl KeyModifiers {
     pub fn toggle_num_lock(&mut self) {
         self.0.toggle(InnerKeyModifiers::NumLock)
     }
+
+    /* with */
+
+    /// Returns a copy with the *Shift* modifier (un)set.
+    #[inline]
+    pub fn with_shift(&self, set: bool) -> Self {
+        let mut new = *self;
+        new.0.set(InnerKeyModifiers::Shift, set);
+        new
+    }
+    /// Returns a copy with the *Control* modifier (un)set.
+    #[inline]
+    pub fn with_control(&self, set: bool) -> Self {
+        let mut new = *self;
+        new.0.set(InnerKeyModifiers::Control, set);
+        new
+    }
+    // /// Alias of [`control`][Self::control]
+    // pub fn with_ctrl(&self, set: bool) -> Self { self.control() }
+    /// Returns a copy with the *Alt* modifier (un)set.
+    #[inline]
+    pub fn with_alt(&self, set: bool) -> Self {
+        let mut new = *self;
+        new.0.set(InnerKeyModifiers::Alt, set);
+        new
+    }
+    /// Returns a copy with the *Super* modifier (un)set.
+    // NOTE: super is a reserved keyword.
+    #[inline]
+    pub fn with_sup(&self, set: bool) -> Self {
+        let mut new = *self;
+        new.0.set(InnerKeyModifiers::Super, set);
+        new
+    }
+    /// Returns a copy with the *Hyper* modifier (un)set.
+    #[inline]
+    pub fn with_hyper(&self, set: bool) -> Self {
+        let mut new = *self;
+        new.0.set(InnerKeyModifiers::Hyper, set);
+        new
+    }
+    /// Returns a copy with the *Meta* modifier (un)set.
+    #[inline]
+    pub fn with_meta(&self, set: bool) -> Self {
+        let mut new = *self;
+        new.0.set(InnerKeyModifiers::Meta, set);
+        new
+    }
+    /// Returns a copy with the *CapsLock* modifier (un)set.
+    #[inline]
+    pub fn with_caps_lock(&self, set: bool) -> Self {
+        let mut new = *self;
+        new.0.set(InnerKeyModifiers::CapsLock, set);
+        new
+    }
+    /// Returns a copy with the *NumLock* modifier (un)set.
+    #[inline]
+    pub fn with_num_lock(&self, set: bool) -> Self {
+        let mut new = *self;
+        new.0.set(InnerKeyModifiers::NumLock, set);
+        new
+    }
 }

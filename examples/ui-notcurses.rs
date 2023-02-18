@@ -72,7 +72,7 @@ fn main() -> Result<()> {
                             WindowEvent::Continue => {
                                 debug!["welcome back"];
                             }
-                            WindowEvent::Resized => {
+                            WindowEvent::Resized(_) => {
                                 debug!["{:?}", nc.size()];
                             }
                             _ => (),

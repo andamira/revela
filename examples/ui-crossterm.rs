@@ -4,6 +4,9 @@
 //!
 //! Optionally supported backends: `gilrs`, `midir`.
 //
+// IMPROVE
+// - allow non-raw-mode + command to enter and leave.
+// - manage signals while in raw mode.
 
 use depura::*;
 use repite::*;
@@ -25,7 +28,7 @@ fn main() -> Result<()> {
     let ct = &mut _crossterm;
 
     ct.enter_alternate_screen()?;
-    // ct.set_raw_mode(true)?;
+    ct.set_raw_mode(true)?;
     info!["raw_mode:{}", ct.is_raw_mode()?];
 
     /* */
@@ -59,11 +62,28 @@ fn main() -> Result<()> {
 
                 // TODO: exit with ctrl-c or other key
                 // - https://github.com/crossterm-rs/crossterm/issues/554#issuecomment-857001853
-                // TODO
-                // let ct_event = ct.poll_event()?;
-                // match ct_event.kind {
-                //     _ => (),
-                // }
+                let ct_event = ct.poll_event()?;
+                match ct_event.kind {
+                    EventKind::Window(w) => {
+                        debug!["window: {w:?}"];
+                    }
+                    EventKind::Key(key) => {
+                        debug!["key: {key:?}"];
+                        match key.code {
+                            KeyCode::Escape | KeyCode::Char('q') => {
+                                ct.set_raw_mode(false)?;
+                                // ct.leave_alternate_screen()?;
+                                break;
+                            }
+                            KeyCode::Char('l') => l.log_all_rates(),
+                            _ => (),
+                        }
+                    }
+                    // Event::Mouse(m) => {
+                    //     debug!["mouse: {m:?}"];
+                    // }
+                    _ => (),
+                }
             }
 
             /* render */

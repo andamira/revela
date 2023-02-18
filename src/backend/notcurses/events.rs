@@ -8,18 +8,28 @@ use crate::all::{
 };
 use ::notcurses::{Input, InputType, Key as NcKey, KeyMod, Received};
 
+// https://docs.rs/notcurses/3.2.2/notcurses/struct.KeyMod.html
 impl From<KeyMod> for KeyModifiers {
     fn from(nc: KeyMod) -> KeyModifiers {
         (u32::from(nc) as u8).into()
     }
 }
 
+// https://docs.rs/notcurses/3.2.2/notcurses/struct.Input.html
+// pub struct Input {
+//     pub received: Received,
+//     pub keymod: KeyMod,
+//     pub itype: InputType,
+//     pub cell: Option<Position>,
+//     pub offset: Option<Position>,
+// }
 impl From<Input> for Event {
     fn from(input: Input) -> Event {
         EventKind::from(input).into()
     }
 }
 
+// https://docs.rs/notcurses/3.2.2/notcurses/enum.InputType.html
 impl From<InputType> for KeyKind {
     fn from(input: InputType) -> KeyKind {
         use InputType::*;
@@ -33,9 +43,6 @@ impl From<InputType> for KeyKind {
 
 impl From<Input> for EventKind {
     fn from(input: Input) -> EventKind {
-        // 1. modifiers
-        // - https://docs.rs/notcurses/latest/notcurses/struct.KeyMod.html
-
         let km = KeyModifiers::from(input.keymod);
         let kk = KeyKind::from(input.itype);
 
@@ -46,7 +53,7 @@ impl From<Input> for EventKind {
                     NcKey::Invalid => EventKind::None,
 
                     // we received `sigwinch`.
-                    NcKey::Resize => WindowEvent::Resized.into(),
+                    NcKey::Resize => WindowEvent::Resized(None).into(),
                     // we received sigcont
                     NcKey::Signal => WindowEvent::Continue.into(),
                     // will be returned upon reaching the end of input.

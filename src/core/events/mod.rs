@@ -212,8 +212,6 @@ pub enum EventKind {
     // Mouse(MouseEvent),
     /// A gamepad event.
     Gamepad(GamepadEvent),
-    // crossterm, maybe other
-    // Paste(String),
 }
 
 impl EventKind {

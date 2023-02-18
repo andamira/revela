@@ -3,7 +3,7 @@
 //! Window events.
 //
 
-use super::{Event, EventKind};
+use crate::all::{Event, EventKind, Size};
 
 /// Events related to the [`Window`][crate::all::Window].
 //
@@ -14,9 +14,9 @@ use super::{Event, EventKind};
 pub enum WindowEvent {
     FocusGained,
     FocusLost,
-    Resized,
+    // Resized,
     // crossterm and sdl has this, MAYBE add for notcurses
-    // Resized(Size),
+    Resized(Option<Size>),
     // NOTE the difference in SDL: https://stackoverflow.com/a/55076700/940200
     // SizeChanged(Size),
     /// Signal to continue (SIGCONT).
@@ -33,6 +33,9 @@ pub enum WindowEvent {
     ///
     /// [0]: https://github.com/dankamongmen/notcurses/blob/master/doc/man/man3/notcurses_input.3.md#nckey_eof
     EndOfInput,
+    // TODO
+    // Paste(String),
+
     // Moved(Position),
 
     // Shown,

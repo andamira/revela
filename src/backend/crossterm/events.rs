@@ -2,66 +2,57 @@
 //
 //! Events types conversions.
 //
-// TODO: conversions
-// - [ ] Event -> Event
-// - [ ] KeyEvent -> KeyEvent
-// - [x] KeyCode -> KeyCode
-// - [x] KeyModifiers -> KeyModifiers
-// - [x] ModifierKeyCode -> ModifierKey
-// - [x] MediaKeyCode -> MediaKey
-//
-// - [ ] ... mouse
-//
-// - MAYBE: add conversions to crossterm
+// TODO
+// - [ ] KeyEventState -> discard for now: (KEYPAD, CAPS_LOCK, NUM_LOCK)
+// - [ ] mouse:
+// - MAYBE add conversions back to crossterm
 //
 
 use devela::iif;
 
-use crate::all::{Event, EventKind, KeyCode, KeyModifiers, MediaKey, ModifierKey, WindowEvent};
+use crate::all::{
+    Event, EventKind, KeyCode, KeyEvent, KeyKind, KeyModifiers, MediaKey, ModifierKey, WindowEvent,
+};
 use ::crossterm::event::{
-    Event as CtEvent, KeyCode as CtKeyCode, KeyEventKind as CtKeyEventKind,
+    Event as CtEvent, KeyCode as CtKeyCode, KeyEvent as CtKeyEvent, KeyEventKind as CtKeyEventKind,
     KeyModifiers as CtKeyModifiers, MediaKeyCode as CtMediaKeyCode,
     ModifierKeyCode as CtModifierKeyCode, MouseButton as CtMouseButton,
     MouseEventKind as CtMouseEventKind,
 };
 
-// TODO
 // https://docs.rs/crossterm/latest/crossterm/event/enum.Event.html
-// pub enum Event {
-//     FocusGained,
-//     FocusLost,
-//     Key(KeyEvent),
-//     Mouse(MouseEvent),
-//     Paste(String),
-//     Resize(u16, u16),
-// }
-//
 impl From<CtEvent> for Event {
     fn from(ct: CtEvent) -> Event {
-        todo![] // TODO
+        use CtEvent::*;
+        match ct {
+            Key(k) => KeyEvent::from(k).into(),
+            FocusGained => WindowEvent::FocusGained.into(),
+            FocusLost => WindowEvent::FocusLost.into(),
+            Resize(w, h) => WindowEvent::Resized(Some((w, h).into())).into(),
+            // TODO:
+            Paste(s) => Event::None,
+            Mouse(s) => Event::None,
+        }
     }
 }
 
-// TODO
 // https://docs.rs/crossterm/latest/crossterm/event/struct.KeyEvent.html
-// pub struct KeyEvent {
-//     pub code: KeyCode,
-//     pub modifiers: KeyModifiers,
-//     pub kind: KeyEventKind,
-//     pub state: KeyEventState,
-// }
-//
-// impl From<CtKeyEvent> for ? {
-//     fn from(ct: CtKeyEvent) -> ? {
-//         todo![]
-//     }
-// }
+impl From<CtKeyEvent> for KeyEvent {
+    fn from(ct: CtKeyEvent) -> KeyEvent {
+        let km = KeyModifiers::from(ct.modifiers);
+        let kk = KeyKind::from(ct.kind);
+        let _ks = ct.state; // THINK
 
-// impl From<CtKeyEventKind> for KeyModifiers {
-//     fn from(ct: CtKeyEventKind) -> KeyModifiers {
-//         todo![]
-//     }
-// }
+        use CtKeyCode::*;
+
+        match ct.code {
+            // special transformations
+            // THINK about: Null, KeyPadBegin
+            BackTab => (KeyCode::Tab, km.with_shift(true), kk).into(),
+            _ => (KeyCode::from(ct.code), km, kk).into(),
+        }
+    }
+}
 
 // https://docs.rs/crossterm/latest/crossterm/event/struct.KeyModifiers.html
 impl From<CtKeyModifiers> for KeyModifiers {
@@ -158,6 +149,17 @@ impl From<CtKeyCode> for KeyCode {
             KeypadBegin => KeyCode::Unknown, // NOTE
             Media(m) => KeyCode::Media(m.into()),
             Modifier(m) => KeyCode::Modifier(m.into()),
+        }
+    }
+}
+
+impl From<CtKeyEventKind> for KeyKind {
+    fn from(ct: CtKeyEventKind) -> KeyKind {
+        use CtKeyEventKind::*;
+        match ct {
+            Press => KeyKind::Press,
+            Repeat => KeyKind::Repeat,
+            Release => KeyKind::Release,
         }
     }
 }
