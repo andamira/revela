@@ -111,7 +111,7 @@
 use crate::all::RevelaResult as Result;
 
 pub mod gamepad;
-pub mod keyboard;
+pub mod keys;
 pub mod midi;
 // pub mod mouse;
 mod time;
@@ -122,7 +122,7 @@ pub(crate) mod all {
     #[doc(inline)]
     pub use super::{
         gamepad::{GamepadAxis, GamepadButton, GamepadEvent},
-        keyboard::{KeyCode, KeyEvent, KeyModifiers, MediaKey, ModifierKey},
+        keys::{KeyCode, KeyEvent, KeyModifiers, MediaKey, ModifierKey},
         midi::{
             MidiChannel, MidiControl, MidiEvent, MidiFrame, MidiNote, MidiProgram, MidiValue14,
             MidiValue7,
