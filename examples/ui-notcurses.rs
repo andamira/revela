@@ -19,7 +19,7 @@ fn main() -> Result<()> {
         //
         .init()
         .unwrap();
-    info!["press Escape to exit"];
+    info!["press 'q' to exit"];
 
     let mut notcurses_ui = NotcursesBackend::new()?;
     let nc = &mut notcurses_ui;
@@ -81,7 +81,7 @@ fn main() -> Result<()> {
                     EventKind::Key(key) => {
                         debug!["key: {key:?}"];
                         match key.code {
-                            KeyCode::Escape | KeyCode::Char('q') => break,
+                            KeyCode::Char('q') => break,
                             KeyCode::Char('l') => l.log_all_rates(),
                             KeyCode::Up => t0.offset((0, -1))?,
                             KeyCode::Down => t0.offset((0, 1))?,

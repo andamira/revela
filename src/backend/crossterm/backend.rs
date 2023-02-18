@@ -87,6 +87,20 @@ impl CrosstermBackend {
         Ok(execute!(io::stdout(), event::DisableBracketedPaste)?)
     }
 
+    /// Enables focus change mode.
+    //
+    // https://docs.rs/crossterm/latest/crossterm/event/struct.EnableFocusChange.html
+    pub fn enable_focus_change(&self) -> Result<()> {
+        Ok(execute!(io::stdout(), event::EnableFocusChange)?)
+    }
+
+    /// Disables focus change mode.
+    //
+    // https://docs.rs/crossterm/latest/crossterm/event/struct.DisableFocusChange.html
+    pub fn disable_focus_change(&self) -> Result<()> {
+        Ok(execute!(io::stdout(), event::DisableFocusChange)?)
+    }
+
     // /// Returns a shared reference to the root text grid of the window.
     // pub fn ref_root(&self) -> &NotcursesTextGrid {
     //     &self.root

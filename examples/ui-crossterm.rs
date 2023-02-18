@@ -22,12 +22,13 @@ fn main() -> Result<()> {
         //
         .init()
         .unwrap();
-    info!["press Escape to exit"];
+    info!["press 'q' to exit"];
 
     let mut _crossterm = CrosstermBackend::new()?;
     let ct = &mut _crossterm;
 
     ct.enable_bracketed_paste()?;
+    ct.enable_focus_change()?;
     ct.enter_alternate_screen()?;
     ct.enable_raw_mode()?;
     info!["raw_mode:{}", ct.is_raw_mode()?];
@@ -71,7 +72,7 @@ fn main() -> Result<()> {
                     EventKind::Key(key) => {
                         debug!["key: {key:?}"];
                         match key.code {
-                            KeyCode::Escape | KeyCode::Char('q') => {
+                            KeyCode::Char('q') => {
                                 ct.disable_raw_mode()?;
                                 // ct.leave_alternate_screen()?;
                                 break;
