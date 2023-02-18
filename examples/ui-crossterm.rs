@@ -27,8 +27,9 @@ fn main() -> Result<()> {
     let mut _crossterm = CrosstermBackend::new()?;
     let ct = &mut _crossterm;
 
+    ct.enable_bracketed_paste()?;
     ct.enter_alternate_screen()?;
-    ct.set_raw_mode(true)?;
+    ct.enable_raw_mode()?;
     info!["raw_mode:{}", ct.is_raw_mode()?];
 
     /* */
@@ -71,7 +72,7 @@ fn main() -> Result<()> {
                         debug!["key: {key:?}"];
                         match key.code {
                             KeyCode::Escape | KeyCode::Char('q') => {
-                                ct.set_raw_mode(false)?;
+                                ct.disable_raw_mode()?;
                                 // ct.leave_alternate_screen()?;
                                 break;
                             }

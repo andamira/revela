@@ -9,7 +9,7 @@ use crate::all::{Event, EventKind, Size};
 //
 // - https://docs.rs/sdl2/latest/sdl2/event/enum.WindowEvent.html
 // - https://docs.rs/crossterm/latest/crossterm/event/enum.Event.html
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 #[non_exhaustive]
 pub enum WindowEvent {
     FocusGained,
@@ -33,9 +33,9 @@ pub enum WindowEvent {
     ///
     /// [0]: https://github.com/dankamongmen/notcurses/blob/master/doc/man/man3/notcurses_input.3.md#nckey_eof
     EndOfInput,
-    // TODO
-    // Paste(String),
 
+    /// Paste action.
+    Paste(String),
     // Moved(Position),
 
     // Shown,

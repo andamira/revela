@@ -20,18 +20,23 @@ use ::crossterm::event::{
     MouseEventKind as CtMouseEventKind,
 };
 
-// https://docs.rs/crossterm/latest/crossterm/event/enum.Event.html
 impl From<CtEvent> for Event {
     fn from(ct: CtEvent) -> Event {
+        EventKind::from(ct).into()
+    }
+}
+
+// https://docs.rs/crossterm/latest/crossterm/event/enum.Event.html
+impl From<CtEvent> for EventKind {
+    fn from(ct: CtEvent) -> EventKind {
         use CtEvent::*;
         match ct {
             Key(k) => KeyEvent::from(k).into(),
             FocusGained => WindowEvent::FocusGained.into(),
             FocusLost => WindowEvent::FocusLost.into(),
             Resize(w, h) => WindowEvent::Resized(Some((w, h).into())).into(),
-            // TODO:
-            Paste(s) => Event::None,
-            Mouse(s) => Event::None,
+            Paste(s) => WindowEvent::Paste(s).into(),
+            Mouse(_) => EventKind::None,
         }
     }
 }

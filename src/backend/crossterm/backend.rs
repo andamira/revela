@@ -47,14 +47,16 @@ impl CrosstermBackend {
         Ok(terminal::is_raw_mode_enabled()?)
     }
 
-    /// (Un)Sets the raw mode.
+    /// Enables the raw mode.
     #[inline]
-    pub fn set_raw_mode(&self, set: bool) -> Result<()> {
-        if set {
-            Ok(terminal::enable_raw_mode()?)
-        } else {
-            Ok(terminal::disable_raw_mode()?)
-        }
+    pub fn enable_raw_mode(&self) -> Result<()> {
+        Ok(terminal::enable_raw_mode()?)
+    }
+
+    /// Disables the raw mode.
+    #[inline]
+    pub fn disable_raw_mode(&self) -> Result<()> {
+        Ok(terminal::disable_raw_mode()?)
     }
 
     /// Switches to the alternate screen.
@@ -69,6 +71,20 @@ impl CrosstermBackend {
     // https://docs.rs/crossterm/latest/crossterm/terminal/struct.LeaveAlternateScreen.html
     pub fn leave_alternate_screen(&self) -> Result<()> {
         Ok(execute!(io::stdout(), terminal::EnterAlternateScreen)?)
+    }
+
+    /// Enables bracketed paste mode.
+    //
+    // https://docs.rs/crossterm/latest/crossterm/event/struct.EnableBracketedPaste.html
+    pub fn enable_bracketed_paste(&self) -> Result<()> {
+        Ok(execute!(io::stdout(), event::EnableBracketedPaste)?)
+    }
+
+    /// Disables bracketed paste mode.
+    //
+    // https://docs.rs/crossterm/latest/crossterm/event/struct.DisableBracketedPaste.html
+    pub fn disable_bracketed_paste(&self) -> Result<()> {
+        Ok(execute!(io::stdout(), event::DisableBracketedPaste)?)
     }
 
     // /// Returns a shared reference to the root text grid of the window.

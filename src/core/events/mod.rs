@@ -153,7 +153,7 @@ pub trait EventSource {
 }
 
 /// An event.
-#[derive(Clone, Copy)]
+#[derive(Clone)]
 pub struct Event {
     pub kind: EventKind,
     // midir
@@ -192,8 +192,7 @@ impl From<EventKind> for Event {
 //   - https://docs.rs/notcurses/latest/notcurses/enum.Received.html
 // - https://docs.rs/sdl2/latest/sdl2/event/enum.Event.html
 //
-#[derive(Clone, Copy, Debug, Default, PartialEq)]
-// pub enum EventData {
+#[derive(Clone, Debug, Default, PartialEq)]
 pub enum EventKind {
     /// An unknown, empty or absent event.
     #[default]
