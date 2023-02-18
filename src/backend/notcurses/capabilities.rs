@@ -1,4 +1,4 @@
-// revela::backend::nc::capabilities
+// revela::backend::notcurses::capabilities
 //
 //!
 //

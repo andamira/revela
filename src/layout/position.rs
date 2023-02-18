@@ -61,6 +61,19 @@ impl Position {
         Self::new(C::clamp_from_u32(tup.0), C::clamp_from_u32(tup.1))
     }
 
+    pub const fn as_tuple_u16(&self) -> (u16, u16) {
+        (
+            C::clamp_positive_to_u16(self.y),
+            C::clamp_positive_to_u16(self.y),
+        )
+    }
+    pub const fn from_tuple_u16(tup: (u16, u16)) -> Position {
+        Self::new(
+            C::clamp_positive_from_u16(tup.0),
+            C::clamp_positive_from_u16(tup.1),
+        )
+    }
+
     pub const fn as_tuple_i16(&self) -> (i16, i16) {
         (C::clamp_to_i16(self.x), C::clamp_to_i16(self.y))
     }
@@ -101,6 +114,17 @@ impl From<(i16, i16)> for Position {
 impl From<Position> for (i16, i16) {
     fn from(s: Position) -> (i16, i16) {
         s.as_tuple_i16()
+    }
+}
+
+impl From<(u16, u16)> for Position {
+    fn from(tup: (u16, u16)) -> Position {
+        Self::from_tuple_u16(tup)
+    }
+}
+impl From<Position> for (u16, u16) {
+    fn from(s: Position) -> (u16, u16) {
+        s.as_tuple_u16()
     }
 }
 

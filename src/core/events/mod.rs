@@ -1,6 +1,111 @@
 // revela::core::events
 //
 //! Event related types and traits.
+//!
+//! # Event types overview diagrams
+//!
+//! [`Event`] subtypes: [`EventKind`], [`EventTimeStamp`] :
+//! ```diagram
+//! struct Event {
+//!     kind: EventKind,
+//!     emitted: Option<EventTimeStamp>,
+//! }
+//! ```
+//!
+//! [`EventKind`] subtypes: [`WindowEvent`], [`KeyEvent`], [`MidiEvent`], [`GamepadEvent`] :
+//! ```diagram
+//! enum EventKind {
+//!     None,
+//!     Window(WindowEvent),
+//!     Key(KeyEvent),
+//!     Midi(MidiEvent),
+//!     Gamepad(GamepadEvent),
+//! }
+//! ```
+//!
+//! [`KeyEvent`] subtypes: [`KeyCode`], [`KeyModifiers`] :
+//! ```diagram
+//! struct KeyEvent {
+//!     code: KeyCode,
+//!     mods: KeyModifiers,
+//! }
+//! ```
+//!
+//! [`KeyCode`] subtypes: [`char`], [`MediaKey`], [`ModifierKey`] :
+//! ```diagram
+//! enum KeyCode {
+//!     Backspace,
+//!     Enter,
+//!     Left,
+//!     Right,
+//!     Up,
+//!     Down,
+//!     Home,
+//!     End,
+//!     PageUp,
+//!     PageDown,
+//!     Delete,
+//!     Insert,
+//!     F(u8),
+//!     Char(char),
+//!     Tab,
+//!     Escape,
+//!     Space,
+//!     CapsLock,
+//!     ScrollLock,
+//!     NumLock,
+//!     PrintScreen,
+//!     Pause,
+//!     Menu,
+//!     Media(MediaKey),
+//!     Modifier(ModifierKey),
+//! }
+//! ```
+//!
+//! [`KeyModifiers`] :
+//! ```diagram
+//! // Bitmask of: Shift + Control + Alt + Super + Hyper + Meta + CapsLock + NumLock
+//! struct KeyModifiers;
+//! ```
+//!
+//! [`ModifierKey`] :
+//! ```diagram
+//! pub enum ModifierKey {
+//!     LeftShift,
+//!     LeftControl,
+//!     LeftAlt,
+//!     LeftSuper,
+//!     LeftHyper,
+//!     LeftMeta,
+//!     RightShift,
+//!     RightControl,
+//!     RightAlt,
+//!     RightSuper,
+//!     RightHyper,
+//!     RightMeta,
+//!     IsoLevel3Shift,
+//!     IsoLevel5Shift,
+//! }
+//! ```
+//!
+//! [`MediaKey`] :
+//! ```diagram
+//! enum MediaKey {
+//!     Play,
+//!     Pause,
+//!     PlayPause,
+//!     Reverse,
+//!     Stop,
+//!     FastForward,
+//!     Rewind,
+//!     Next,
+//!     Previous,
+//!     Record,
+//!     LowerVolume,
+//!     RaiseVolume,
+//!     MuteVolume,
+//! }
+//! ```
 //
 
 use crate::all::RevelaResult as Result;
@@ -22,7 +127,7 @@ pub(crate) mod all {
             MidiChannel, MidiControl, MidiEvent, MidiFrame, MidiNote, MidiProgram, MidiValue14,
             MidiValue7,
         },
-        // pub use mouse::{MouseButton, MouseEvent},
+        // mouse::{MouseButton, MouseEvent},
         time::EventTimeStamp,
         window::WindowEvent,
         Event,

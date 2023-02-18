@@ -1,6 +1,6 @@
 // revela::core::events::midi
 //
-//!
+//! Midi events.
 //
 
 use super::{Event, EventKind};

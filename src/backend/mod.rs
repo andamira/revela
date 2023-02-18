@@ -4,7 +4,16 @@
 //
 
 pub mod capabilities;
+#[doc(inline)]
 pub use capabilities::{Capabilities, PixelCapabilities, TextGridCapabilities};
+
+#[cfg(feature = "crossterm")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "crossterm")))]
+pub mod crossterm;
+#[cfg(feature = "crossterm")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "crossterm")))]
+#[doc(inline)]
+pub use self::crossterm::CrosstermBackend;
 
 #[cfg(feature = "notcurses")]
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "notcurses")))]

@@ -86,6 +86,54 @@ impl Clamper {
         Self::clamp_positive(d) as u32
     }
 
+    /* from/to u16 (for crossterm) */
+
+    /// Clamps an [`u16`] distance to [`i32`] `0..`[`MAX`][Self::MAX].
+    #[inline]
+    pub const fn clamp_from_u16(d: u16) -> i32 {
+        if d > Self::MAX as u16 {
+            Self::MAX
+        } else {
+            d as i32
+        }
+    }
+    /// Clamps an [`u16`] distance to [`i32`] `1..`[`MAX`][Self::MAX].
+    #[inline]
+    pub const fn clamp_positive_from_u16(d: u16) -> i32 {
+        if d == 0 {
+            1
+        } else if d > Self::MAX as u16 {
+            Self::MAX
+        } else {
+            d as i32
+        }
+    }
+
+    //
+
+    /// Clamps an [`i32`] distance to [`u16`] `0..`[`MAX`][Self::MAX].
+    #[inline]
+    pub const fn clamp_to_u16(d: i32) -> u16 {
+        if d < 0 {
+            0
+        } else if d > u16::MAX as i32 {
+            u16::MAX
+        } else {
+            d as u16
+        }
+    }
+    /// Clamps an [`i32`] distance to [`u16`] `1..`[`MAX`][Self::MAX].
+    #[inline]
+    pub const fn clamp_positive_to_u16(d: i32) -> u16 {
+        if d < 1 {
+            1
+        } else if d > u16::MAX as i32 {
+            u16::MAX
+        } else {
+            d as u16
+        }
+    }
+
     /* from/to i16 (for sdl) */
 
     /// Clamps an [`i16`] distance to [`i32`] [`MIN`][Self::MIN]`..`[`MAX`][Self::MAX].

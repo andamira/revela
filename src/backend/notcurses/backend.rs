@@ -1,4 +1,4 @@
-// revela::backend::nc::backend
+// revela::backend::notcurses::backend
 //
 //! Backend wrapper for `notcurses`
 //
@@ -8,7 +8,8 @@ use super::NotcursesTextGrid;
 use notcurses::{Notcurses, Plane};
 
 use crate::all::{
-    Backend, Event, EventSource, RevelaResult as Result, Size, TextGrid, Window, Zone,
+    Backend, Event, EventSource, RevelaError as Error, RevelaResult as Result, Size, TextGrid,
+    Window, Zone,
 };
 
 /// `notcurses` interface.
@@ -127,8 +128,12 @@ impl Window for NotcursesBackend {
         Ok(())
     }
 
-    fn size(&self) -> Size {
-        self.inner.size().into()
+    fn size(&self) -> Result<Size> {
+        Ok(self.inner.size().into())
+    }
+
+    fn set_size(&mut self, _size: Size) -> Result<()> {
+        Err(Error::NotSupported)
     }
 }
 

@@ -1,4 +1,4 @@
-// revela::backend::nc
+// revela::backend::notcurses
 //
 //! `notcurses` backend.
 //

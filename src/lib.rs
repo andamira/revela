@@ -32,6 +32,10 @@ pub mod all {
         layout::{Clamper, Position, Size, Zone},
     };
 
+    #[cfg(feature = "crossterm")]
+    #[doc(inline)]
+    pub use crate::backend::crossterm::CrosstermBackend;
+
     #[cfg(feature = "notcurses")]
     #[doc(inline)]
     pub use crate::backend::notcurses::{NotcursesBackend, NotcursesTextGrid};

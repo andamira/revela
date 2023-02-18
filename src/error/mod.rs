@@ -5,6 +5,7 @@
 
 use core::result;
 
+// NOTE: crossterm error type is an alias of std::io::Error
 #[cfg(feature = "std")]
 use std::io::Error as IoError;
 

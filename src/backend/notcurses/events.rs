@@ -1,4 +1,4 @@
-// revela::backend::nc::events
+// revela::backend::notcurses::events
 //
 //! Events types conversions.
 //

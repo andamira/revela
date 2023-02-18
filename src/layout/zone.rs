@@ -122,6 +122,18 @@ impl Zone {
         )
     }
 
+    pub const fn as_tuple_u16(&self) -> (u16, u16, u16, u16) {
+        let p = self.p.as_tuple_u16();
+        let s = self.s.as_tuple_u16();
+        (p.0, p.1, s.0, s.1)
+    }
+    pub const fn from_tuple_u16(tup: (u16, u16, u16, u16)) -> Zone {
+        Self::new(
+            Position::from_tuple_u16((tup.0, tup.1)),
+            Size::from_tuple_u16((tup.2, tup.3)),
+        )
+    }
+
     pub const fn as_tuple_i16(&self) -> (i16, i16, i16, i16) {
         let p = self.p.as_tuple_i16();
         let s = self.s.as_tuple_i16();
@@ -169,6 +181,17 @@ mod conversions {
     impl From<Zone> for (i16, i16, i16, i16) {
         fn from(s: Zone) -> (i16, i16, i16, i16) {
             s.as_tuple_i16()
+        }
+    }
+
+    impl From<(u16, u16, u16, u16)> for Zone {
+        fn from(tup: (u16, u16, u16, u16)) -> Zone {
+            Self::from_tuple_u16(tup)
+        }
+    }
+    impl From<Zone> for (u16, u16, u16, u16) {
+        fn from(s: Zone) -> (u16, u16, u16, u16) {
+            s.as_tuple_u16()
         }
     }
 

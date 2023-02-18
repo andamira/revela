@@ -1,6 +1,6 @@
 // revela::core::events::gamepad
 //
-//!
+//! Gamepad events.
 //
 
 use crate::all::{Event, EventKind};

@@ -11,7 +11,7 @@ use revela::all::{RevelaResult as Result, *};
 
 fn main() -> Result<()> {
     Logger::new("revela example ui-notcurses")
-        .file("log-ui-notcurses.log")
+        .file("log-uis.log")
         .target_level_all()
         //
         .ignore("gilrs::ff")

@@ -1,4 +1,4 @@
-// revela::backend::nc::text
+// revela::backend::notcurses::text
 //
 //!
 //

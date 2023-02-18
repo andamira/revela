@@ -23,7 +23,9 @@ pub trait Window {
     // - other backends: maybe no-op.
     fn render(&mut self) -> Result<()>;
 
-    // RETHINK
-    /// Returns the window size, in native pixels if possible.
-    fn size(&self) -> Size;
+    /// Returns the window size, in the appropriate units for the backend.
+    fn size(&self) -> Result<Size>;
+
+    /// Tries to set the window size, in the appropriate units for the backend.
+    fn set_size(&mut self, size: Size) -> Result<()>;
 }

@@ -116,7 +116,10 @@ impl From<(ModifierKey, KeyModifiers)> for Event {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 #[non_exhaustive]
 pub enum KeyCode {
-    // Null, // from crossterm
+    // mapped to:
+    // - crossterm: Null,
+    Unknown,
+
     /// Backspace key.
     Backspace,
     /// Enter key.
