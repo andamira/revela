@@ -4,19 +4,19 @@
 //
 // TODO
 // - [ ] KeyEventState -> discard for now: (KEYPAD, CAPS_LOCK, NUM_LOCK)
-// - [ ] mouse:
 // - MAYBE add conversions back to crossterm
 //
 
 use devela::iif;
 
 use crate::all::{
-    Event, EventKind, KeyCode, KeyEvent, KeyKind, KeyModifiers, MediaKey, ModifierKey, WindowEvent,
+    Event, EventKind, KeyCode, KeyEvent, KeyKind, KeyModifiers, MediaKey, ModifierKey, MouseButton,
+    MouseEvent, MouseKind, WindowEvent,
 };
 use ::crossterm::event::{
     Event as CtEvent, KeyCode as CtKeyCode, KeyEvent as CtKeyEvent, KeyEventKind as CtKeyEventKind,
     KeyModifiers as CtKeyModifiers, MediaKeyCode as CtMediaKeyCode,
-    ModifierKeyCode as CtModifierKeyCode, MouseButton as CtMouseButton,
+    ModifierKeyCode as CtModifierKeyCode, MouseButton as CtMouseButton, MouseEvent as CtMouseEvent,
     MouseEventKind as CtMouseEventKind,
 };
 
@@ -36,7 +36,7 @@ impl From<CtEvent> for EventKind {
             FocusLost => WindowEvent::FocusLost.into(),
             Resize(w, h) => WindowEvent::Resized(Some((w, h).into())).into(),
             Paste(s) => WindowEvent::Paste(s).into(),
-            Mouse(_) => EventKind::None,
+            Mouse(m) => MouseEvent::from(m).into(),
         }
     }
 }
@@ -172,43 +172,61 @@ impl From<CtKeyEventKind> for KeyKind {
 /* mouse */
 
 // https://docs.rs/crossterm/latest/crossterm/event/struct.MouseEvent.html
-// pub struct MouseEvent {
-//     pub kind: MouseEventKind,
-//     pub column: u16,
-//     pub row: u16,
-//     pub modifiers: KeyModifiers,
-// }
-//
-// impl From<CtMouseEvent> for ? {
-//     fn from(ct: CtMouseEvent) -> ? {
-//         todo![]
-//     }
-// }
+impl From<CtMouseEvent> for MouseEvent {
+    fn from(ct: CtMouseEvent) -> MouseEvent {
+        let button;
+        let kind;
+        {
+            use CtMouseEventKind::*;
+            match ct.kind {
+                Down(b) => {
+                    button = Some(b.into());
+                    kind = MouseKind::Press;
+                }
+                Up(b) => {
+                    button = Some(b.into());
+                    kind = MouseKind::Release;
+                }
+                Drag(b) => {
+                    button = Some(b.into());
+                    // RETHINK
+                    kind = MouseKind::Motion;
+                }
+                Moved => {
+                    button = None;
+                    kind = MouseKind::Motion;
+                }
+                ScrollDown => {
+                    button = None;
+                    kind = MouseKind::ScrollDown;
+                }
+                ScrollUp => {
+                    button = None;
+                    kind = MouseKind::ScrollUp;
+                }
+            }
+        }
 
-// https://docs.rs/crossterm/latest/crossterm/event/enum.MouseEventKind.html
-// pub enum MouseEventKind {
-//     Down(MouseButton),
-//     Up(MouseButton),
-//     Drag(MouseButton),
-//     Moved,
-//     ScrollDown,
-//     ScrollUp,
-// }
-//
-// impl From<CtMouseEventKind> for ? {
-//     fn from(ct: CtMouseEventKind) -> ? {
-//         todo![]
-//     }
-// }
+        MouseEvent {
+            button,
+            kind,
+            // button: MouseButton::Left, // TEMP
+            // kind: MouseKind::Press, // TEMP
+            mods: ct.modifiers.into(),
+            pos: (ct.column, ct.row).into(),
+            offset: None,
+        }
+    }
+}
 
 // https://docs.rs/crossterm/latest/crossterm/event/enum.MouseButton.html
-// pub enum MouseButton {
-//     Left,
-//     Right,
-//     Middle,
-// }
-// impl From<CtMouseButton> for MouseButton {
-//     fn from(ct: CtMouseButton) -> MouseButton {
-//         todo![]
-//     }
-// }
+impl From<CtMouseButton> for MouseButton {
+    fn from(ct: CtMouseButton) -> MouseButton {
+        use CtMouseButton::*;
+        match ct {
+            Left => MouseButton::Left,
+            Right => MouseButton::Right,
+            Middle => MouseButton::Middle,
+        }
+    }
+}

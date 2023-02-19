@@ -27,11 +27,11 @@ fn main() -> Result<()> {
     let mut _crossterm = CrosstermBackend::new()?;
     let ct = &mut _crossterm;
 
+    ct.enable_mouse()?;
     ct.enable_bracketed_paste()?;
     ct.enable_focus_change()?;
     ct.enter_alternate_screen()?;
     ct.enable_raw_mode()?;
-    info!["raw_mode:{}", ct.is_raw_mode()?];
 
     /* */
 
@@ -81,9 +81,9 @@ fn main() -> Result<()> {
                             _ => (),
                         }
                     }
-                    // Event::Mouse(m) => {
-                    //     debug!["mouse: {m:?}"];
-                    // }
+                    EventKind::Mouse(m) => {
+                        debug!["mouse: {m:?}"];
+                    }
                     _ => (),
                 }
             }

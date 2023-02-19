@@ -73,6 +73,15 @@ impl CrosstermBackend {
         Ok(execute!(io::stdout(), terminal::EnterAlternateScreen)?)
     }
 
+    /// Enables receiving mouse events.
+    pub fn enable_mouse(&mut self) -> Result<()> {
+        Ok(execute!(io::stdout(), event::EnableMouseCapture)?)
+    }
+    /// Disables receiving mouse events.
+    pub fn disable_mouse(&mut self) -> Result<()> {
+        Ok(execute!(io::stdout(), event::DisableMouseCapture)?)
+    }
+
     /// Enables bracketed paste mode.
     //
     // https://docs.rs/crossterm/latest/crossterm/event/struct.EnableBracketedPaste.html
@@ -145,17 +154,6 @@ impl CrosstermBackend {
     // }
     // pub fn mut_inner(&mut self) -> &mut Notcurses {
     //     &mut self.inner
-    // }
-}
-
-impl CrosstermBackend {
-    // /// Enables receiving mouse events.
-    // pub fn enable_mouse(&mut self) -> Result<()> {
-    //     Ok(self.inner.mice_enable(::notcurses::MiceEvents::All)?)
-    // }
-    // /// Disables receiving mouse events.
-    // pub fn disable_mouse(&mut self) -> Result<()> {
-    //     Ok(self.inner.mice_disable()?)
     // }
 }
 

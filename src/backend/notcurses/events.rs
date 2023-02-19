@@ -4,7 +4,8 @@
 //
 
 use crate::all::{
-    Event, EventKind, KeyCode, KeyKind, KeyModifiers, MediaKey, ModifierKey, WindowEvent,
+    Event, EventKind, KeyCode, KeyKind, KeyModifiers, MediaKey, ModifierKey, MouseEvent, MouseKind,
+    Position, WindowEvent,
 };
 use ::notcurses::{Input, InputType, Key as NcKey, KeyMod, Received};
 
@@ -40,11 +41,23 @@ impl From<InputType> for KeyKind {
         }
     }
 }
+impl From<InputType> for MouseKind {
+    fn from(input: InputType) -> MouseKind {
+        use InputType::*;
+        match input {
+            Unknown | Press => MouseKind::Press,
+            Release => MouseKind::Release,
+            Repeat => MouseKind::Press,
+        }
+    }
+}
 
 impl From<Input> for EventKind {
     fn from(input: Input) -> EventKind {
         let km = KeyModifiers::from(input.keymod);
         let kk = KeyKind::from(input.itype);
+        let pos: Option<Position> = input.cell.map(|p| p.into());
+        let off: Option<Position> = input.offset.map(|p| p.into());
 
         match input.received {
             Received::Char(c) => (KeyCode::Char(c), km).into(),
@@ -204,23 +217,54 @@ impl From<Input> for EventKind {
                     // TODO WIP
                     // mouse events. we encode which button was pressed into the number,
                     // but position information is embedded in the larger ncinput event => KeyCode::None,
-                    /*
-                    NcKey::Motion => KeyCode::None,
+                    NcKey::Motion => MouseEvent {
+                        button: None,
+                        kind: MouseKind::Motion,
+                        mods: km,
+                        pos: pos.expect("mouse position"),
+                        offset: off,
+                    }
+                    .into(),
 
-                    NcKey::Button1 => KeyCode::None,
-                    NcKey::Button2 => KeyCode::None,
-                    NcKey::Button3 => KeyCode::None,
+                    NcKey::Button1 => {
+                        MouseEvent::with_button(1, input.itype, km, pos.unwrap(), off).into()
+                    }
+                    NcKey::Button2 => {
+                        MouseEvent::with_button(2, input.itype, km, pos.unwrap(), off).into()
+                    }
+                    NcKey::Button3 => {
+                        MouseEvent::with_button(3, input.itype, km, pos.unwrap(), off).into()
+                    }
                     // scrollwheel up
-                    NcKey::Button4 => KeyCode::None,
+                    NcKey::Button4 => {
+                        MouseEvent::with_button(4, MouseKind::ScrollUp, km, pos.unwrap(), off)
+                            .into()
+                    }
                     // scrollwheel down
-                    NcKey::Button5 => KeyCode::None,
-                    NcKey::Button6 => KeyCode::None,
-                    NcKey::Button7 => KeyCode::None,
-                    NcKey::Button8 => KeyCode::None,
-                    NcKey::Button9 => KeyCode::None,
-                    NcKey::Button10 => KeyCode::None,
-                    NcKey::Button11 => KeyCode::None,
-                    */
+                    NcKey::Button5 => {
+                        MouseEvent::with_button(5, MouseKind::ScrollDown, km, pos.unwrap(), off)
+                            .into()
+                    }
+
+                    NcKey::Button6 => {
+                        MouseEvent::with_button(6, input.itype, km, pos.unwrap(), off).into()
+                    }
+                    NcKey::Button7 => {
+                        MouseEvent::with_button(7, input.itype, km, pos.unwrap(), off).into()
+                    }
+                    NcKey::Button8 => {
+                        MouseEvent::with_button(8, input.itype, km, pos.unwrap(), off).into()
+                    }
+                    NcKey::Button9 => {
+                        MouseEvent::with_button(9, input.itype, km, pos.unwrap(), off).into()
+                    }
+                    NcKey::Button10 => {
+                        MouseEvent::with_button(10, input.itype, km, pos.unwrap(), off).into()
+                    }
+                    NcKey::Button11 => {
+                        MouseEvent::with_button(11, input.itype, km, pos.unwrap(), off).into()
+                    }
+
                     // aliases from the 128 characters common to ascii+utf8 => KeyCode::None,
                     NcKey::Tab => (KeyCode::Tab, km, kk).into(),
                     NcKey::Esc => (KeyCode::Esc, km, kk).into(),

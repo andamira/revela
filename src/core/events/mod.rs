@@ -113,7 +113,7 @@ use crate::all::RevelaResult as Result;
 pub mod gamepad;
 pub mod keys;
 pub mod midi;
-// pub mod mouse;
+pub mod mouse;
 mod time;
 mod window;
 
@@ -127,12 +127,10 @@ pub(crate) mod all {
             MidiChannel, MidiControl, MidiEvent, MidiFrame, MidiNote, MidiProgram, MidiValue14,
             MidiValue7,
         },
-        // mouse::{MouseButton, MouseEvent},
+        mouse::{MouseButton, MouseEvent, MouseKind},
         time::EventTimeStamp,
         window::WindowEvent,
-        Event,
-        EventKind,
-        EventSource,
+        Event, EventKind, EventSource,
     };
 }
 
@@ -158,9 +156,13 @@ pub struct Event {
     pub kind: EventKind,
     // midir
     pub emitted: Option<EventTimeStamp>,
-    // TODO
     // processed: Option<EventTimeStamp>, // revela
     // count: Option<EventCounter>, // gilrs
+
+    // TODO: add original backend event, with optional state.
+    // NOTE: maybe implies this has to be generic…
+    // pub orig: Option<>,
+    // pub data: Option<>,
 }
 impl Event {
     /// A `None` event.
@@ -207,8 +209,9 @@ pub enum EventKind {
     /// A midi event.
     Midi(MidiEvent),
 
-    // /// A mouse event.
-    // Mouse(MouseEvent),
+    /// A mouse event.
+    Mouse(MouseEvent),
+
     /// A gamepad event.
     Gamepad(GamepadEvent),
 }
@@ -243,11 +246,11 @@ impl EventKind {
         matches![self, EventKind::Midi(_)]
     }
 
-    // /// Returns `true` if it's a mouse event.
-    // #[inline(always)]
-    // pub fn is_mouse(&self) -> bool {
-    //     matches![self, EventKind::Mouse(_)]
-    // }
+    /// Returns `true` if it's a mouse event.
+    #[inline(always)]
+    pub fn is_mouse(&self) -> bool {
+        matches![self, EventKind::Mouse(_)]
+    }
 
     /// Returns `true` if it's a mouse event.
     #[inline(always)]

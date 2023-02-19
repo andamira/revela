@@ -23,7 +23,7 @@ fn main() -> Result<()> {
 
     let mut notcurses_ui = NotcursesBackend::new()?;
     let nc = &mut notcurses_ui;
-    // nc.enable_mouse()?;
+    nc.enable_mouse()?;
 
     /* */
 
@@ -90,9 +90,9 @@ fn main() -> Result<()> {
                             _ => (),
                         }
                     }
-                    // Event::Mouse(m) => {
-                    //     debug!["mouse: {m:?}"];
-                    // }
+                    EventKind::Mouse(m) => {
+                        debug!["mouse: {m:?}"];
+                    }
                     _ => (),
                 }
             }
