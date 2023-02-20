@@ -26,7 +26,7 @@ pub mod layout;
 pub mod all {
     #[doc(inline)]
     pub use crate::{
-        backend::capabilities::{Capabilities, PixelCapabilities, TextGridCapabilities},
+        backend::all::*,
         core::all::*,
         error::{RevelaError, RevelaResult},
         layout::{Clamper, Position, Size, Zone},

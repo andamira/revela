@@ -22,7 +22,8 @@ use flume::{self, Receiver, Sender, TryRecvError};
 use midi_convert::{midi_types::MidiMessage, MidiTryParseSlice};
 
 use crate::all::{
-    Backend, Event, EventSource, MidiEvent, RevelaError as Error, RevelaResult as Result,
+    Backend, Capabilities, Event, EventSource, InputCapabilities, MidiEvent, RevelaError as Error,
+    RevelaResult as Result,
 };
 
 use std::collections::HashMap;
@@ -46,9 +47,16 @@ pub struct MidirBackend {
 }
 
 impl Backend for MidirBackend {
-    // fn capabilities(&self) -> Capabilities {
-    //     self.inner.capabilities().into()
-    // }
+    fn capabilities(&self) -> Capabilities {
+        Capabilities {
+            input: Some(InputCapabilities {
+                midi: true,
+                ..Default::default()
+            }),
+            ..Default::default()
+        }
+    }
+
     fn version(&self) -> (u32, u32, u32) {
         // IMPROVE:detect-version
         (0, 9, 1)

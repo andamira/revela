@@ -6,6 +6,9 @@
 // - [ ] KeyEventState -> discard for now: (KEYPAD, CAPS_LOCK, NUM_LOCK)
 // - MAYBE add conversions back to crossterm
 //
+// MAYBE FIX
+// - missing key combos: https://github.com/crossterm-rs/crossterm/issues/685
+// - ctrl + bckspace: https://github.com/crossterm-rs/crossterm/issues/723
 
 use devela::iif;
 

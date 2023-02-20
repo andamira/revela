@@ -6,9 +6,12 @@
 
 use crate::all::Size;
 
-///
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+/// Pixel-related capabilities.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct PixelCapabilities {
     /// Maximum bitmap size, in native pixels.
-    max_bitmap_size: Option<Size>,
+    pub max_bitmap_size: Option<Size>,
+
+    /// Whether pixel-accurate bitmaps are supported.
+    pub pixel_native: bool,
 }

@@ -3,9 +3,11 @@
 //!
 //
 
+use crate::backend::Capabilities;
+
 pub trait Backend {
-    // /// Returns the Backend capabilities.
-    // fn capabilities(&self) -> Capabilities;
+    /// Returns the Backend capabilities.
+    fn capabilities(&self) -> Capabilities;
 
     // MAYBE
     // /// Allows getting the specific Backend struct from a Backend trait object.

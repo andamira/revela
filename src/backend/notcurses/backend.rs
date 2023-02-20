@@ -2,14 +2,15 @@
 //
 //! Backend wrapper for `notcurses`
 //
-// TODO: Capabilities, Code, Unit
+// TODO: Code, Unit
 
 use super::NotcursesTextGrid;
 use notcurses::{Notcurses, Plane};
 
 use crate::all::{
-    Backend, Event, EventSource, RevelaError as Error, RevelaResult as Result, Size, TextGrid,
-    Window, Zone,
+    Backend, Capabilities, ColorCapabilities, Event, EventSource, InputCapabilities,
+    PixelCapabilities, RevelaError as Error, RevelaResult as Result, Size, SystemCapabilities,
+    TextGrid, TextGridCapabilities, Window, WindowCapabilities, Zone,
 };
 
 /// `notcurses` interface.
@@ -89,10 +90,57 @@ impl NotcursesBackend {
 }
 
 impl Backend for NotcursesBackend {
-    // TODO
-    // fn capabilities(&self) -> Capabilities {
-    //     self.inner.capabilities().into()
-    // }
+    fn capabilities(&self) -> Capabilities {
+        let cap = self.inner.capabilities();
+        let geo = self.inner.geometry_best();
+
+        // IMPROVE
+        let color = Some(ColorCapabilities {
+            rgb: cap.truecolor(),
+            palette_change: cap.palette_change(),
+            palette_size: core::cmp::min(cap.palette_size(), u16::MAX as u32) as u16,
+            ..Default::default()
+        });
+
+        let input = Some(InputCapabilities {
+            keyboard: true,
+            mouse: true,
+            ..Default::default()
+        });
+
+        let pixel = Some(PixelCapabilities {
+            max_bitmap_size: geo.max_bitmap_pixels.map(|s| s.into()),
+            pixel_native: cap.pixel(),
+            // ..Default::default()
+        });
+
+        let text_grid = Some(TextGridCapabilities {
+            cell_size: Some(geo.pixels_per_cell.into()),
+            custom_cell_size: false,
+            unicode: cap.utf8(),
+            // ..Default::default()
+        });
+
+        let system = Some(SystemCapabilities {
+            host_name: Some(Notcurses::hostname()),
+            user_name: Some(Notcurses::accountname()),
+            terminal_name: Some(self.inner.detected_terminal()),
+            os_version: Some(self.inner.osversion()),
+            ..Default::default()
+        });
+
+        let window = Some(WindowCapabilities { multi: false });
+
+        Capabilities {
+            color,
+            input,
+            pixel,
+            text_grid,
+            system,
+            window,
+            ..Default::default()
+        }
+    }
 
     fn version(&self) -> (u32, u32, u32) {
         let v = Notcurses::version_components();

@@ -27,6 +27,8 @@ fn main() -> Result<()> {
     let mut _crossterm = CrosstermBackend::new()?;
     let ct = &mut _crossterm;
 
+    info!["capabilities: {:?}", ct.capabilities()];
+
     ct.enable_mouse()?;
     ct.enable_bracketed_paste()?;
     ct.enable_focus_change()?;

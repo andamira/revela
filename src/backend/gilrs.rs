@@ -18,8 +18,8 @@
 pub use ::gilrs;
 
 use crate::all::{
-    Backend, Event, EventKind, EventSource, GamepadAxis, GamepadButton, GamepadEvent,
-    RevelaError as Error, RevelaResult as Result,
+    Backend, Capabilities, Event, EventKind, EventSource, GamepadAxis, GamepadButton, GamepadEvent,
+    InputCapabilities, RevelaError as Error, RevelaResult as Result,
 };
 
 use ::gilrs::{Axis, Button, Event as GilrsEvent, EventType, Gilrs, GilrsBuilder};
@@ -31,9 +31,16 @@ pub struct GilrsBackend {
 }
 
 impl Backend for GilrsBackend {
-    // fn capabilities(&self) -> Capabilities {
-    //     self.inner.capabilities().into()
-    // }
+    fn capabilities(&self) -> Capabilities {
+        Capabilities {
+            input: Some(InputCapabilities {
+                gamepad: true,
+                ..Default::default()
+            }),
+            ..Default::default()
+        }
+    }
+
     fn version(&self) -> (u32, u32, u32) {
         // IMPROVE:detect-version
         (0, 10, 1)

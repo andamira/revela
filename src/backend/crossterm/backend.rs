@@ -15,7 +15,10 @@ use ::crossterm::{event, execute, terminal};
 use core::time::Duration;
 use std::io;
 
-use crate::all::{Backend, Event, EventSource, RevelaResult as Result, Size, Window};
+use crate::all::{
+    Backend, Capabilities, ColorCapabilities, Event, EventSource, InputCapabilities,
+    RevelaResult as Result, Size, TextGridCapabilities, Window, WindowCapabilities,
+};
 
 /// `crossterm` interface.
 ///
@@ -36,8 +39,6 @@ pub struct CrosstermBackend {
 impl CrosstermBackend {
     /// Creates a new `CrosstermBackend`.
     pub fn new() -> Result<Self> {
-        // let mut inner = Notcurses::new()?;
-        // let root = NotcursesTextGrid::from_plane(inner.cli_plane()?);
         Ok(Self { /* raw_mode: false */ })
     }
 
@@ -109,59 +110,43 @@ impl CrosstermBackend {
     pub fn disable_focus_change(&self) -> Result<()> {
         Ok(execute!(io::stdout(), event::DisableFocusChange)?)
     }
-
-    // /// Returns a shared reference to the root text grid of the window.
-    // pub fn ref_root(&self) -> &NotcursesTextGrid {
-    //     &self.root
-    // }
-    //
-    // /// Returns an exclusive reference to the root text grid of the window.
-    // pub fn mut_root(&mut self) -> &mut NotcursesTextGrid {
-    //     &mut self.root
-    // }
-    //
-    // pub fn new_root_child(&mut self, zone: impl Into<Zone>) -> Result<NotcursesTextGrid> {
-    //     self.root.new_child(zone)
-    // }
-    //
-    // //
-    //
-    // /// Creates a new `NotcursesBackend` from an existing `notcurses` instance,
-    // /// and an optional `root` [`Plane`].
-    // ///
-    // /// When no plane is given, it will try to instantiate the *cli* plane.
-    // ///
-    // /// # Errors
-    // /// Returns an error if the CLI plane has been already instantiated.
-    // pub fn from_notcurses(nc: Notcurses, root: Option<Plane>) -> Result<Self> {
-    //     let mut inner = nc;
-    //     let root = NotcursesTextGrid::from_plane(
-    //         // inner.cli_plane()?
-    //         if let Some(plane) = root {
-    //             plane
-    //         } else {
-    //             inner.cli_plane()?
-    //         },
-    //     );
-    //     Ok(Self { inner, root })
-    // }
-    //
-    // pub fn into_inner(self) -> Notcurses {
-    //     self.inner
-    // }
-    // pub fn ref_inner(&self) -> &Notcurses {
-    //     &self.inner
-    // }
-    // pub fn mut_inner(&mut self) -> &mut Notcurses {
-    //     &mut self.inner
-    // }
 }
 
 impl Backend for CrosstermBackend {
-    // - supports_keyboard_enhancement
-    // fn capabilities(&self) -> Capabilities {
-    //     self.inner.capabilities().into()
-    // }
+    fn capabilities(&self) -> Capabilities {
+        let color = Some(ColorCapabilities {
+            rgb: true,
+            palette_change: false,
+            palette_size: ::crossterm::style::available_color_count(),
+            ..Default::default()
+        });
+
+        let input = Some(InputCapabilities {
+            keyboard: true,
+            mouse: true,
+            ..Default::default()
+        });
+
+        let text_grid = Some(TextGridCapabilities {
+            // we don't unknown
+            cell_size: None,
+            // https://github.com/crossterm-rs/crossterm/issues/166
+            custom_cell_size: false,
+            // https://github.com/crossterm-rs/crossterm/issues/677
+            unicode: true,
+            // ..Default::default()
+        });
+
+        let window = Some(WindowCapabilities { multi: false });
+
+        Capabilities {
+            color,
+            input,
+            text_grid,
+            window,
+            ..Default::default()
+        }
+    }
 
     fn version(&self) -> (u32, u32, u32) {
         (0, 2, 6)

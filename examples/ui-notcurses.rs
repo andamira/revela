@@ -23,6 +23,9 @@ fn main() -> Result<()> {
 
     let mut notcurses_ui = NotcursesBackend::new()?;
     let nc = &mut notcurses_ui;
+
+    info!["capabilities: {:?}", nc.capabilities()];
+
     nc.enable_mouse()?;
 
     /* */
