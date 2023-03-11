@@ -13,6 +13,7 @@ pub use ::midir::{
 ///
 #[derive(Debug)]
 pub enum MidirError {
+    // IMPROVE
     Connect,
     Init(MidirInitError),
     PortInfo(MidirPortInfoError),

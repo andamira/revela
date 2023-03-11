@@ -144,7 +144,7 @@ impl MidirBackend {
             move |µs: u64, bytes: &[u8], _data| {
                 // log::trace!["producing event: {µs} {bytes:?} {_data:?}"];
                 let kind = MidiMessage::try_parse_slice(bytes).expect("midi parse error");
-                producer.send((kind.into(), µs)).expect("send");
+                producer.send((kind, µs)).expect("send");
             },
             (),
         )?;

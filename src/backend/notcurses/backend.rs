@@ -125,8 +125,8 @@ impl Backend for NotcursesBackend {
             host_name: Some(Notcurses::hostname()),
             user_name: Some(Notcurses::accountname()),
             terminal_name: Some(self.inner.detected_terminal()),
-            os_version: Some(self.inner.osversion()),
-            ..Default::default()
+            os_version: Some(Notcurses::osversion()),
+            // ..Default::default()
         });
 
         let window = Some(WindowCapabilities { multi: false });
