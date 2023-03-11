@@ -29,6 +29,9 @@ log = "0.4.17"
 
 ## backends
 
+### system
+libc = { version = "0.2.140", default-features = false, optional = true }
+
 ### terminal
 crossterm = { version = "0.26.0", optional = true } # default-features = false
 notcurses = { version = "3.2.3", optional = true }
@@ -60,12 +63,12 @@ kira = { version = "0.7.1", optional = true }
 [features]
 default = ["std", "safe"]
 safe = ["acolor/safe", "devela/safe"]
-std = ["acolor/std", "devela/std"]
+std = ["acolor/std", "devela/std", "libc?/std"]
 no-std = ["acolor/no-std"]
 nightly = []
 
-all_backends = ["crossterm", "notcurses", "gilrs", "midir", "kira"]
-all_nostd_backends = []
+all_backends = ["crossterm", "notcurses", "libc", "gilrs", "midir", "kira"]
+all_no-std_backends = ["libc"]
 
 midir = ["dep:midir", "std", "flume"]
 notcurses = ["dep:notcurses", "std", "acolor/notcurses"]
@@ -78,7 +81,8 @@ notcurses = ["dep:notcurses", "std", "acolor/notcurses"]
 maintenance = { status = "experimental" }
 
 [package.metadata.docs.rs]
-features = ["all_backends", "nightly"]
+default-features = false
+features = ["all_backends", "nightly"] # no safe
 
 # [profile.release]
 # strip = "debuginfo"

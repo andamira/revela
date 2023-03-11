@@ -35,6 +35,8 @@ pub enum WindowEvent {
     EndOfInput,
 
     /// Paste action.
+    #[cfg(feature = "std")] // IMPROVE: alloc
+    #[cfg_attr(feature = "nightly", doc(cfg(feature = "std")))]
     Paste(String),
     // Moved(Position),
 

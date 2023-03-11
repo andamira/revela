@@ -11,10 +11,10 @@
 # CHECK
 cl = "clippy"
 clq = "clippy --quiet"
-cl_nostd = "clippy --no-default-features --features=no-std"
+cl_no-std = "clippy --no-default-features --features=no-std"
 #
 cl_all = "clippy --features=all_backends"
-cl_all_nostd = "clippy --features=all_nostd_backends"
+cl_all_no-std = "clippy --no-default-features --features=all_no-std_backends"
 cl_ct = "clippy --features=crossterm"
 cl_nc = "clippy --features=notcurses"
 
@@ -36,7 +36,9 @@ ddo_all = "doc --open --features=all_backends"
 nd = "doc --no-deps --features=nightly"
 ndo = "doc --no-deps --open --features=nightly"
 nd_all = "doc --no-deps --features=all_backends,nightly"
+nd_all_no-std = "doc --no-deps --no-default-features --features=all_no-std_backends,nightly"
 ndo_all = "doc --no-deps --open --features=all_backends,nightly"
+ndo_all_no-std = "doc --no-deps --open --no-default-features --features=all_no-std_backends,nightly"
 ndd_all = "doc --features=all_backends,nightly"
 nddo_all = "doc --open --features=all_backends,nightly"
 

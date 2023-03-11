@@ -23,8 +23,12 @@ pub(crate) mod all {
     #[doc(inline)]
     pub use super::capabilities::{
         Capabilities, ColorCapabilities, InputCapabilities, PixelCapabilities, SoundCapabilities,
-        SystemCapabilities, TextGridCapabilities, WindowCapabilities,
+        TextGridCapabilities, WindowCapabilities,
     };
+    // IMPROVE: alloc
+    #[cfg(feature = "std")]
+    #[cfg_attr(feature = "nightly", doc(cfg(feature = "std")))]
+    pub use super::capabilities::SystemCapabilities;
 
     #[cfg(feature = "crossterm")]
     #[cfg_attr(feature = "nightly", doc(cfg(feature = "crossterm")))]

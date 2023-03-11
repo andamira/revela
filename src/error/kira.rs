@@ -6,10 +6,8 @@
 use super::RevelaError as Error;
 
 pub use ::kira::{
-    sound::FromFileError, manager::{
-        backend::cpal::Error as CpalError,
-        error::PlaySoundError,
-    },
+    manager::{backend::cpal::Error as CpalError, error::PlaySoundError},
+    sound::FromFileError,
 };
 
 ///

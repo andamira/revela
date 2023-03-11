@@ -9,6 +9,7 @@ mod color;
 mod input;
 mod pixel;
 mod sound;
+#[cfg(feature = "std")] // IMPROVE: alloc
 mod system;
 mod text_grid;
 mod window;
@@ -17,6 +18,7 @@ pub use color::ColorCapabilities;
 pub use input::InputCapabilities;
 pub use pixel::PixelCapabilities;
 pub use sound::SoundCapabilities;
+#[cfg(feature = "std")] // IMPROVE: alloc
 pub use system::SystemCapabilities;
 pub use text_grid::TextGridCapabilities;
 pub use window::WindowCapabilities;
@@ -35,6 +37,7 @@ pub struct Capabilities {
     ///
     pub sound: Option<SoundCapabilities>,
     ///
+    #[cfg(feature = "std")] // IMPROVE: alloc
     pub system: Option<SystemCapabilities>,
     ///
     pub window: Option<WindowCapabilities>,
