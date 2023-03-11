@@ -6,12 +6,19 @@
 //
 
 use depura::*;
+use devela::crate_root_string;
 use repite::*;
 use revela::all::{RevelaResult as Result, *};
 
+#[cfg(feature = "kira")]
+use kira::{
+    manager::{backend::cpal::CpalBackend, AudioManager, AudioManagerSettings},
+    sound::static_sound::{StaticSoundData, StaticSoundSettings},
+};
+
 fn main() -> Result<()> {
     Logger::new("revela example ui-notcurses")
-        .file("log-uis.log")
+        .file(&crate_root_string("examples/log-uis.log"))
         .target_level_all()
         //
         .ignore("gilrs::ff")
@@ -30,16 +37,14 @@ fn main() -> Result<()> {
 
     /* */
 
-    // TEMP
-    let mut t0 = nc.new_root_child((1, 2, 12, 7))?;
-    debug!["t0 putstr: {:?}", t0.putstr("hello world")?];
+    let mut t0 = nc.new_root_child((1, 2, 15, 9))?;
+    t0.set_scrolling(true);
+    debug![
+        "t0 putstr: {:?}",
+        t0.putstr("←↑↓→ to move\na for audio\nq to quit")?
+    ];
 
     /* */
-
-    let mut l = Looper::new();
-    assert![l.add_rate("input", Rate::with_tps(200.), true).is_ok()];
-    assert![l.add_rate("render", Rate::with_tps(24.), true).is_ok()];
-    l.reset();
 
     #[cfg(feature = "gilrs")]
     let mut gilrs = GilrsBackend::new()?;
@@ -51,6 +56,23 @@ fn main() -> Result<()> {
         debug!["{midir:?}"];
         midir
     };
+
+    /* sound */
+
+    #[cfg(feature = "kira")]
+    let mut manager = AudioManager::<CpalBackend>::new(AudioManagerSettings::default())?;
+    #[cfg(feature = "kira")]
+    let sound0 = StaticSoundData::from_file(
+        &crate_root_string("examples/sound.ogg"),
+        StaticSoundSettings::default(),
+    )?;
+
+    /* loop */
+
+    let mut l = Looper::new();
+    assert![l.add_rate("input", Rate::with_tps(200.), true).is_ok()];
+    assert![l.add_rate("render", Rate::with_tps(24.), true).is_ok()];
+    l.reset();
 
     loop {
         if let Some((now0, _delta0)) = l.measure() {
@@ -86,10 +108,19 @@ fn main() -> Result<()> {
                         match key.code {
                             KeyCode::Char('q') => break,
                             KeyCode::Char('l') => l.log_all_rates(),
+
                             KeyCode::Up => t0.offset((0, -1))?,
                             KeyCode::Down => t0.offset((0, 1))?,
                             KeyCode::Left => t0.offset((-1, 0))?,
                             KeyCode::Right => t0.offset((1, 0))?,
+
+                            /* sound */
+                            #[cfg(feature = "kira")]
+                            KeyCode::Char('a') => {
+                                info!["[kira] play sound0"];
+                                let _h = manager.play(sound0.clone())?;
+                            }
+
                             _ => (),
                         }
                     }

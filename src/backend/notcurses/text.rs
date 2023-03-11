@@ -32,6 +32,16 @@ impl NotcursesTextGrid {
 
     //
 
+    pub fn is_scrolling(&self) -> bool {
+        self.inner.is_scrolling()
+    }
+
+    pub fn set_scrolling(&mut self, scroll: bool) -> bool {
+        self.inner.set_scrolling(scroll)
+    }
+
+    //
+
     pub fn from_plane(plane: Plane) -> Self {
         Self { inner: plane }
     }

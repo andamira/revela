@@ -23,6 +23,11 @@ pub use self::midir::{MidirError, MidirInitError, MidirPortInfoError};
 // #[cfg(feature = "midi-convert")]
 pub use ::midi_convert::MidiParseError as MidiConvertParseError;
 
+#[cfg(feature = "kira")]
+mod kira;
+#[cfg(feature = "kira")]
+pub use self::kira::KiraError;
+
 #[cfg(feature = "flume")]
 mod flume;
 
@@ -63,6 +68,9 @@ pub enum RevelaError {
     /// A [`flume`][::flume] error.
     #[cfg(feature = "flume")]
     Flume,
+
+    #[cfg(feature = "kira")]
+    Kira(KiraError),
 
     /// A [`midi-convert`][::midi-convert] error.
     // #[cfg(feature = "midi-convert")]
@@ -164,6 +172,9 @@ mod core_impls {
 
                 // #[cfg(feature = "midi-convert")]
                 RevelaError::MidiConvert(e) => fmt::Debug::fmt(e, f),
+
+                #[cfg(feature = "kira")]
+                RevelaError::Kira(e) => fmt::Debug::fmt(e, f),
 
                 #[cfg(feature = "flume")]
                 RevelaError::Flume => write!(f, "Flume error"),
