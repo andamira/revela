@@ -91,6 +91,10 @@ espera = "0.0.3"
 name = "ui-notcurses"
 required-features = ["notcurses"]
 
+[[example]]
+name = "ui-crossterm"
+required-features = ["crossterm"]
+
 #/ binaries /#
 
 [[bin]]

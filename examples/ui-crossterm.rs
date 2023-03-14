@@ -1,4 +1,4 @@
-// revela::example::ui-crossterm
+// revela::examples::ui-crossterm
 //
 //! # `crossterm` UI example
 //!

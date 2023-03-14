@@ -1,8 +1,8 @@
-// revela::example::ui-notcurses
+// revela::examples::ui-notcurses
 //
 //! # Notcurses UI example
 //!
-//! Optionally supported backends: `gilrs`, `midir`.
+//! Optionally supported backends: `gilrs`, `midir`, `kira`.
 //
 
 use depura::*;
