@@ -4,7 +4,7 @@ description = "A user interface abstracted over a selection of backends."
 version = "0.0.4"
 edition = "2021"
 resolver = "2"
-rust-version = "1.67.0"
+rust-version = "1.68.0"
 authors = ["José Luis Cruz <joseluis@andamira.net>"]
 repository = "https://github.com/andamira/revela"
 documentation = "https://docs.rs/revela"
@@ -31,6 +31,8 @@ log = "0.4.17"
 
 ### system
 libc = { version = "0.2.140", default-features = false, optional = true }
+libc-print = { version = "0.1.21", optional = true }
+linked_list_allocator = { version = "0.10.5", optional = true }
 
 ### terminal
 crossterm = { version = "0.26.0", optional = true } # default-features = false
@@ -45,7 +47,7 @@ notcurses = { version = "3.2.3", optional = true }
 # raw-window-handle = { version = "0.4.2", optional = true } # latest = 0.5, in sdl2 = 0.4.2
 
 ### graphics
-acolor = { version = "0.0.4", default-features = false, features = ["rgb"] }
+acolor = { version = "0.0.5", default-features = false, features = ["rgb"] }
 # png = "0.17.6"
 # tiny-skia = { version = "0.8.2", optional = true }
 
@@ -64,18 +66,44 @@ kira = { version = "0.7.1", optional = true }
 default = ["std", "safe"]
 safe = ["acolor/safe", "devela/safe"]
 std = ["acolor/std", "devela/std", "libc?/std"]
+alloc = ["linked_list_allocator"]
 no-std = ["acolor/no-std"]
 nightly = []
 
 all_backends = ["crossterm", "notcurses", "libc", "gilrs", "midir", "kira"]
-all_no-std_backends = ["libc"]
 
+libc = ["dep:libc", "libc-print"]
 midir = ["dep:midir", "std", "flume"]
 notcurses = ["dep:notcurses", "std", "acolor/notcurses"]
 # sdl2 = ["dep:sdl2", "acolor?/sdl2", "raw-window-handle"] # gpu
 
 # MAYBE backend specific-features
 # crossterm_paste = ["crossterm/bracketed-paste"]
+
+[dev-dependencies]
+depura = "0.0.2"
+repite = "0.0.3"
+espera = "0.0.3"
+
+#/ examples /#
+
+[[example]]
+name = "ui-notcurses"
+required-features = ["notcurses"]
+
+#/ binaries /#
+
+[[bin]]
+name = "alloc"
+path = "bin/alloc.rs"
+# needs profile `no-std`
+required-features = ["alloc", "no-std", "libc"]
+
+[[bin]]
+name = "no_alloc"
+path = "bin/no_alloc.rs"
+# needs profile `no-std`
+required-features = ["no-std", "libc"]
 
 [badges]
 maintenance = { status = "experimental" }
@@ -84,17 +112,30 @@ maintenance = { status = "experimental" }
 default-features = false
 features = ["all_backends", "nightly"] # no safe
 
-# [profile.release]
-# strip = "debuginfo"
-#
+#/ profiles /#
+
 # [profile.dev]
 # split-debuginfo = "packed"
 
-[dev-dependencies]
-depura = "0.0.2"
-repite = "0.0.3"
-espera = "0.0.3"
+# [profile.release]
+# strip = "debuginfo"
 
-[[example]]
-name = "ui-notcurses"
-required-features = ["notcurses"]
+[profile.no-std]
+inherits = "dev"
+# strip = true
+lto = true
+opt-level = "s" # "z"
+# codegen-units = 1
+panic = "abort"
+# overflow-checks = true
+# debug-assertions = true
+
+[profile.no-std-release]
+inherits = "release"
+strip = true
+lto = true
+opt-level = "s" # "z"
+codegen-units = 1
+panic = "abort"
+# overflow-checks = false
+# debug-assertions = false
