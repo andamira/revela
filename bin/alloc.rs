@@ -12,10 +12,8 @@
 
 use core::mem::MaybeUninit;
 
-use revela::{
-    backend::{prompt, ALLOCATOR},
-};
-use libc_print::{libc_println as println};
+use libc_print::libc_println as println;
+use revela::backend::{prompt, ALLOCATOR};
 
 /* app */
 
