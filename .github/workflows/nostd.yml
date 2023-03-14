@@ -23,4 +23,4 @@ jobs:
       - name: rustup target add ${{ matrix.target }}
         run: rustup target add ${{ matrix.target }}
       - name: cargo check
-        run: cargo check --target ${{ matrix.target }} --no-default-features
+        run: cargo check --target ${{ matrix.target }} --no-default-features --features=no-std
