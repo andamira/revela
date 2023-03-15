@@ -47,7 +47,7 @@ notcurses = { version = "3.2.3", optional = true }
 # raw-window-handle = { version = "0.4.2", optional = true } # latest = 0.5, in sdl2 = 0.4.2
 
 ### graphics
-acolor = { version = "0.0.5", default-features = false, features = ["rgb"] }
+acolor = { version = "0.0.6", default-features = false, features = ["rgb"] }
 # png = "0.17.6"
 # tiny-skia = { version = "0.8.2", optional = true }
 
@@ -113,8 +113,7 @@ required-features = ["no-std", "libc"]
 maintenance = { status = "experimental" }
 
 [package.metadata.docs.rs]
-default-features = false
-features = ["all_backends", "nightly"] # no safe
+features = ["all_backends", "nightly", "notcurses?/vendored"]
 
 #/ profiles /#
 
