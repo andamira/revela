@@ -14,8 +14,8 @@ jobs:
     name: "stable / fmt"
     steps:
       - uses: actions/checkout@v3
-        with:
-          submodules: true
+        # with:
+        #   submodules: true
 
       - name: "Install stable"
         uses: dtolnay/rust-toolchain@stable
@@ -58,27 +58,22 @@ jobs:
     runs-on: ubuntu-latest
     name: nightly / doc
     steps:
-      - name : "install libraries"
-        run: |
-          sudo apt update
-          sudo apt install -y librust-libudev-sys-dev
-
-      - name: "checkout"
-        uses: actions/checkout@v3
-        with:
-          submodules: true
-
       - name: "Install build dependencies"
         run: |
           sudo apt update
-          sudo apt install -y libasound2-dev librust-libudev-sys-dev
+          sudo apt install -y libasound2-dev
+
+      - name: "checkout"
+        uses: actions/checkout@v3
+        # with:
+        #   submodules: true
 
       - name: "Install nightly"
         uses: dtolnay/rust-toolchain@nightly
 
       - name: "cargo doc"
         # NOTE:CUSTOM
-        run: cargo doc --features=nightly,all_backends
+        run: cargo doc --features=nightly,all_backends,notcurses?/vendored
         env:
           RUSTDOCFLAGS: --cfg docsrs
 

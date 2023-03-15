@@ -11,10 +11,10 @@ jobs:
   sanitizers:
     runs-on: ubuntu-latest
     steps:
-      - name: "install libraries"
+      - name: "Install build dependencies"
         run: |
           sudo apt update
-          sudo apt install -y librust-alsa-sys-dev
+          sudo apt install -y libasound2-dev
 
       - name: "checkout"
         uses: actions/checkout@v3
@@ -37,7 +37,7 @@ jobs:
       - name: cargo test -Zsanitizer=address
         # only --lib --tests b/c of https://github.com/rust-lang/rust/issues/53945
         # NOTE:CUSTOM
-        run: cargo test --lib --tests --features=all_deps --target x86_64-unknown-linux-gnu
+        run: cargo test --lib --tests --features=all_backends,notcurses?/vendored --target x86_64-unknown-linux-gnu
         env:
           ASAN_OPTIONS: "detect_odr_violation=0:detect_leaks=0"
           RUSTFLAGS: "-Z sanitizer=address"
