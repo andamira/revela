@@ -39,10 +39,8 @@ jobs:
         # toolchain: [stable, beta]
     steps:
       - uses: actions/checkout@v3
-        # with:
-        #   submodules: true
 
-      - name: Install ${{ matrix.toolchain }}
+      - name: "Install ${{ matrix.toolchain }}"
         uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.toolchain }}
@@ -59,14 +57,14 @@ jobs:
     name: nightly / doc
     steps:
       - name: "Install build dependencies"
+        # libudev-dev    : girls
+        # libasound2-dev : kira, midir
         run: |
           sudo apt update
           sudo apt install -y libasound2-dev libudev-dev
 
       - name: "checkout"
         uses: actions/checkout@v3
-        # with:
-        #   submodules: true
 
       - name: "Install nightly"
         uses: dtolnay/rust-toolchain@nightly
@@ -78,7 +76,6 @@ jobs:
           RUSTDOCFLAGS: --cfg docsrs
 
   # 2.
-  # NOTE:DISABLED
   # TODO:IMPROVE
   # hack:
   #   runs-on: ubuntu-latest

@@ -5,26 +5,27 @@ on:
     branches: [main]
   pull_request:
 
-name: safety
+name: "safety"
 jobs:
   #
   sanitizers:
     runs-on: ubuntu-latest
     steps:
       - name: "Install build dependencies"
+        # libudev-dev    : girls
+        # libasound2-dev : kira, midir
         run: |
           sudo apt update
           sudo apt install -y libasound2-dev libudev-dev
 
       - name: "checkout"
         uses: actions/checkout@v3
-        # with:
-        #   submodules: true
 
-      - name: Install nightly
+      - name: "Install nightly"
         uses: dtolnay/rust-toolchain@nightly
 
-      - run: |
+      - name: "Enable debug symbols"
+        run: |
             # to get the symbolizer for debug symbol resolution
             sudo apt install llvm
             # to fix buggy leak analyzer:
@@ -32,9 +33,8 @@ jobs:
             sed -i '/\[features\]/i [profile.dev]' Cargo.toml
             sed -i '/profile.dev/a opt-level = 1' Cargo.toml
             cat Cargo.toml
-        name: Enable debug symbols
 
-      - name: cargo test -Zsanitizer=address
+      - name: "cargo test -Zsanitizer=address"
         # only --lib --tests b/c of https://github.com/rust-lang/rust/issues/53945
         # NOTE:CUSTOM
         run: cargo test --lib --tests --features=all_backends,notcurses?/vendored --target x86_64-unknown-linux-gnu
@@ -42,20 +42,18 @@ jobs:
           ASAN_OPTIONS: "detect_odr_violation=0:detect_leaks=0"
           RUSTFLAGS: "-Z sanitizer=address"
 
-      - name: cargo test -Zsanitizer=leak
+      - name: "cargo test -Zsanitizer=leak"
         if: always()
-        # NOTE
         run: cargo test --target x86_64-unknown-linux-gnu
         env:
           LSAN_OPTIONS: "suppressions=lsan-suppressions.txt"
           RUSTFLAGS: "-Z sanitizer=leak"
+
   # MAYBE
   # miri:
   #   runs-on: ubuntu-latest
   #   steps:
   #     - uses: actions/checkout@v3
-  #       with:
-  #         submodules: true
   #     - run: |
   #         echo "NIGHTLY=nightly-$(curl -s https://rust-lang.github.io/rustup-components-history/x86_64-unknown-linux-gnu/miri)" >> $GITHUB_ENV
   #     - name: Install ${{ env.NIGHTLY }}
@@ -73,8 +71,6 @@ jobs:
   #   runs-on: ubuntu-latest
   #   steps:
   #     - uses: actions/checkout@v3
-  #       with:
-  #         submodules: true
   #     - name: Install stable
   #       uses: dtolnay/rust-toolchain@stable
   #     - name: cargo test --test loom
