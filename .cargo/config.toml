@@ -10,13 +10,13 @@
 
 # CHECK
 cl = "clippy"
-clq = "clippy --quiet"
-cl_no-std = "clippy --no-default-features --features=no-std"
 #
+# backends
 cl_all = "clippy --features=all_backends"
-cl_all_no-std = "clippy --no-default-features --features=all_no-std_backends"
 cl_ct = "clippy --features=crossterm"
 cl_nc = "clippy --features=notcurses"
+# cl_no-std = "clippy --no-default-features --features=all_no-std_backends"
+# cl_alloc = "clippy --profile alloc --no-default-features --features=all_alloc_backends"
 
 # CLEAN PACKAGE
 cp = "clean --package"
@@ -36,9 +36,7 @@ ddo_all = "doc --open --features=all_backends"
 nd = "doc --no-deps --features=nightly"
 ndo = "doc --no-deps --open --features=nightly"
 nd_all = "doc --no-deps --features=all_backends,nightly"
-nd_all_no-std = "doc --no-deps --no-default-features --features=all_no-std_backends,nightly"
 ndo_all = "doc --no-deps --open --features=all_backends,nightly"
-ndo_all_no-std = "doc --no-deps --open --no-default-features --features=all_no-std_backends,nightly"
 ndd_all = "doc --features=all_backends,nightly"
 nddo_all = "doc --open --features=all_backends,nightly"
 
@@ -46,14 +44,9 @@ nddo_all = "doc --open --features=all_backends,nightly"
 b = "build"
 bb = "build --bin"
 be = "build --example"
-bq = "build --quiet"
 br = "build --release"
-bqb = "build --quiet --bin"
-bqe = "build --quiet --example"
 brb = "build --release --bin"
 bre = "build --release --example"
-brqb = "build --release --quiet --bin"
-brqe = "build --release --quiet --example"
 #
 b_ct = "build --features=crossterm"
 bb_ct = "build --features=crossterm --bin"
@@ -80,35 +73,35 @@ bre_all = "build --release --features=all_backends --example"
 r = "run"
 rb = "run --bin"
 re = "run --example"
-rq = "run --quiet"
 rr = "run --release"
-rqb = "run --quiet --bin"
-rqe = "run --quiet --example"
 rrb = "run --release --bin"
 rre = "run --release --example"
-rrqb = "run --release --quiet --bin"
-rrqe = "run --release --quiet --example"
-#
+# crossterm
 r_ct = "run --features=crossterm"
 rr_ct = "run --release --features=crossterm"
 rb_ct = "run --features=crossterm --bin"
 re_ct = "run --features=crossterm --example"
 rrb_ct = "run --release --features=crossterm --bin"
 rre_ct = "run --release --features=crossterm --example"
-#
+# notcurses
 r_nc = "run --features=notcurses"
 rr_nc = "run --release --features=notcurses"
 rb_nc = "run --features=notcurses --bin"
 re_nc = "run --features=notcurses --example"
 rrb_nc = "run --release --features=notcurses --bin"
 rre_nc = "run --release --features=notcurses --example"
-#
+# all
 r_all = "run --features=all_backends"
 rr_all = "run --release --features=all_backends"
 rb_all = "run --features=all_backends --bin"
 re_all = "run --features=all_backends --example"
 rrb_all = "run --release --features=all_backends --bin"
 rre_all = "run --release --features=all_backends --example"
+# no-std | alloc
+# re_no-std = "run --no-default-features --features=all_no-std_backends --example"
+# rre_no-std = "run --release --no-default-features --features=all_no-std_backends --example"
+# re_alloc = "run --profile alloc --no-default-features --features=all_alloc_backends --example"
+# rre_alloc = "run --profile alloc --release --no-default-features --features=all_alloc_backends --example"
 
 # TEST
 t = "test"
