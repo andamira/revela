@@ -23,6 +23,9 @@ pub mod midir;
 #[cfg(feature = "notcurses")]
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "notcurses")))]
 pub mod notcurses;
+#[cfg(feature = "sdl2")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "sdl2")))]
+pub mod sdl2;
 
 pub use all::*;
 pub(crate) mod all {
@@ -57,6 +60,13 @@ pub(crate) mod all {
     #[cfg_attr(feature = "nightly", doc(cfg(feature = "notcurses")))]
     #[doc(inline)]
     pub use super::notcurses::{NotcursesBackend, NotcursesTextGrid};
+
+    /* */
+
+    #[cfg(feature = "sdl2")]
+    #[cfg_attr(feature = "nightly", doc(cfg(feature = "sdl2")))]
+    #[doc(inline)]
+    pub use super::sdl2::{Sdl2Backend, Sdl2EventSource};
 
     /* */
 

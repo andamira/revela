@@ -21,6 +21,7 @@ keywords = ["terminal"] # cli, web, …
 publish = false
 
 [dependencies]
+depura = { version = "0.0.3", default-features = false, optional = true }
 devela = { version = "0.1.7", default-features = false }
 bitflags = "1.3.2"
 log = "0.4.17"
@@ -41,14 +42,14 @@ notcurses = { version = "3.2.3", optional = true }
 # notcurses = { git = "https://github.com/dankamongmen/notcurses", optional = true }
 
 ### desktop
-# sdl2 = { version = "0.35.2", optional = true, features = ["raw-window-handle", "gfx"] }
+sdl2 = { version = "0.35.2", optional = true, features = ["raw-window-handle", "gfx"] }
 # macroquad = { version = "0.3.24", optional = true }
 # tauri = { version = "1.2.4", optional = true }
-# raw-window-handle = { version = "0.4.2", optional = true } # latest = 0.5, in sdl2 = 0.4.2
+raw-window-handle = { version = "0.4.2", optional = true } # latest = 0.5, in sdl2 = 0.4.2
 
 ### graphics
 acolor = { version = "0.0.6", default-features = false, features = ["rgb"] }
-# png = "0.17.6"
+png = "0.17.7"
 # tiny-skia = { version = "0.8.2", optional = true }
 
 ### gamepads
@@ -64,24 +65,24 @@ kira = { version = "0.7.1", optional = true }
 
 [features]
 default = ["std", "safe"]
-safe = ["acolor/safe", "devela/safe"]
-std = ["acolor/std", "devela/std", "libc?/std"]
+safe = ["acolor/safe", "devela/safe", "depura/safe"]
+std = ["acolor/std", "devela/std", "libc?/std", "depura/std"]
 alloc = ["linked_list_allocator"]
 no-std = ["acolor/no-std"]
 nightly = []
 
-all_backends = ["crossterm", "notcurses", "libc", "gilrs", "midir", "kira"]
+all_backends = ["crossterm", "notcurses", "libc", "sdl2", "gilrs", "midir", "kira"]
 
 libc = ["dep:libc", "libc-print"]
 midir = ["dep:midir", "std", "flume"]
 notcurses = ["dep:notcurses", "std", "acolor/notcurses"]
-# sdl2 = ["dep:sdl2", "acolor?/sdl2", "raw-window-handle"] # gpu
+sdl2 = ["dep:sdl2", "acolor/sdl2", "raw-window-handle", "depura"] # gpu
 
 # MAYBE backend specific-features
 # crossterm_paste = ["crossterm/bracketed-paste"]
 
 [dev-dependencies]
-depura = "0.0.2"
+depura = "0.0.3"
 repite = "0.0.3"
 espera = "0.0.3"
 

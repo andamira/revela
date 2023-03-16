@@ -5,6 +5,8 @@
 
 use core::result;
 
+// use ladata::error::LadataError;
+
 // NOTE: crossterm error type is an alias of std::io::Error
 #[cfg(feature = "std")]
 use std::io::Error as IoError;
@@ -31,10 +33,10 @@ pub use self::kira::KiraError;
 #[cfg(feature = "flume")]
 mod flume;
 
-// #[cfg(feature = "sdl2")]
-// use sdl2::Error as Sdl2Error;
+#[cfg(feature = "sdl2")]
+use sdl2::Error as Sdl2Error;
 
-// use png::EncodingError as PngEncodingError;
+use png::EncodingError as PngEncodingError;
 
 /// Main *revela* result type.
 pub type RevelaResult<N> = result::Result<N, RevelaError>;
@@ -48,9 +50,10 @@ pub enum RevelaError {
     #[cfg(feature = "notcurses")]
     Notcurses(NotcursesError),
 
-    // /// An [`sdl2`] error.
-    // #[cfg(feature = "sdl2")]
-    // Sdl2(Sdl2Error),
+    /// An [`sdl2`] error.
+    #[cfg(feature = "sdl2")]
+    Sdl2(Sdl2Error),
+
     /// An io error.
     #[cfg(feature = "std")]
     #[cfg_attr(feature = "nightly", doc(cfg(feature = "std")))]
@@ -76,8 +79,8 @@ pub enum RevelaError {
     // #[cfg(feature = "midi-convert")]
     MidiConvert(MidiConvertParseError),
 
-    // /// A [`png`] encoding error.
-    // PngEncoding(PngEncodingError),
+    /// A [`png`] encoding error.
+    PngEncoding(PngEncodingError),
 
     // TODO: e.g. for poll_event, etc.
     // Unsupported,
@@ -86,6 +89,8 @@ pub enum RevelaError {
     /// This functionality is not supported.
     NotSupported,
 
+    // /// A `ladata` error.
+    // Ladata(LadataError),
     /// A custom error message.
     #[cfg(feature = "std")]
     String(String),
@@ -120,36 +125,37 @@ mod notcurses_impls {
     }
 }
 
-// mod png_impls {
-//     use super::{PngEncodingError, RevelaError};
-//
-//     impl From<PngEncodingError> for RevelaError {
-//         fn from(err: PngEncodingError) -> Self {
-//             RevelaError::PngEncoding(err)
-//         }
-//     }
-// }
+mod png_impls {
+    use super::{PngEncodingError, RevelaError};
 
-// #[cfg(feature = "sdl2")]
-// mod sdl2_impls {
-//     use super::{RevelaError, Sdl2Error};
-//
-//     impl RevelaError {
-//         // https://docs.rs/sdl2/latest/sdl2/fn.get_error.html
-//         // https://docs.rs/sdl2-sys/latest/sdl2_sys/fn.SDL_GetError.html
-//         pub fn get_error() -> Self {
-//             Self::new(&sdl2::get_error())
-//         }
-//     }
-//
-//     impl From<Sdl2Error> for RevelaError {
-//         fn from(err: Sdl2Error) -> Self {
-//             RevelaError::Sdl2(err)
-//         }
-//     }
-// }
+    impl From<PngEncodingError> for RevelaError {
+        fn from(err: PngEncodingError) -> Self {
+            RevelaError::PngEncoding(err)
+        }
+    }
+}
+
+#[cfg(feature = "sdl2")]
+mod sdl2_impls {
+    use super::{RevelaError, Sdl2Error};
+
+    impl RevelaError {
+        // https://docs.rs/sdl2/latest/sdl2/fn.get_error.html
+        // https://docs.rs/sdl2-sys/latest/sdl2_sys/fn.SDL_GetError.html
+        pub fn get_error() -> Self {
+            Self::String(sdl2::get_error())
+        }
+    }
+
+    impl From<Sdl2Error> for RevelaError {
+        fn from(err: Sdl2Error) -> Self {
+            RevelaError::Sdl2(err)
+        }
+    }
+}
 
 mod core_impls {
+    // use super::{LadataError, RevelaError};
     use super::RevelaError;
     use core::fmt;
 
@@ -159,8 +165,9 @@ mod core_impls {
                 #[cfg(feature = "notcurses")]
                 RevelaError::Notcurses(e) => fmt::Debug::fmt(e, f),
 
-                // #[cfg(feature = "sdl2")]
-                // RevelaError::Sdl2(e) => Debug::fmt(e, f),
+                #[cfg(feature = "sdl2")]
+                RevelaError::Sdl2(e) => fmt::Debug::fmt(e, f),
+
                 #[cfg(feature = "std")]
                 RevelaError::Io(e) => fmt::Debug::fmt(e, f),
 
@@ -179,11 +186,13 @@ mod core_impls {
                 #[cfg(feature = "flume")]
                 RevelaError::Flume => write!(f, "Flume error"),
 
-                // RevelaError::PngEncoding(e) => Debug::fmt(e, f),
-                //
+                RevelaError::PngEncoding(e) => fmt::Debug::fmt(e, f),
+
                 // RevelaError::FailedConversion(from, to) => write!(f, "FailedConversion {from} -> {to}"),
                 RevelaError::NotSupported => write!(f, "NotSupported"),
 
+                // WIP
+                // RevelaError::Ladata(e) => fmt::Debug::fmt(e, f),
                 #[cfg(feature = "std")]
                 RevelaError::String(e) => write!(f, "{}", e),
                 // #[allow(unreachable_patterns)]
@@ -191,6 +200,12 @@ mod core_impls {
             }
         }
     }
+
+    // impl From<LadataError> for RevelaError {
+    //     fn from(err: LadataError) -> Self {
+    //         RevelaError::Ladata(err)
+    //     }
+    // }
 }
 
 #[cfg(feature = "std")]
