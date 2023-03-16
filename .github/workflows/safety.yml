@@ -16,7 +16,7 @@ jobs:
         # libasound2-dev : kira, midir
         run: |
           sudo apt update
-          sudo apt install -y libasound2-dev libudev-dev
+          sudo apt install -y libasound2-dev libudev-dev libsdl2-dev libsdl2-gfx-dev
 
       - name: "checkout"
         uses: actions/checkout@v3
