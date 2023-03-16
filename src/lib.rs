@@ -24,17 +24,20 @@ compile_error!("You can't have both the `std` and `no-std` features at the same 
 pub extern crate alloc;
 
 pub mod backend;
-pub mod core;
 pub mod error;
+pub mod events;
 pub mod layout;
+mod text;
+mod window;
 
 /// Everything is directly available in here.
 pub mod all {
     #[doc(inline)]
     pub use crate::{
         backend::all::*,
-        core::all::*,
+        events::all::*,
         error::*,
         layout::{Clamper, Position, Size, Zone},
+        text::TextGrid, window::Window,
     };
 }

@@ -4,6 +4,7 @@
 //
 
 pub mod capabilities;
+mod backend;
 
 #[cfg(feature = "no-std")]
 pub mod no_std;
@@ -30,9 +31,12 @@ pub mod sdl2;
 pub use all::*;
 pub(crate) mod all {
     #[doc(inline)]
-    pub use super::capabilities::{
-        Capabilities, ColorCapabilities, InputCapabilities, PixelCapabilities, SoundCapabilities,
-        TextGridCapabilities, WindowCapabilities,
+    pub use super::{
+        backend::Backend,
+        capabilities::{
+            Capabilities, ColorCapabilities, InputCapabilities, PixelCapabilities, SoundCapabilities,
+            TextGridCapabilities, WindowCapabilities,
+        },
     };
     // IMPROVE: alloc
     #[doc(inline)]
