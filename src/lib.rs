@@ -4,11 +4,7 @@
 //
 
 #![warn(clippy::all)]
-#![allow(
-    uncommon_codepoints,
-    clippy::module_inception,
-    non_upper_case_globals,
-)]
+#![allow(uncommon_codepoints, clippy::module_inception, non_upper_case_globals)]
 //
 #![cfg_attr(not(feature = "std"), no_std)]
 #![cfg_attr(feature = "safe", forbid(unsafe_code))]
@@ -30,11 +26,12 @@ mod window;
 /// Everything is directly available in here.
 pub mod all {
     #[doc(inline)]
-    pub use crate::{
+    pub use super::{
         backend::all::*,
-        events::all::*,
         error::*,
+        events::all::*,
         layout::{Clamper, Position, Size, Zone},
-        text::TextGrid, window::Window,
+        text::TextGrid,
+        window::Window,
     };
 }

@@ -7,6 +7,9 @@ use core::result;
 
 // use ladata::error::LadataError;
 
+#[cfg(feature = "alloc")]
+use alloc::string::String;
+
 // NOTE: crossterm error type is an alias of std::io::Error
 #[cfg(feature = "std")]
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "std")))]
@@ -106,15 +109,8 @@ pub enum RevelaError {
     // /// A `ladata` error.
     // Ladata(LadataError),
     /// A custom error message.
-    #[cfg(feature = "std")]
+    #[cfg(feature = "alloc")]
     String(String),
-}
-impl RevelaError {
-    /// Returns a `string` error.
-    #[cfg(feature = "std")]
-    pub fn string(string: impl ToString) -> Self {
-        Self::String(string.to_string())
-    }
 }
 
 #[cfg(feature = "gilrs")]
@@ -209,7 +205,7 @@ mod core_impls {
 
                 // WIP
                 // RevelaError::Ladata(e) => fmt::Debug::fmt(e, f),
-                #[cfg(feature = "std")]
+                #[cfg(feature = "alloc")]
                 RevelaError::String(e) => write!(f, "{}", e),
                 // #[allow(unreachable_patterns)]
                 // _ => write!(f, "RevelaError"),
@@ -235,6 +231,20 @@ mod std_impls {
     impl From<IoError> for RevelaError {
         fn from(err: IoError) -> Self {
             RevelaError::Io(err)
+        }
+    }
+}
+
+#[cfg(feature = "alloc")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
+mod alloc_impls {
+    use super::{RevelaError, String};
+    use alloc::string::ToString;
+
+    impl RevelaError {
+        /// Returns a `string` error.
+        pub fn string(string: impl ToString) -> Self {
+            Self::String(string.to_string())
         }
     }
 

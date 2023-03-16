@@ -5,6 +5,9 @@
 
 use crate::all::{Event, EventKind, Size};
 
+#[cfg(feature = "alloc")]
+use alloc::string::String;
+
 /// Events related to the [`Window`][crate::all::Window].
 //
 // - https://docs.rs/sdl2/latest/sdl2/event/enum.WindowEvent.html
@@ -35,8 +38,8 @@ pub enum WindowEvent {
     EndOfInput,
 
     /// Paste action.
-    #[cfg(feature = "std")] // IMPROVE: alloc
-    #[cfg_attr(feature = "nightly", doc(cfg(feature = "std")))]
+    #[cfg(feature = "alloc")]
+    #[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
     Paste(String),
     // Moved(Position),
 

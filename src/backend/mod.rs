@@ -3,8 +3,8 @@
 //! All specific supported UI backends.
 //
 
-pub mod capabilities;
 mod backend;
+pub mod capabilities;
 
 #[cfg(feature = "no-std")]
 pub mod no_std;
@@ -34,8 +34,8 @@ pub(crate) mod all {
     pub use super::{
         backend::Backend,
         capabilities::{
-            Capabilities, ColorCapabilities, InputCapabilities, PixelCapabilities, SoundCapabilities,
-            TextGridCapabilities, WindowCapabilities,
+            Capabilities, ColorCapabilities, InputCapabilities, PixelCapabilities,
+            SoundCapabilities, TextGridCapabilities, WindowCapabilities,
         },
     };
     // IMPROVE: alloc
