@@ -13,9 +13,7 @@ use crate::all::{
     TextGrid, TextGridCapabilities, Window, WindowCapabilities, Zone,
 };
 
-/// `notcurses` interface.
-///
-/// It implements the following traits: [`Backend`], [`Window`], [`EventSource`].
+/// `notcurses` [`Backend`], [`Window`] and [`EventSource`].
 pub struct NotcursesBackend {
     inner: Notcurses,
 

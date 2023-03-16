@@ -3,6 +3,10 @@
 //! `sdl2` backend.
 //
 
+/// Re-export of the [`sdl2`](https://docs.rs/sdl2) crate.
+#[doc(inline)]
+pub use ::sdl2;
+
 // mod canvas; // TODO
 mod backend;
 mod events;
