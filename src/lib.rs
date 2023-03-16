@@ -20,8 +20,6 @@ pub mod backend;
 pub mod error;
 pub mod event;
 pub mod layout;
-mod text;
-mod window;
 
 /// Everything is directly available in here.
 pub mod all {
@@ -31,7 +29,5 @@ pub mod all {
         error::*,
         event::all::*,
         layout::{Clamper, Position, Size, Zone},
-        text::TextGrid,
-        window::Window,
     };
 }
