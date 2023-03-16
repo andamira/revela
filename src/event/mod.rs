@@ -1,4 +1,4 @@
-// revela::core::events
+// revela::event
 //
 //! Event related types and traits.
 //!

@@ -1,4 +1,4 @@
-// revela::core::capabilities::text_grid
+// revela::capabilities::text_grid
 //
 //!
 //

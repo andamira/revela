@@ -1,4 +1,4 @@
-// revela::core::capabilities::win
+// revela::capabilities::win
 //
 //!
 //

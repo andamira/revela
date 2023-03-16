@@ -1,4 +1,4 @@
-// revela::core::window
+// revela::window
 //
 //!
 //

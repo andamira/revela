@@ -1,4 +1,4 @@
-// revela::core::events::gamepad
+// revela::event::gamepad
 //
 //! Gamepad events.
 //

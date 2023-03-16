@@ -1,4 +1,4 @@
-// revela::core::capabilities::pixel
+// revela::capabilities::pixel
 //
 //!
 //

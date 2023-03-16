@@ -1,4 +1,4 @@
-// revela::core::events::midi
+// revela::event::midi
 //
 //! Midi events.
 //

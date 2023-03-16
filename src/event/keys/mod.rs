@@ -1,4 +1,4 @@
-// revela::core::event::keys
+// revela::event::keys
 //
 //! Keyboard events.
 //

@@ -1,4 +1,4 @@
-// revela::core::capabilities::system
+// revela::capabilities::system
 //
 //!
 //

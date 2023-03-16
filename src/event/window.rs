@@ -1,4 +1,4 @@
-// revela::core::events::window
+// revela::event::window
 //
 //! Window events.
 //

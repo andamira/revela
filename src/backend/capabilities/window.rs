@@ -1,4 +1,4 @@
-// revela::core::capabilities::window
+// revela::capabilities::window
 //
 //!
 //

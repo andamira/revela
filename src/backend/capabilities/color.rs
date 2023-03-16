@@ -1,4 +1,4 @@
-// revela::core::capabilities::color
+// revela::capabilities::color
 //
 //!
 //

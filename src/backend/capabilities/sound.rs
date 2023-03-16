@@ -1,4 +1,4 @@
-// revela::core::capabilities::sound
+// revela::capabilities::sound
 //
 //!
 //

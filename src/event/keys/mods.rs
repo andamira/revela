@@ -1,4 +1,4 @@
-// revela::core::event::keys::mods
+// revela::event::keys::mods
 //
 //! Keyboar event modifiers.
 //

@@ -1,4 +1,4 @@
-// revela::events::mouse
+// revela::event::mouse
 //
 //! Mouse events.
 //

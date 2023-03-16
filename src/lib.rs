@@ -14,11 +14,11 @@
 compile_error!("You can't have both the `std` and `no-std` features at the same time.");
 
 #[cfg(feature = "alloc")]
-pub extern crate alloc;
+extern crate alloc;
 
 pub mod backend;
 pub mod error;
-pub mod events;
+pub mod event;
 pub mod layout;
 mod text;
 mod window;
@@ -29,7 +29,7 @@ pub mod all {
     pub use super::{
         backend::all::*,
         error::*,
-        events::all::*,
+        event::all::*,
         layout::{Clamper, Position, Size, Zone},
         text::TextGrid,
         window::Window,
