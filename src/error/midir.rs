@@ -5,12 +5,12 @@
 
 use super::RevelaError as Error;
 
-pub use ::midir::{
+pub use midir::{
     ConnectError as MidirConnectError, ConnectErrorKind as MidirConnectErrorKind,
     InitError as MidirInitError, PortInfoError as MidirPortInfoError,
 };
 
-///
+/// Unified `midir` error type.
 #[derive(Debug)]
 pub enum MidirError {
     // IMPROVE

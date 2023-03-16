@@ -15,10 +15,14 @@ use alloc::string::String;
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "std")))]
 pub use std::io::Error as IoError;
 
+/// `notcurses` error type.
+///
 #[cfg(feature = "notcurses")]
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "notcurses")))]
 pub use ::notcurses::Error as NotcursesError;
 
+/// `gilrs` error type.
+///
 #[cfg(feature = "gilrs")]
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "gilrs")))]
 pub use ::gilrs::Error as GilrsError;
@@ -29,6 +33,8 @@ mod midir;
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "midir")))]
 pub use self::midir::{MidirError, MidirInitError, MidirPortInfoError};
 
+/// Midi parsing error.
+///
 // #[cfg(feature = "midi-convert")]
 pub use ::midi_convert::MidiParseError as MidiConvertParseError;
 
@@ -41,10 +47,12 @@ pub use self::kira::KiraError;
 #[cfg(feature = "flume")]
 mod flume;
 
+/// `sdl` error type.
 #[cfg(feature = "sdl2")]
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "sdl2")))]
 pub use sdl2::Error as Sdl2Error;
 
+/// `png` error type.
 #[cfg(feature = "png")]
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "png")))]
 pub use png::EncodingError as PngEncodingError;
@@ -59,10 +67,12 @@ pub enum RevelaError {
     /// A [`notcurses`][::notcurses] error.
     // https://docs.rs/notcurses/latest/notcurses/enum.Error.html
     #[cfg(feature = "notcurses")]
+    #[cfg_attr(feature = "nightly", doc(cfg(feature = "notcurses")))]
     Notcurses(NotcursesError),
 
     /// An [`sdl2`] error.
     #[cfg(feature = "sdl2")]
+    #[cfg_attr(feature = "nightly", doc(cfg(feature = "sdl2")))]
     Sdl2(Sdl2Error),
 
     /// An io error.
@@ -110,10 +120,12 @@ pub enum RevelaError {
     // Ladata(LadataError),
     /// A custom error message.
     #[cfg(feature = "alloc")]
+    #[cfg_attr(feature = "nightly", doc(cfg(feature = "alloc")))]
     String(String),
 }
 
 #[cfg(feature = "gilrs")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "gilrs")))]
 mod gilrs_impls {
     use super::{GilrsError, RevelaError};
 
@@ -125,6 +137,7 @@ mod gilrs_impls {
 }
 
 #[cfg(feature = "notcurses")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "notcurses")))]
 mod notcurses_impls {
     use super::{NotcursesError, RevelaError};
 
@@ -147,16 +160,9 @@ mod png_impls {
 }
 
 #[cfg(feature = "sdl2")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "sdl2")))]
 mod sdl2_impls {
     use super::{RevelaError, Sdl2Error};
-
-    impl RevelaError {
-        // https://docs.rs/sdl2/latest/sdl2/fn.get_error.html
-        // https://docs.rs/sdl2-sys/latest/sdl2_sys/fn.SDL_GetError.html
-        pub fn get_error() -> Self {
-            Self::String(sdl2::get_error())
-        }
-    }
 
     impl From<Sdl2Error> for RevelaError {
         fn from(err: Sdl2Error) -> Self {

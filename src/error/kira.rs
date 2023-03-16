@@ -10,7 +10,7 @@ pub use ::kira::{
     sound::FromFileError,
 };
 
-///
+/// Unified `kira` error type.
 #[derive(Debug)]
 pub enum KiraError {
     Cpal(CpalError),
