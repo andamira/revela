@@ -9,17 +9,21 @@ use core::result;
 
 // NOTE: crossterm error type is an alias of std::io::Error
 #[cfg(feature = "std")]
-use std::io::Error as IoError;
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "std")))]
+pub use std::io::Error as IoError;
 
 #[cfg(feature = "notcurses")]
-use ::notcurses::Error as NotcursesError;
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "notcurses")))]
+pub use ::notcurses::Error as NotcursesError;
 
 #[cfg(feature = "gilrs")]
-use ::gilrs::Error as GilrsError;
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "gilrs")))]
+pub use ::gilrs::Error as GilrsError;
 
 #[cfg(feature = "midir")]
 mod midir;
 #[cfg(feature = "midir")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "midir")))]
 pub use self::midir::{MidirError, MidirInitError, MidirPortInfoError};
 
 // #[cfg(feature = "midi-convert")]
@@ -28,15 +32,19 @@ pub use ::midi_convert::MidiParseError as MidiConvertParseError;
 #[cfg(feature = "kira")]
 mod kira;
 #[cfg(feature = "kira")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "kira")))]
 pub use self::kira::KiraError;
 
 #[cfg(feature = "flume")]
 mod flume;
 
 #[cfg(feature = "sdl2")]
-use sdl2::Error as Sdl2Error;
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "sdl2")))]
+pub use sdl2::Error as Sdl2Error;
 
-use png::EncodingError as PngEncodingError;
+#[cfg(feature = "png")]
+#[cfg_attr(feature = "nightly", doc(cfg(feature = "png")))]
+pub use png::EncodingError as PngEncodingError;
 
 /// Main *revela* result type.
 pub type RevelaResult<N> = result::Result<N, RevelaError>;
@@ -62,17 +70,21 @@ pub enum RevelaError {
     /// A [`gilrs`][`::gilrs`] error.
     // https://docs.rs/gilrs/latest/gilrs/enum.Error.html
     #[cfg(feature = "gilrs")]
+    #[cfg_attr(feature = "nightly", doc(cfg(feature = "gilrs")))]
     Gilrs(GilrsError),
 
     /// A [`midir`][::midir] error.
     #[cfg(feature = "midir")]
+    #[cfg_attr(feature = "nightly", doc(cfg(feature = "midir")))]
     Midir(MidirError),
 
     /// A [`flume`][::flume] error.
     #[cfg(feature = "flume")]
+    #[cfg_attr(feature = "nightly", doc(cfg(feature = "flume")))]
     Flume,
 
     #[cfg(feature = "kira")]
+    #[cfg_attr(feature = "nightly", doc(cfg(feature = "kira")))]
     Kira(KiraError),
 
     /// A [`midi-convert`][::midi-convert] error.
@@ -80,6 +92,8 @@ pub enum RevelaError {
     MidiConvert(MidiConvertParseError),
 
     /// A [`png`] encoding error.
+    #[cfg(feature = "png")]
+    #[cfg_attr(feature = "nightly", doc(cfg(feature = "png")))]
     PngEncoding(PngEncodingError),
 
     // TODO: e.g. for poll_event, etc.
@@ -125,6 +139,7 @@ mod notcurses_impls {
     }
 }
 
+#[cfg(feature = "png")]
 mod png_impls {
     use super::{PngEncodingError, RevelaError};
 
@@ -186,6 +201,7 @@ mod core_impls {
                 #[cfg(feature = "flume")]
                 RevelaError::Flume => write!(f, "Flume error"),
 
+                #[cfg(feature = "png")]
                 RevelaError::PngEncoding(e) => fmt::Debug::fmt(e, f),
 
                 // RevelaError::FailedConversion(from, to) => write!(f, "FailedConversion {from} -> {to}"),

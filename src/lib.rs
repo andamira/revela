@@ -34,23 +34,7 @@ pub mod all {
     pub use crate::{
         backend::all::*,
         core::all::*,
-        error::{RevelaError, RevelaResult},
+        error::*,
         layout::{Clamper, Position, Size, Zone},
     };
-
-    #[cfg(feature = "crossterm")]
-    #[doc(inline)]
-    pub use crate::backend::crossterm::CrosstermBackend;
-
-    #[cfg(feature = "notcurses")]
-    #[doc(inline)]
-    pub use crate::backend::notcurses::{NotcursesBackend, NotcursesTextGrid};
-
-    #[cfg(feature = "gilrs")]
-    #[doc(inline)]
-    pub use crate::backend::gilrs::GilrsBackend;
-
-    #[cfg(feature = "midir")]
-    #[doc(inline)]
-    pub use crate::backend::midir::MidirBackend;
 }

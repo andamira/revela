@@ -49,7 +49,7 @@ raw-window-handle = { version = "0.4.2", optional = true } # latest = 0.5, in sd
 
 ### graphics
 acolor = { version = "0.0.6", default-features = false, features = ["rgb"] }
-png = "0.17.7"
+png = { version = "0.17.7", optional = true } # needs-std
 # tiny-skia = { version = "0.8.2", optional = true }
 
 ### gamepads
@@ -66,7 +66,7 @@ kira = { version = "0.7.1", optional = true }
 [features]
 default = ["std", "safe"]
 safe = ["acolor/safe", "devela/safe", "depura/safe"]
-std = ["acolor/std", "devela/std", "libc?/std", "depura/std"]
+std = ["acolor/std", "devela/std", "libc?/std", "depura/std", "png"]
 alloc = ["linked_list_allocator"]
 no-std = ["acolor/no-std"]
 nightly = []
