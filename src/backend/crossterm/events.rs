@@ -38,7 +38,10 @@ impl From<CtEvent> for EventKind {
             FocusGained => WindowEvent::FocusGained.into(),
             FocusLost => WindowEvent::FocusLost.into(),
             Resize(w, h) => WindowEvent::Resized(Some((w, h).into())).into(),
+            #[cfg(feature = "alloc")]
             Paste(s) => WindowEvent::Paste(s).into(),
+            #[cfg(not(feature = "alloc"))]
+            Paste(_) => EventKind::None,
             Mouse(m) => MouseEvent::from(m).into(),
         }
     }
