@@ -76,7 +76,7 @@ all_backends = ["crossterm", "notcurses", "libc", "sdl2", "gilrs", "midir", "kir
 libc = ["dep:libc", "libc-print"]
 midir = ["dep:midir", "std", "flume"]
 notcurses = ["dep:notcurses", "std", "acolor/notcurses"]
-sdl2 = ["dep:sdl2", "acolor/sdl2", "raw-window-handle", "depura"] # gpu
+sdl2 = ["dep:sdl2", "std", "acolor/sdl2", "raw-window-handle", "depura"] # gpu
 
 # MAYBE backend specific-features
 # crossterm_paste = ["crossterm/bracketed-paste"]

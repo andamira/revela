@@ -3,8 +3,6 @@
 //! Keyboard event codes.
 //
 
-#![allow(non_upper_case_globals)]
-
 /// Keyboard codes.
 //
 // - https://docs.rs/crossterm/latest/crossterm/event/enum.Code.html

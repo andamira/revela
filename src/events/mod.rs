@@ -166,7 +166,6 @@ pub struct Event {
 }
 impl Event {
     /// A `None` event.
-    #[allow(non_upper_case_globals)]
     pub const None: Event = Event {
         kind: EventKind::None,
         emitted: None,
