@@ -5,7 +5,7 @@
 // required profile: no-std
 //
 // run with:
-// cargo run --bin no_alloc --no-default-features --features=no-std,libc --profile=no-std
+// cargo run --example no_alloc --no-default-features --features=no-std,libc --profile=no-std
 
 #![no_std]
 #![no_main]

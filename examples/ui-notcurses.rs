@@ -3,7 +3,10 @@
 //! # Notcurses UI example
 //!
 //! Optionally supported backends: `gilrs`, `midir`, `kira`.
-//
+//!
+// run on debug or release, respectively with:
+// * cargo re_all ui-notcurses
+// * cargo rre_all ui-notcurses
 
 use depura::*;
 use devela::crate_root_string;

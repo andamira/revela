@@ -3,7 +3,10 @@
 //! # `crossterm` UI example
 //!
 //! Optionally supported backends: `gilrs`, `midir`.
-//
+//!
+// run on debug or release, respectively with:
+// * cargo re_all ui-crossterm
+// * cargo rre_all ui-crossterm
 
 use depura::*;
 use devela::crate_root_string;

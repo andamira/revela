@@ -1,11 +1,11 @@
 //
-//! Binary example for no-std with allocation.
+//! Example for `no-std` with allocation.
 //
 // required features: no-std,alloc,libc
 // required profile: no-std
 //
 // run with:
-// cargo run --bin alloc --no-default-features --features=no-std,alloc,libc --profile=no-std
+// cargo run --example alloc --no-default-features --features=no-std,alloc,libc --profile=no-std
 
 #![no_std]
 #![no_main]
@@ -21,6 +21,7 @@ use revela::backend::{prompt, ALLOCATOR};
 pub extern "C" fn main(_argc: isize, _argv: *const *const u8) -> isize {
     /* init the custom global allocator */
 
+    // MAYBE IMPROVE: construct a manager structure in the lib?
     const HEAP_SIZE: usize = 4096;
     static mut HEAP_MEM: [MaybeUninit<u8>; HEAP_SIZE] = [MaybeUninit::uninit(); HEAP_SIZE];
     unsafe {
