@@ -68,14 +68,14 @@ pub(crate) mod all {
     #[doc(inline)]
     #[cfg(feature = "notcurses")]
     #[cfg_attr(feature = "nightly", doc(cfg(feature = "notcurses")))]
-    pub use super::notcurses::{NotcursesBackend, NotcursesTextGrid};
+    pub use super::notcurses::{NotcursesBackend, NotcursesCanvas, NotcursesTextGrid};
 
     /* */
 
     #[doc(inline)]
     #[cfg(feature = "sdl2")]
     #[cfg_attr(feature = "nightly", doc(cfg(feature = "sdl2")))]
-    pub use super::sdl2::{Sdl2Backend, Sdl2EventSource};
+    pub use super::sdl2::{Sdl2Backend, Sdl2Canvas, Sdl2EventSource};
 
     /* */
 

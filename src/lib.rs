@@ -17,6 +17,7 @@ compile_error!("You can't have both the `std` and `no-std` features at the same 
 extern crate alloc;
 
 pub mod backend;
+mod canvas;
 pub mod error;
 pub mod event;
 pub mod layout;
@@ -26,6 +27,7 @@ pub mod all {
     #[doc(inline)]
     pub use super::{
         backend::all::*,
+        canvas::*,
         error::*,
         event::all::*,
         layout::{Clamper, Position, Size, Zone},

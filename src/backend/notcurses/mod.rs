@@ -8,11 +8,13 @@
 pub use ::notcurses;
 
 mod backend;
+mod canvas;
 // mod capabilities;
 mod events;
 mod text;
 
 pub use backend::NotcursesBackend;
+pub use canvas::NotcursesCanvas;
 pub use text::NotcursesTextGrid;
 
 /// General conversions

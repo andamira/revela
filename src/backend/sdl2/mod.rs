@@ -7,10 +7,10 @@
 #[doc(inline)]
 pub use ::sdl2;
 
-// mod canvas; // TODO
 mod backend;
+mod canvas;
 mod events;
 
-// pub use canvas::Sdl2Canvas;
 pub use backend::Sdl2Backend;
+pub use canvas::Sdl2Canvas;
 pub use events::Sdl2EventSource;
