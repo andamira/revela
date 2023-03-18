@@ -1,4 +1,4 @@
-// revela::text
+// revela::visual::text
 //
 //! Working with texts.
 //

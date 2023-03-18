@@ -5,8 +5,6 @@
 
 mod backend;
 pub mod capabilities;
-mod text;
-mod window;
 
 #[cfg(feature = "no-std")]
 pub mod no_std;
@@ -39,8 +37,6 @@ pub(crate) mod all {
             Capabilities, ColorCapabilities, InputCapabilities, PixelCapabilities,
             SoundCapabilities, TextGridCapabilities, WindowCapabilities,
         },
-        text::TextGrid,
-        window::Window,
     };
     // IMPROVE: alloc
     #[doc(inline)]

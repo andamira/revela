@@ -1,4 +1,4 @@
-// revela::layout
+// revela::visual::layout
 //
 //! Layout types.
 //

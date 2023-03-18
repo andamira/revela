@@ -1,4 +1,4 @@
-// revela::canvas
+// revela::visual::canvas
 //
 //!
 //

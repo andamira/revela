@@ -1,4 +1,4 @@
-// revela::layout::clamper
+// revela::visual::layout::clamper
 //
 //!
 //

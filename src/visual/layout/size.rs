@@ -1,4 +1,4 @@
-// revela::layout::size
+// revela::visual::layout::size
 //
 //!
 //

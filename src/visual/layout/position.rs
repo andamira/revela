@@ -1,4 +1,4 @@
-// revela::layout::position
+// revela::visual::layout::position
 //
 ///
 //

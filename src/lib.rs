@@ -19,19 +19,12 @@ compile_error!("You can't enable the `safe` and `non-safe` features at the same 
 extern crate alloc;
 
 pub mod backend;
-mod canvas;
 pub mod error;
 pub mod event;
-pub mod layout;
+pub mod visual;
 
 /// Everything is directly available in here.
 pub mod all {
     #[doc(inline)]
-    pub use super::{
-        backend::all::*,
-        canvas::*,
-        error::*,
-        event::all::*,
-        layout::{Clamper, Position, Size, Zone},
-    };
+    pub use super::{backend::all::*, error::*, event::all::*, visual::all::*};
 }

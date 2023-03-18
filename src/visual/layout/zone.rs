@@ -1,4 +1,4 @@
-// revela::layout::zone
+// revela::visual::layout::zone
 //
 //!
 //
