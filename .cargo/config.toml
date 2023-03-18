@@ -1,23 +1,29 @@
 # NOTE: there are alias suffixes configured for different backends:
 #
 # _all         all backends
-# _all_nostd   all no-std backends
+# _non-safe    all backends, non-safe
+#
+# _no-std      all no-std backends
+# _alloc       all alloc backends
 #
 # _ct          crossterm
 # _nc          notcurses
+# _sdl         sdl2
 #
 [alias]
 
 # CHECK
 cl = "clippy"
 #
-# backends
-cl_all = "clippy --features=all_backends"
+# backends:
+cl_all = "clippy --features=backends_all"
 cl_ct = "clippy --features=crossterm"
 cl_nc = "clippy --features=notcurses"
 cl_sdl = "clippy --features=sdl2"
-# cl_no-std = "clippy --no-default-features --features=all_no-std_backends"
-# cl_alloc = "clippy --profile alloc --no-default-features --features=all_alloc_backends"
+# non-safe:
+cl_non-safe = "clippy --no-default-features --features=backends_all,depura"
+cl_no-std = "clippy --profile no-std --no-default-features --features=all_backends_no-std,depura"
+cl_alloc = "clippy --profile no-std --no-default-features --features=all_backends_alloc,depura"
 
 # CLEAN PACKAGE
 cp = "clean --package"
@@ -29,17 +35,17 @@ do = "doc --no-deps --open"
 dd = "doc"
 ddo = "doc --open"
 #
-d_all = "doc --no-deps --features=all_backends"
-do_all = "doc --no-deps --open --features=all_backends"
-dd_all = "doc --features=all_backends"
-ddo_all = "doc --open --features=all_backends"
+d_all = "doc --no-deps --features=backends_all"
+do_all = "doc --no-deps --open --features=backends_all"
+dd_all = "doc --features=backends_all"
+ddo_all = "doc --open --features=backends_all"
 # nightly:
 nd = "doc --no-deps --features=nightly"
 ndo = "doc --no-deps --open --features=nightly"
-nd_all = "doc --no-deps --features=all_backends,nightly"
-ndo_all = "doc --no-deps --open --features=all_backends,nightly"
-ndd_all = "doc --features=all_backends,nightly"
-nddo_all = "doc --open --features=all_backends,nightly"
+nd_all = "doc --no-deps --features=backends_all,nightly"
+ndo_all = "doc --no-deps --open --features=backends_all,nightly"
+ndd_all = "doc --features=backends_all,nightly"
+nddo_all = "doc --open --features=backends_all,nightly"
 
 # BUILD
 b = "build"
@@ -70,12 +76,18 @@ br_sdl = "build --release --features=sdl2"
 brb_sdl = "build --release --features=sdl2 --bin"
 bre_sdl = "build --release --features=sdl2 --example"
 # all
-b_all = "build --features=all_backends"
-bb_all = "build --features=all_backends --bin"
-be_all = "build --features=all_backends --example"
-br_all = "build --release --features=all_backends"
-brb_all = "build --release --features=all_backends --bin"
-bre_all = "build --release --features=all_backends --example"
+b_all = "build --features=backends_all"
+bb_all = "build --features=backends_all --bin"
+be_all = "build --features=backends_all --example"
+br_all = "build --release --features=backends_all"
+brb_all = "build --release --features=backends_all --bin"
+bre_all = "build --release --features=backends_all --example"
+# no-std | alloc
+be_no-std = "build --profile no-std --no-default-features --features=backends_no-std --example"
+be_alloc = "build --profile no-std --no-default-features --features=backends_alloc --example"
+bre_no-std = "build --profile no-std-release --release --no-default-features --features=backends_no-std --example"
+bre_alloc = "build --profile no-std-release --release --no-default-features --features=backends_alloc --example"
+
 
 # RUN
 r = "run"
@@ -106,17 +118,24 @@ rr_sdl = "run --release --features=sdl2"
 rrb_sdl = "run --release --features=sdl2 --bin"
 rre_sdl = "run --release --features=sdl2 --example"
 # all
-r_all = "run --features=all_backends"
-rr_all = "run --release --features=all_backends"
-rb_all = "run --features=all_backends --bin"
-re_all = "run --features=all_backends --example"
-rrb_all = "run --release --features=all_backends --bin"
-rre_all = "run --release --features=all_backends --example"
+r_all = "run --features=backends_all"
+rr_all = "run --release --features=backends_all"
+rb_all = "run --features=backends_all --bin"
+re_all = "run --features=backends_all --example"
+rrb_all = "run --release --features=backends_all --bin"
+rre_all = "run --release --features=backends_all --example"
+# all_unsafe
+r_all_unsafe = "run --no-default-features --features=backends_all,depura"
+rr_all_unsafe = "run --release --no-default-features --features=backends_all,depura"
+rb_all_unsafe = "run --no-default-features --features=backends_all,depura --bin"
+re_all_unsafe = "run --no-default-features --features=backends_all,depura --example"
+rrb_all_unsafe = "run --release --no-default-features --features=backends_all,depura --bin"
+rre_all_unsafe = "run --release --no-default-features --features=backends_all,depura --example"
 # no-std | alloc
-# re_no-std = "run --no-default-features --features=all_no-std_backends --example"
-# rre_no-std = "run --release --no-default-features --features=all_no-std_backends --example"
-# re_alloc = "run --profile alloc --no-default-features --features=all_alloc_backends --example"
-# rre_alloc = "run --profile alloc --release --no-default-features --features=all_alloc_backends --example"
+re_no-std = "run --profile no-std --no-default-features --features=backends_no-std --example"
+re_alloc = "run --profile no-std --no-default-features --features=backends_alloc --example"
+rre_no-std = "run --profile no-std-release --release --no-default-features --features=backends_no-std --example"
+rre_alloc = "run --profile no-std-release --release --no-default-features --features=backends_alloc --example"
 
 # TEST
 t = "test"
@@ -130,8 +149,8 @@ td_ct = "test --doc --features=crossterm"
 t_nc = "test --features=notcurses"
 td_nc = "test --doc --features=notcurses"
 #
-t_all = "test --features=all_backends"
-td_all = "test --doc --features=all_backends"
+t_all = "test --features=backends_all"
+td_all = "test --doc --features=backends_all"
 
 # TREE
 tr = "tree"
@@ -150,9 +169,9 @@ tr_sdl = "tree --features=sdl2"
 trf_sdl = "tree --format {p}:{f} --features=sdl2"
 trr_sdl = "tree --format {p}:{r} --features=sdl2"
 # all
-tr_all = "tree --features=all_backends"
-trf_all = "tree --format {p}:{f} --features=all_backends"
-trr_all = "tree --format {p}:{r} --features=all_backends"
+tr_all = "tree --features=backends_all"
+trf_all = "tree --format {p}:{f} --features=backends_all"
+trr_all = "tree --format {p}:{r} --features=backends_all"
 
 # PUBLISH
 p = "publish --dry-run"
@@ -182,9 +201,9 @@ Eb_sdl = "expand --bin --features=sdl2"
 Ee_sdl = "expand --example --features=sdl2"
 El_sdl = "expand --lib --features=sdl2"
 # all
-E_all = "expand  --features=all_backends"
-Eb_all = "expand --bin --features=all_backends"
-Ee_all = "expand --example --features=all_backends"
-El_all = "expand --lib --features=all_backends"
+E_all = "expand  --features=backends_all"
+Eb_all = "expand --bin --features=backends_all"
+Ee_all = "expand --example --features=backends_all"
+El_all = "expand --lib --features=backends_all"
 
 [build]

@@ -71,7 +71,7 @@ jobs:
 
       - name: "cargo doc"
         # NOTE:CUSTOM
-        run: cargo doc --features=nightly,all_backends,notcurses?/vendored
+        run: cargo doc --features=nightly,backends_all,notcurses?/vendored
         env:
           RUSTDOCFLAGS: --cfg docsrs
 
