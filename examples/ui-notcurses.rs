@@ -27,27 +27,30 @@ fn main() -> Result<()> {
         .ignore("gilrs::ff")
         .ignore("gilrs_core")
         //
+        .ignore("symphonia")
+        //
         .init()
         .unwrap();
     info!["press 'q' to exit"];
 
-    let mut notcurses_ui = NotcursesBackend::new()?;
-    let nc = &mut notcurses_ui;
+    /* notcurses */
+
+    let mut notcurses_backend = NotcursesBackend::new()?;
+    let nc = &mut notcurses_backend;
+    nc.enable_mouse()?;
 
     info!["capabilities: {:?}", nc.capabilities()];
 
-    nc.enable_mouse()?;
+    // text
 
-    /* */
-
-    let mut t0 = nc.new_root_child((1, 2, 15, 9))?;
+    let mut t0 = nc.new_text_grid((1, 2, 15, 9))?;
     t0.set_scrolling(true);
     debug![
         "t0 putstr: {:?}",
         t0.putstr("←↑↓→ to move\na for audio\nq to quit")?
     ];
 
-    /* */
+    /* misc. input */
 
     #[cfg(feature = "gilrs")]
     let mut gilrs = GilrsBackend::new()?;

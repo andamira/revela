@@ -39,7 +39,8 @@ impl NotcursesBackend {
         &mut self.root
     }
 
-    pub fn new_root_child(&mut self, zone: impl Into<Zone>) -> Result<NotcursesTextGrid> {
+    /// Returns a new text grid.
+    pub fn new_text_grid(&mut self, zone: impl Into<Zone>) -> Result<NotcursesTextGrid> {
         self.root.new_child(zone)
     }
 

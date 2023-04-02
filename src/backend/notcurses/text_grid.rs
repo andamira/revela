@@ -4,7 +4,7 @@
 //
 
 use super::NotcursesBackend;
-use crate::all::{Clamper as C, Position, RevelaResult as Result, Size, TextGrid, Zone};
+use crate::all::{Clamper as C, Position, RevelaResult as Result, Size, TextGrid, Zone, Visual};
 use ::notcurses::Plane;
 
 #[derive(Debug)]
@@ -56,7 +56,10 @@ impl NotcursesTextGrid {
     }
 }
 
-impl TextGrid for NotcursesTextGrid {
+impl Visual for NotcursesTextGrid {
+    fn zone(&self) -> Zone {
+        Zone::new(self.position(), self.size())
+    }
     fn size(&self) -> Size {
         self.inner.size().into()
     }
@@ -71,6 +74,9 @@ impl TextGrid for NotcursesTextGrid {
         Ok(self.inner.move_rel(position.into())?)
     }
 
+}
+
+impl TextGrid for NotcursesTextGrid {
     /* cursor */
 
     fn cursor(&self) -> Position {

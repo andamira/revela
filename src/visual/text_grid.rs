@@ -3,19 +3,10 @@
 //! Working with texts.
 //
 
-use crate::all::{Position, RevelaResult as Result, Size};
+use crate::all::{Position, RevelaResult as Result, Visual};
 
 /// A multi-layered grid of text.
-pub trait TextGrid {
-    /// Returns the size of the text grid in cells.
-    fn size(&self) -> Size;
-    fn position(&self) -> Position;
-
-    /// Moves the text-grid an `offset` relative to its current point.
-    fn offset(&mut self, offset: impl Into<Position>) -> Result<()>;
-    /// Moves the text-grid to a new `position`, relative to its parent.
-    fn move_to(&mut self, position: impl Into<Position>) -> Result<()>;
-
+pub trait TextGrid: Visual {
     /// Returns the cursor position.
     fn cursor(&self) -> Position;
     /// Moves the cursor to the indicated `position`.
