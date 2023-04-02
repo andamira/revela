@@ -39,13 +39,11 @@ d_all = "doc --no-deps --features=backends_all"
 do_all = "doc --no-deps --open --features=backends_all"
 dd_all = "doc --features=backends_all"
 ddo_all = "doc --open --features=backends_all"
-# nightly:
-nd = "doc --no-deps --features=nightly"
-ndo = "doc --no-deps --open --features=nightly"
-nd_all = "doc --no-deps --features=backends_all,nightly"
-ndo_all = "doc --no-deps --open --features=backends_all,nightly"
-ndd_all = "doc --features=backends_all,nightly"
-nddo_all = "doc --open --features=backends_all,nightly"
+# +nightly; document everything
+nd = "doc --no-deps --features=nightly,backends_all"
+ndo = "doc --no-deps --open --features=nightly,backends_all"
+ndd = "doc --features=nightly,backends_all"
+nddo = "doc --open --features=nightly,backends_all"
 
 # BUILD
 b = "build"
