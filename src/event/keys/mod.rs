@@ -6,7 +6,7 @@
 mod code;
 mod mods;
 
-pub use code::{KeyCode, MediaKey, ModifierKey};
+pub use code::{FunctionKey, KeyCode, MediaKey, ModifierKey};
 pub use mods::KeyModifiers;
 
 use super::{Event, EventKind};
@@ -24,6 +24,7 @@ pub struct KeyEvent {
 
 /// Keyboard event kind.
 ///
+/// # For terminal emulators
 /// - Only `Press` is supported by every terminal.
 /// - Windows could additionally support `Release`.
 /// - The kitty terminal also supports `Release` and `Repeat` on any OS.
@@ -42,9 +43,68 @@ pub enum KeyKind {
 }
 
 impl KeyEvent {
+    /// Returns a new keyboard event.
     // TODO: IMPROVE const? or impl Into<KeyModifiers?>
     pub fn new(code: KeyCode, mods: KeyModifiers, kind: KeyKind) -> Self {
         Self { code, mods, kind }
+    }
+
+    //
+
+    /// Returns `true` if the kind is `KeyKind::Press`.
+    pub fn is_press(&self) -> bool {
+        matches![self.kind, KeyKind::Press]
+    }
+    /// Returns `true` if the kind is `KeyKind::Release`.
+    pub fn is_release(&self) -> bool {
+        matches![self.kind, KeyKind::Release]
+    }
+    /// Returns `true` if the kind is `KeyKind::Repeat`.
+    pub fn is_repeat(&self) -> bool {
+        matches![self.kind, KeyKind::Repeat]
+    }
+
+    //
+
+    /// Returns `true` if the code is `KeyCode::Char(char)`.
+    #[inline]
+    pub fn is_char(&self) -> bool {
+        matches![self.code, KeyCode::Char(_)]
+    }
+
+    /// Returns `true` if the code is `KeyCode::F(FunctionKey)`.
+    #[inline]
+    pub fn is_function(&self) -> bool {
+        matches![self.code, KeyCode::F(_)]
+    }
+
+    /// Returns `true` if the code is `KeyCode::Media(MediaKey)`.
+    #[inline]
+    pub fn is_media(&self) -> bool {
+        matches![self.code, KeyCode::F(_)]
+    }
+
+    /// Returns `true` if the code is one of the arrow keys ←↑↓→ .
+    #[inline]
+    pub fn is_arrow(&self) -> bool {
+        use KeyCode::*;
+        matches![self.code, Up | Left | Right | Down]
+    }
+
+    //
+
+    /// Returns some `char` if the event code is `KeyCode::Char(char)`.
+    #[inline]
+    #[rustfmt::skip]
+    pub fn some_char(&self) -> Option<char> {
+        if let KeyCode::Char(c) = &self.code { Some(*c) } else { None }
+    }
+
+    /// Returns some function key number if the event code is `KeyCode::F(FunctionKey)`.
+    #[inline]
+    #[rustfmt::skip]
+    pub fn some_function(&self) -> Option<FunctionKey> {
+        if let KeyCode::F(c) = &self.code { Some(*c) } else { None }
     }
 }
 

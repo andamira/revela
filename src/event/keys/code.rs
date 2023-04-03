@@ -3,6 +3,9 @@
 //! Keyboard event codes.
 //
 
+/// Alias for the number associated to a function key.
+pub type FunctionKey = u8;
+
 /// Keyboard codes.
 //
 // - https://docs.rs/crossterm/latest/crossterm/event/enum.Code.html
@@ -53,7 +56,7 @@ pub enum KeyCode {
     /// - +Shift: F13-F24
     /// - +Control: F25-F36
     /// - +Shift+Control: F37-F48
-    F(u8),
+    F(FunctionKey),
 
     /// A unicode character.
     Char(char),
