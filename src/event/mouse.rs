@@ -4,6 +4,7 @@
 //
 
 use crate::all::{Event, EventKind, KeyModifiers, Position};
+use core::fmt;
 
 /// Mouse events.
 //
@@ -166,6 +167,18 @@ impl MouseKind {
         matches![self, MouseKind::ScrollDown]
     }
 }
+impl fmt::Display for MouseKind {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        use MouseKind::*;
+        match self {
+            Press => write!(f, "Press"),
+            Release => write!(f, "Release"),
+            Motion => write!(f, "Motion"),
+            ScrollUp => write!(f, "ScrollUp"),
+            ScrollDown => write!(f, "ScrollDown"),
+        }
+    }
+}
 
 /// Mouse buttons.
 //
@@ -238,6 +251,20 @@ impl From<u8> for MouseButton {
             4 => ScrollUp,
             5 => ScrollDown,
             _ => Other(b),
+        }
+    }
+}
+
+impl fmt::Display for MouseButton {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        use MouseButton::*;
+        match self {
+            Left => write!(f, "Left"),
+            Middle => write!(f, "Middle"),
+            Right => write!(f, "Right"),
+            ScrollUp => write!(f, "ScrollUp"),
+            ScrollDown => write!(f, "ScrollDown"),
+            Other(b) => write!(f, "Other({b})"),
         }
     }
 }
