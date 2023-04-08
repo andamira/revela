@@ -33,10 +33,16 @@ pub trait TextGrid: Visual {
 
     // https://docs.rs/notcurses/latest/notcurses/struct.Plane.html#text-and-cells
 
-    /// Writes a `string` to the current cursor position.
+    /// Prints a `string` to the current cursor position.
     ///
     /// Returns the number of columns the cursor has advanced.
     fn print(&mut self, string: &str) -> Result<u32>;
+
+    /// Erases the full contents.
+    fn erase(&mut self);
+
+    /// Returns a string with the full contents.
+    fn contents(&mut self) -> Result<String>;
 
     // IMPROVE: depends on layers
     fn raster(&mut self) -> Result<()>;

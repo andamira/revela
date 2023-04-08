@@ -4,7 +4,7 @@
 //
 
 use super::NotcursesBackend;
-use crate::all::{Clamper as C, Position, RevelaResult as Result, Size, TextGrid, Zone, Visual};
+use crate::all::{Clamper as C, Position, RevelaResult as Result, Size, TextGrid, Visual, Zone};
 use ::notcurses::Plane;
 
 /// `notcurses` [`TextGrid`] layer.
@@ -34,6 +34,7 @@ impl NotcursesTextGrid {
     /* scroll */
 
     /// Returns `true` if the text grid is set to scroll.
+    #[inline]
     pub fn is_scrolling(&self) -> bool {
         self.inner.is_scrolling()
     }
@@ -49,38 +50,46 @@ impl NotcursesTextGrid {
 }
 
 impl NotcursesTextGrid {
+    #[inline]
     pub fn from_plane(plane: Plane) -> Self {
         Self { inner: plane }
     }
+    #[inline]
     pub fn into_inner(self) -> Plane {
         self.inner
     }
+    #[inline]
     pub fn ref_inner(&self) -> &Plane {
         &self.inner
     }
+    #[inline]
     pub fn mut_inner(&mut self) -> &mut Plane {
         &mut self.inner
     }
 }
 
 impl Visual for NotcursesTextGrid {
+    #[inline]
     fn zone(&self) -> Zone {
         Zone::new(self.position(), self.size())
     }
+    #[inline]
     fn size(&self) -> Size {
         self.inner.size().into()
     }
+    #[inline]
     fn position(&self) -> Position {
         self.inner.position().into()
     }
 
+    #[inline]
     fn offset(&mut self, offset: impl Into<Position>) -> Result<()> {
         Ok(self.inner.move_rel(offset.into())?)
     }
+    #[inline]
     fn move_to(&mut self, position: impl Into<Position>) -> Result<()> {
         Ok(self.inner.move_to(position.into())?)
     }
-
 }
 
 impl TextGrid for NotcursesTextGrid {
@@ -141,16 +150,35 @@ impl TextGrid for NotcursesTextGrid {
 
     /* */
 
+    /// Prints a `string` to the current cursor position.
+    ///
     /// # Errors
     /// - if the position falls outside the plane’s area.
     /// - if a glyph can’t fit in the current line, unless scrolling is enabled.
+    #[inline]
     fn print(&mut self, string: &str) -> Result<u32> {
         Ok(self.inner.putstr(string)?)
     }
 
+    /// Returns a string with the full contents.
+    #[inline]
+    fn contents(&mut self) -> Result<String> {
+        Ok(self.inner.contents()?)
+    }
+
+    /// Erases the full contents.
+    #[inline]
+    fn erase(&mut self) {
+        self.inner.erase()
+    }
+
+    // TODO: erase_region, contents_region
+
+    #[inline]
     fn raster(&mut self) -> Result<()> {
         Ok(self.inner.rasterize()?)
     }
+    #[inline]
     fn render(&mut self) -> Result<()> {
         Ok(self.inner.render()?)
     }
