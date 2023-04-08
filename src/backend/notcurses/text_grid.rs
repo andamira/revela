@@ -7,6 +7,7 @@ use super::NotcursesBackend;
 use crate::all::{Clamper as C, Position, RevelaResult as Result, Size, TextGrid, Zone, Visual};
 use ::notcurses::Plane;
 
+/// `notcurses` [`TextGrid`] layer.
 #[derive(Debug)]
 pub struct NotcursesTextGrid {
     inner: Plane,
@@ -30,18 +31,24 @@ impl NotcursesTextGrid {
         })
     }
 
-    //
+    /* scroll */
 
+    /// Returns `true` if the text grid is set to scroll.
     pub fn is_scrolling(&self) -> bool {
         self.inner.is_scrolling()
     }
 
+    /// Sets the text grid to `scroll`, or not.
+    #[inline]
     pub fn set_scrolling(&mut self, scroll: bool) -> bool {
         self.inner.set_scrolling(scroll)
     }
 
     //
 
+}
+
+impl NotcursesTextGrid {
     pub fn from_plane(plane: Plane) -> Self {
         Self { inner: plane }
     }
@@ -71,7 +78,7 @@ impl Visual for NotcursesTextGrid {
         Ok(self.inner.move_rel(offset.into())?)
     }
     fn move_to(&mut self, position: impl Into<Position>) -> Result<()> {
-        Ok(self.inner.move_rel(position.into())?)
+        Ok(self.inner.move_to(position.into())?)
     }
 
 }
@@ -79,34 +86,53 @@ impl Visual for NotcursesTextGrid {
 impl TextGrid for NotcursesTextGrid {
     /* cursor */
 
+    /// Returns the current cursor position.
+    #[inline(always)]
     fn cursor(&self) -> Position {
         self.inner.cursor().into()
     }
 
+    /// Moves the cursor to the home position (`0, 0`).
+    #[inline(always)]
+    fn cursor_home(&mut self) {
+        self.inner.cursor_home()
+    }
+
+    /// Moves the cursor to the specified position.
+    ///
     /// # Errors
-    /// Errors if the coordinates exceed the inner plane’s dimensions,
-    /// and the cursor will remain unchanged in that case.
+    /// If the coordinates exceed the inner plane’s dimensions.
+    /// The cursor will remain unchanged in that case.
+    #[inline]
     fn cursor_to(&mut self, position: impl Into<Position>) -> Result<()> {
         Ok(self.inner.cursor_move_to(position.into())?)
     }
 
+    /// Moves the cursor to the specified `row`.
+    ///
     /// # Errors
-    /// Errors if the row number exceed the inner plane’s rows,
-    /// and the cursor will remain unchanged in that case.
+    /// If the row number exceed the inner plane’s rows.
+    /// The cursor will remain unchanged in that case.
+    #[inline]
     fn cursor_to_row(&mut self, row: i32) -> Result<()> {
         Ok(self.inner.cursor_move_to_row(C::clamp_to_u32(row))?)
     }
 
+    /// Moves the cursor to the specified `col`umn.
+    ///
     /// # Errors
-    /// Errors if the row number exceed the inner plane’s columns,
-    /// and the cursor will remain unchanged in that case.
+    /// If the row number exceed the inner plane’s columns.
+    /// The cursor will remain unchanged in that case.
+    #[inline]
     fn cursor_to_col(&mut self, col: i32) -> Result<()> {
         Ok(self.inner.cursor_move_to_col(C::clamp_to_u32(col))?)
     }
 
+    /// Moves the cursor
     /// # Errors
-    /// Errors if the coordinates exceed the inner plane’s dimensions,
-    /// and the cursor will remain unchanged in that case.
+    /// If the coordinates exceed the inner plane’s dimensions.
+    /// The cursor will remain unchanged in that case.
+    #[inline]
     fn cursor_offset(&mut self, offset: impl Into<Position>) -> Result<()> {
         let (x, y): (i32, i32) = self.cursor().into();
         let (xo, yo): (i32, i32) = offset.into().into();
@@ -118,7 +144,7 @@ impl TextGrid for NotcursesTextGrid {
     /// # Errors
     /// - if the position falls outside the plane’s area.
     /// - if a glyph can’t fit in the current line, unless scrolling is enabled.
-    fn putstr(&mut self, string: &str) -> Result<u32> {
+    fn print(&mut self, string: &str) -> Result<u32> {
         Ok(self.inner.putstr(string)?)
     }
 
