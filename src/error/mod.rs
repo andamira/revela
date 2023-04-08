@@ -19,7 +19,7 @@ pub use std::io::Error as IoError;
 ///
 #[cfg(feature = "notcurses")]
 #[cfg_attr(feature = "nightly", doc(cfg(feature = "notcurses")))]
-pub use ::notcurses::Error as NotcursesError;
+pub use ::notcurses::NotcursesError;
 
 /// `gilrs` error type.
 ///
