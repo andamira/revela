@@ -56,8 +56,8 @@ impl From<Input> for EventKind {
     fn from(input: Input) -> EventKind {
         let km = KeyModifiers::from(input.keymod);
         let kk = KeyKind::from(input.itype);
-        let pos: Option<Position> = input.cell.map(|p| p.into());
-        let off: Option<Position> = input.offset.map(|p| p.into());
+        let pos: Option<Position> = input.cell;
+        let off: Option<Position> = input.offset;
 
         match input.received {
             Received::Char(c) => (KeyCode::Char(c), km).into(),

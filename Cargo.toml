@@ -28,7 +28,7 @@ publish = false
 # default = ["std", "safe"]
 default = ["std", "safe", "depura"] # DEBUG
 #
-std = ["alloc", "acolor/std", "devela/std", "depura?/std", "repite?/std", "libc?/std", "tiny-skia?/std", "png"]
+std = ["alloc", "acolor/std", "cuadra/std", "devela/std", "depura?/std", "repite?/std", "libc?/std", "tiny-skia?/std", "png"]
 no-std = ["acolor/no-std", "tiny-skia?/no-std-float"]
 alloc = ["linked_list_allocator"]
 #
@@ -45,7 +45,7 @@ backends_no-std = ["no-std", "libc", "tiny-skia"]
 #
 libc = ["dep:libc", "libc-print"]
 midir = ["dep:midir", "std", "flume"]
-notcurses = ["dep:notcurses", "std", "acolor/notcurses"]
+notcurses = ["dep:notcurses", "std"]
 sdl2 = ["dep:sdl2", "std", "acolor/sdl2", "raw-window-handle"]
 #crossterm_paste = ["crossterm/bracketed-paste"]
 
@@ -59,6 +59,7 @@ log = "0.4.17"
 
 # libera:
 acolor = { version = "0.0.7", default-features = false, features = ["rgb"] }
+cuadra = { version = "0.3.0", default-features = false }
 devela = { version = "0.1.10", default-features = false }
 ## (optional)
 depura = { version = "0.0.3", optional = true, default-features = false }
@@ -73,7 +74,7 @@ linked_list_allocator = { version = "0.10.5", optional = true }
 #
 ## terminal
 crossterm = { version = "0.26.0", optional = true } # default-features = false
-notcurses = { version = "3.3.0", optional = true }
+notcurses = { version = "3.4.0", optional = true }
 #notcurses = { path = "../../notcurses/notcurses-rs", optional = true }
 #notcurses = { git = "https://github.com/dankamongmen/notcurses", optional = true }
 #

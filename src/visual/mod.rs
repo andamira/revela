@@ -5,8 +5,9 @@
 
 use crate::error::RevelaResult as Result;
 
+pub use ::cuadra as layout;
+
 mod canvas;
-mod layout;
 mod text_grid;
 mod window;
 
@@ -22,7 +23,7 @@ pub(crate) mod all {
             Color, LinearSrgb32, LinearSrgba32, Oklab32, Oklch32, Srgb32, Srgb8, Srgba32, Srgba8,
         },
         canvas::Canvas,
-        layout::{Clamper, Position, Size, Zone},
+        layout::{Clamper32 as Clamper, Position32 as Position, Size32 as Size, Zone32 as Zone},
         text_grid::TextGrid,
         window::Window,
         Visual,

@@ -108,13 +108,13 @@ impl Backend for NotcursesBackend {
         });
 
         let pixel = Some(PixelCapabilities {
-            max_bitmap_size: geo.max_bitmap_pixels.map(|s| s.into()),
+            max_bitmap_size: geo.max_bitmap_pixels,
             pixel_native: cap.pixel(),
             // ..Default::default()
         });
 
         let text_grid = Some(TextGridCapabilities {
-            cell_size: Some(geo.pixels_per_cell.into()),
+            cell_size: Some(geo.pixels_per_cell),
             custom_cell_size: false,
             unicode: cap.utf8(),
             // ..Default::default()
@@ -176,7 +176,7 @@ impl Window for NotcursesBackend {
     }
 
     fn size(&self) -> Result<Size> {
-        Ok(self.inner.size().into())
+        Ok(self.inner.size())
     }
 
     fn set_size(&mut self, _size: Size) -> Result<()> {

@@ -75,11 +75,11 @@ impl Visual for NotcursesTextGrid {
     }
     #[inline]
     fn size(&self) -> Size {
-        self.inner.size().into()
+        self.inner.size()
     }
     #[inline]
     fn position(&self) -> Position {
-        self.inner.position().into()
+        self.inner.position()
     }
 
     #[inline]
@@ -98,7 +98,7 @@ impl TextGrid for NotcursesTextGrid {
     /// Returns the current cursor position.
     #[inline(always)]
     fn cursor(&self) -> Position {
-        self.inner.cursor().into()
+        self.inner.cursor()
     }
 
     /// Moves the cursor to the home position (`0, 0`).
