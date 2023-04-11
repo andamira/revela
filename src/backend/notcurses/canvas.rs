@@ -236,7 +236,8 @@ impl Canvas for NotcursesCanvas {
 
     fn get_pixel(&self, p: Position) -> Result<Self::Color> {
         let t = p.as_tuple_u32();
-        self.get_pixel(t.0, t.1).map(|c| Self::Color::from_array(c.into()))
+        self.get_pixel(t.0, t.1)
+            .map(|c| Self::Color::from_array(c.into()))
     }
 
     fn set_pixel(&mut self, p: Position, c: Self::Color) -> Result<()> {

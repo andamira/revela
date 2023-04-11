@@ -24,8 +24,7 @@ publish = true
 
 
 [features]
-# default = ["std", "safe"]
-default = ["std", "safe", "depura"] # TEMP DEBUG
+default = ["std", "safe"]
 #
 std = [
 	"alloc", "png",
@@ -164,4 +163,4 @@ maintenance = { status = "experimental" }
 
 # https://docs.rs/about/metadata
 [package.metadata.docs.rs]
-features = ["nightly", "all_backends", "notcurses?/vendored"]
+features = ["nightly", "backends_all", "notcurses?/vendored"]

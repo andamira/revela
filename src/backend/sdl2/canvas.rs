@@ -17,6 +17,7 @@ use crate::all::{
 };
 
 use acolor::Srgba8;
+#[cfg(feature = "depura")]
 use depura::*;
 
 #[cfg(not(feature = "safe"))]
@@ -88,7 +89,9 @@ impl Sdl2Canvas {
         let num_pixels = w_usize * h_usize;
         let num_bytes = num_pixels * 4;
 
+        #[cfg(feature = "depura")]
         info![target: ">sdl2>canvas", "canvas size: {w_usize}×{h_usize}={num_pixels}"];
+        #[cfg(feature = "depura")]
         info![target: ">sdl2>canvas", "opengl:{opengl}; hidden:{hidden}"];
 
         /* initialize buffer */
@@ -191,6 +194,7 @@ impl Sdl2Canvas {
 
     // /// Fills the canvas with a color.
     // pub fn fill(&mut self, color: impl Into<Color>) {
+    //     #[cfg(feature = "depura")]
     //     trace_time![target: ">sdl2>canvas", "canvas.fill()"];
     //     self.canvas.set_draw_color(color.into());
     //     self.canvas.clear();
@@ -258,6 +262,7 @@ impl Sdl2Canvas {
     //
     // 8-10ms
     pub fn to_new_vec(&mut self) -> Result<Vec<u8>> {
+        #[cfg(feature = "depura")]
         info_time![target: ">sdl2>canvas", "to_new_vec()"];
         self.canvas
             // .read_pixels(None, PixelFormatEnum::RGBA8888)
@@ -267,9 +272,11 @@ impl Sdl2Canvas {
 
     /// TEMP read_pixels
     pub fn read_pixels(&self) -> Result<Vec<u8>> {
+        #[cfg(feature = "depura")]
         info_time![target: ">sdl2>canvas", "read_pixels()"];
 
         let v = self.canvas.read_pixels(None, PixelFormatEnum::ABGR8888)?;
+        #[cfg(feature = "depura")]
         debug![target: ">sdl2>canvas", "{:?}", v.get(0..12)];
 
         Ok(v)
@@ -281,6 +288,7 @@ impl Sdl2Canvas {
     // IMPROVE: safe version
     #[cfg(not(feature = "safe"))] // IMPROVE:safe:to_buffer
     pub fn to_buffer(&mut self) -> Result<()> {
+        #[cfg(feature = "depura")]
         info_time![target: ">sdl2>canvas", "to_buffer()"];
 
         // https://wiki.libsdl.org/SDL_PixelFormatEnum
@@ -289,6 +297,7 @@ impl Sdl2Canvas {
         let format = PixelFormatEnum::ABGR8888; // FIXES byte order !!!?
 
         // RGB888
+        // #[cfg(feature = "depura")]
         // debug![target: ">sdl2>canvas", "default pixel format: {:?}",
         //     self.canvas.default_pixel_format()];
 
@@ -308,6 +317,7 @@ impl Sdl2Canvas {
         };
 
         // FIX: all black ?
+        #[cfg(feature = "depura")]
         debug![target: ">sdl2>canvas", "{:?}", self.buffer.get(0..12)];
 
         if ret == 0 {
@@ -341,6 +351,7 @@ impl Sdl2Canvas {
     //
     #[cfg(not(feature = "safe"))] // IMPROVE:safe:to_buffer
     pub fn save_png(&mut self, path_str: &str) -> Result<()> {
+        #[cfg(feature = "depura")]
         trace_time![target: ">sdl2>canvas", "save_png()"];
 
         use std::{fs::File, io::BufWriter, path::Path};

@@ -44,9 +44,6 @@ impl NotcursesTextGrid {
     pub fn set_scrolling(&mut self, scroll: bool) -> bool {
         self.inner.set_scrolling(scroll)
     }
-
-    //
-
 }
 
 impl NotcursesTextGrid {

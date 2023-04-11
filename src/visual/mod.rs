@@ -32,7 +32,6 @@ pub(crate) mod all {
 
 /// Common visual trait.
 pub trait Visual {
-
     fn zone(&self) -> Zone;
     fn size(&self) -> Size {
         self.zone().size()
