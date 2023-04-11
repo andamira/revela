@@ -46,8 +46,8 @@ fn main() -> Result<()> {
     let mut t0 = nc.new_text_grid((1, 2, 15, 9))?;
     t0.set_scrolling(true);
     debug![
-        "t0 putstr: {:?}",
-        t0.putstr("←↑↓→ to move\na for audio\nq to quit")?
+        "t0 print: {:?}",
+        t0.print("←↑↓→ to move\na for audio\nq to quit")?
     ];
 
     /* misc. input */
