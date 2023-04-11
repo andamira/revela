@@ -3,8 +3,7 @@ name = "revela"
 description = "A user interface abstracted over a selection of backends."
 version = "0.0.6"
 edition = "2021"
-resolver = "2"
-rust-version = "1.68.0"
+rust-version = "1.68.2"
 authors = ["José Luis Cruz <joseluis@andamira.net>"]
 repository = "https://github.com/andamira/revela"
 documentation = "https://docs.rs/revela"
@@ -21,14 +20,19 @@ include = [
 ]
 categories = ["gui", "game-development", "api-bindings", "no-std::no-alloc"]
 keywords = ["terminal"]
-publish = false
+publish = true
 
 
 [features]
 # default = ["std", "safe"]
-default = ["std", "safe", "depura"] # DEBUG
+default = ["std", "safe", "depura"] # TEMP DEBUG
 #
-std = ["alloc", "acolor/std", "cuadra/std", "devela/std", "depura?/std", "repite?/std", "libc?/std", "tiny-skia?/std", "png"]
+std = [
+	"alloc", "png",
+	"acolor/std", "cuadra/std", "devela/std",
+	"depura?/std", "repite?/std",
+	"libc?/std", "tiny-skia?/std"
+]
 no-std = ["acolor/no-std", "tiny-skia?/no-std-float"]
 alloc = ["linked_list_allocator"]
 #
@@ -59,7 +63,7 @@ log = "0.4.17"
 
 # libera:
 acolor = { version = "0.0.7", default-features = false, features = ["rgb"] }
-cuadra = { version = "0.3.0", default-features = false }
+cuadra = { version = "0.3.1", default-features = false }
 devela = { version = "0.1.10", default-features = false }
 ## (optional)
 depura = { version = "0.0.3", optional = true, default-features = false }
@@ -82,10 +86,10 @@ notcurses = { version = "3.4.0", optional = true }
 sdl2 = { version = "0.35.2", optional = true, features = ["raw-window-handle", "gfx"] }
 #macroquad = { version = "0.3.24", optional = true }
 #tauri = { version = "1.2.4", optional = true }
-raw-window-handle = { version = "0.4.2", optional = true } # latest = 0.5, in sdl2 = 0.4.2
+raw-window-handle = { version = "0.4.2", optional = true } # latest = 0.5.2, in sdl2: 0.4.2
 #
 ## graphics
-png = { version = "0.17.7", optional = true } # needs-std
+png = { version = "0.17.8", optional = true } # needs-std
 tiny-skia = { version = "0.8.3", optional = true, default-features = false }
 #
 ## gamepads

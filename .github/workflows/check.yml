@@ -99,7 +99,7 @@ jobs:
     strategy:
       matrix:
         # NOTE: CUSTOM
-        msrv: [1.68.0]
+        msrv: [1.68.2]
 
     name: "ubuntu / ${{ matrix.msrv }}"
     steps:
