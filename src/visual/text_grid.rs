@@ -3,6 +3,9 @@
 //! Working with texts.
 //
 
+#[cfg(feature = "alloc")]
+use alloc::string::String;
+
 use crate::all::{Position, RevelaResult as Result, Visual};
 
 /// A multi-layered grid of text.
@@ -42,6 +45,7 @@ pub trait TextGrid: Visual {
     fn erase(&mut self);
 
     /// Returns a string with the full contents.
+    #[cfg(feature = "alloc")]
     fn contents(&mut self) -> Result<String>;
 
     // IMPROVE: depends on layers
