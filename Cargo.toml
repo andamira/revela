@@ -29,13 +29,13 @@ default = ["std", "safe"]
 std = [
 	"alloc", "png",
 	"acolor/std", "cuadra/std", "devela/std",
-	"depura?/std", "repite?/std",
+	"depura?/std", "espera?/std",
 	"libc?/std", "tiny-skia?/std"
 ]
 no-std = ["acolor/no-std", "tiny-skia?/no-std-float"]
 alloc = ["linked_list_allocator"]
 #
-safe = ["acolor/safe", "devela/safe", "depura?/safe", "repite?/safe"]
+safe = ["acolor/safe", "depura?/safe", "devela/safe", "espera?/safe"]
 non-safe = []
 #
 nightly = [] # used only for docs
@@ -66,7 +66,7 @@ cuadra = { version = "0.3.1", default-features = false }
 devela = { version = "0.1.10", default-features = false }
 ## (optional)
 depura = { version = "0.0.3", optional = true, default-features = false }
-repite = { version = "0.0.3", optional = true, default-features = false }
+espera = { version = "0.2", optional = true, default-features = false }
 
 # backends:
 #
@@ -76,7 +76,7 @@ libc-print = { version = "0.1.21", optional = true }
 linked_list_allocator = { version = "0.10.5", optional = true }
 #
 ## terminal
-crossterm = { version = "0.26.0", optional = true } # default-features = false
+crossterm = { version = "0.26.1", optional = true } # default-features = false
 notcurses = { version = "3.4.0", optional = true }
 #notcurses = { path = "../../notcurses/notcurses-rs", optional = true }
 #notcurses = { git = "https://github.com/dankamongmen/notcurses", optional = true }
@@ -104,7 +104,7 @@ kira = { version = "0.7.2", optional = true }
 
 [dev-dependencies]
 depura = { version = "0.0.3", default-features = false }
-repite = { version = "0.0.3", default-features = false }
+espera = { version = "0.2", default-features = false }
 
 
 #* profiles *#
