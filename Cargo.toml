@@ -36,7 +36,7 @@ no-std = ["acolor/no-std", "tiny-skia?/no-std-float"]
 alloc = ["linked_list_allocator"]
 #
 safe = ["acolor/safe", "depura?/safe", "devela/safe", "espera?/safe"]
-non-safe = []
+unsafe = []
 #
 nightly = [] # used only for docs
 

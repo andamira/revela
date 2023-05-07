@@ -1,7 +1,7 @@
 # NOTE: there are alias suffixes configured for different backends:
 #
 # _all         all backends
-# _non-safe    all backends, non-safe
+# _unsafe    all backends, unsafe
 #
 # _no-std      all no-std backends
 # _alloc       all alloc backends
@@ -20,8 +20,8 @@ cl_all = "clippy --features=backends_all"
 cl_ct = "clippy --features=crossterm"
 cl_nc = "clippy --features=notcurses"
 cl_sdl = "clippy --features=sdl2"
-# non-safe:
-cl_non-safe = "clippy --no-default-features --features=backends_all,depura"
+# unsafe:
+cl_unsafe = "clippy --no-default-features --features=backends_all,depura"
 cl_no-std = "clippy --profile no-std --no-default-features --features=all_backends_no-std,depura"
 cl_alloc = "clippy --profile no-std --no-default-features --features=all_backends_alloc,depura"
 
