@@ -18,7 +18,7 @@ include = [
 	"/examples/ui-notcurses.rs",
 	"/examples/ui-crossterm.rs",
 ]
-categories = ["gui", "game-development", "api-bindings", "no-std::no-alloc"]
+categories = ["gui", "accesibility", "multimedia", "api-bindings", "no-std::no-alloc"]
 keywords = ["terminal"]
 publish = true
 
