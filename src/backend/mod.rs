@@ -6,10 +6,10 @@
 mod backend;
 pub mod capabilities;
 
-#[cfg(feature = "no-std")]
+#[cfg(feature = "no_std")]
 pub mod no_std;
 
-#[cfg(all(feature = "alloc", feature = "no-std"))]
+#[cfg(all(feature = "alloc", feature = "no_std"))]
 pub mod alloc;
 
 #[cfg(feature = "crossterm")]
@@ -44,14 +44,14 @@ pub(crate) mod all {
     #[cfg_attr(feature = "nightly", doc(cfg(feature = "std")))]
     pub use super::capabilities::SystemCapabilities;
 
-    // export the panic handlers and other no-std utilities.
+    // export the panic handlers and other no_std utilities.
     #[doc(inline)]
-    #[cfg(feature = "no-std")]
+    #[cfg(feature = "no_std")]
     pub use super::no_std::*;
 
     // export the global allocators and other alloc utilities.
     #[doc(inline)]
-    #[cfg(all(feature = "alloc", feature = "no-std"))]
+    #[cfg(all(feature = "alloc", feature = "no_std"))]
     pub use super::alloc::*;
 
     /* terminal */

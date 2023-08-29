@@ -3,7 +3,7 @@
 # _all         all backends
 # _unsafe    all backends, unsafe
 #
-# _no-std      all no-std backends
+# _no_std      all no_std backends
 # _alloc       all alloc backends
 #
 # _ct          crossterm
@@ -22,8 +22,8 @@ cl_nc = "clippy --features=notcurses"
 cl_sdl = "clippy --features=sdl2"
 # unsafe:
 cl_unsafe = "clippy --no-default-features --features=backends_all,depura"
-cl_no-std = "clippy --profile no-std --no-default-features --features=all_backends_no-std,depura"
-cl_alloc = "clippy --profile no-std --no-default-features --features=all_backends_alloc,depura"
+cl_no_std = "clippy --profile no_std --no-default-features --features=all_backends_no_std,depura"
+cl_alloc = "clippy --profile no_std --no-default-features --features=all_backends_alloc,depura"
 
 # CLEAN PACKAGE
 cp = "clean --package"
@@ -80,11 +80,11 @@ be_all = "build --features=backends_all --example"
 br_all = "build --release --features=backends_all"
 brb_all = "build --release --features=backends_all --bin"
 bre_all = "build --release --features=backends_all --example"
-# no-std | alloc
-be_no-std = "build --profile no-std --no-default-features --features=backends_no-std --example"
-be_alloc = "build --profile no-std --no-default-features --features=backends_alloc --example"
-bre_no-std = "build --profile no-std-release --release --no-default-features --features=backends_no-std --example"
-bre_alloc = "build --profile no-std-release --release --no-default-features --features=backends_alloc --example"
+# no_std | alloc
+be_no_std = "build --profile no_std --no-default-features --features=backends_no_std --example"
+be_alloc = "build --profile no_std --no-default-features --features=backends_alloc --example"
+bre_no_std = "build --profile no_std-release --release --no-default-features --features=backends_no_std --example"
+bre_alloc = "build --profile no_std-release --release --no-default-features --features=backends_alloc --example"
 
 
 # RUN
@@ -129,11 +129,11 @@ rb_all_unsafe = "run --no-default-features --features=backends_all,depura --bin"
 re_all_unsafe = "run --no-default-features --features=backends_all,depura --example"
 rrb_all_unsafe = "run --release --no-default-features --features=backends_all,depura --bin"
 rre_all_unsafe = "run --release --no-default-features --features=backends_all,depura --example"
-# no-std | alloc
-re_no-std = "run --profile no-std --no-default-features --features=backends_no-std --example"
-re_alloc = "run --profile no-std --no-default-features --features=backends_alloc --example"
-rre_no-std = "run --profile no-std-release --release --no-default-features --features=backends_no-std --example"
-rre_alloc = "run --profile no-std-release --release --no-default-features --features=backends_alloc --example"
+# no_std | alloc
+re_no_std = "run --profile no_std --no-default-features --features=backends_no_std --example"
+re_alloc = "run --profile no_std --no-default-features --features=backends_alloc --example"
+rre_no_std = "run --profile no_std-release --release --no-default-features --features=backends_no_std --example"
+rre_alloc = "run --profile no_std-release --release --no-default-features --features=backends_alloc --example"
 
 # TEST
 t = "test"

@@ -8,7 +8,7 @@ use linked_list_allocator::LockedHeap;
 /// A simple global allocator using a locked heap.
 #[cfg_attr(
     feature = "nightly",
-    doc(cfg(all(feature = "alloc", feature = "no-std")))
+    doc(cfg(all(feature = "alloc", feature = "no_std")))
 )]
 #[global_allocator]
 pub static ALLOCATOR: LockedHeap = LockedHeap::empty();
@@ -16,7 +16,7 @@ pub static ALLOCATOR: LockedHeap = LockedHeap::empty();
 #[cfg(all(feature = "libc", not(feature = "safe")))]
 #[cfg_attr(
     feature = "nightly",
-    doc(cfg(all(feature = "libc", feature = "alloc", feature = "no-std")))
+    doc(cfg(all(feature = "libc", feature = "alloc", feature = "no_std")))
 )]
 pub use utils_libc::*;
 

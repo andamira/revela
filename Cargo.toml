@@ -3,7 +3,7 @@ name = "revela"
 description = "A user interface abstracted over a selection of backends."
 version = "0.0.7"
 edition = "2021"
-rust-version = "1.68.2"
+rust-version = "1.72.0" # sync with readme, check.sh & .github/workflows/check.yml
 authors = ["José Luis Cruz <joseluis@andamira.net>"]
 repository = "https://github.com/andamira/revela"
 documentation = "https://docs.rs/revela"
@@ -24,28 +24,60 @@ publish = true
 
 
 [features]
-default = ["std", "safe"]
-#
-std = [
+default = ["std"]
+
+# environment features
+std = [ # features that depend on the standard library
 	"alloc", "png",
 	"acolor/std", "cuadra/std", "devela/std",
 	"depura?/std", "espera?/std",
-	"libc?/std", "tiny-skia?/std"
+	"libc?/std", "tiny-skia?/std",
 ]
-no-std = ["acolor/no-std", "tiny-skia?/no-std-float"]
-alloc = ["linked_list_allocator"]
-#
-safe = ["acolor/safe", "depura?/safe", "devela/safe", "espera?/safe"]
-unsafe = []
-#
-nightly = [] # used only for docs
+alloc = [ # features that depend on allocation
+	"linked_list_allocator",
+]
+no_std = [ # features incompatible with the standard library
+	"acolor/no_std", "devela/no_std",
+	"tiny-skia?/no-std-float",
+]
+
+# safety features
+safe = [] # forbid unsafe at the crate level
+safest = [ # forbid unsafe recursively
+	"safe",
+	"acolor/safest", "devela/safest",
+	"depura?/safest", "espera?/safest",
+]
+unsafe = [] # enable all the unsafe features (WIP)
+unsafest = [ # enable unsafe recursively
+	"unsafe", "acolor/unsafest", "devela/unsafest"
+]
+
+# nightly features
+nightly = [] # used only for enhanced documentation
+nightly_docs = [ # features for docs.rs
+	"nightly",
+	"backends_all",
+	"notcurses?/vendored",
+]
+# deprecated features
+no-std = []
+bakends_no-std = []
 
 # backends:
-#
-backends_all = ["std", "crossterm", "notcurses", "libc", "sdl2", "gilrs", "midir", "kira"]
-backends_alloc = ["no-std", "alloc", "libc", "tiny-skia"]
-backends_no-std = ["no-std", "libc", "tiny-skia"]
-#
+backends_all = [
+	"std",
+	"crossterm", "notcurses", "libc",
+	"sdl2", "gilrs", "midir", "kira",
+]
+backends_alloc = [
+	"alloc",
+	"no_std", "libc", "tiny-skia",
+]
+backends_no_std = [
+	"no_std", "libc", "tiny-skia",
+]
+# optional dependencies enabled features
 libc = ["dep:libc", "libc-print"]
 midir = ["dep:midir", "std", "flume"]
 notcurses = ["dep:notcurses", "std"]
@@ -115,7 +147,7 @@ split-debuginfo = "packed"
 [profile.release]
 strip = "debuginfo"
 
-[profile.no-std]
+[profile.no_std]
 inherits = "dev"
 lto = true
 opt-level = "s" # "z"
@@ -123,7 +155,7 @@ panic = "abort"
 # overflow-checks = true
 # debug-assertions = true
 
-[profile.no-std-release]
+[profile.no_std-release]
 inherits = "release"
 lto = true
 opt-level = "s" # "z"
@@ -146,13 +178,13 @@ required-features = ["crossterm"]
 
 [[example]]
 name = "alloc"
-# needs profile `no-std`
-required-features = ["alloc", "no-std", "libc"]
+# needs profile `no_std`
+required-features = ["alloc", "no_std", "libc"]
 
 [[example]]
 name = "no_alloc"
-# needs profile `no-std`
-required-features = ["no-std", "libc"]
+# needs profile `no_std`
+required-features = ["no_std", "libc"]
 
 
 #* misc. *#

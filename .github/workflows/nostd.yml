@@ -1,5 +1,6 @@
 permissions:
   contents: read
+
 on:
   push:
     branches: [main]
@@ -17,6 +18,8 @@ jobs:
     steps:
       - name: "checkout"
         uses: actions/checkout@v3
+        with:
+            submodules: true
 
       - name: "Install stable"
         uses: dtolnay/rust-toolchain@stable
@@ -25,4 +28,28 @@ jobs:
         run: rustup target add ${{ matrix.target }}
 
       - name: "cargo check"
-        run: cargo check --target ${{ matrix.target }} --no-default-features --features=no-std
+        # NOTE: custom
+        run: cargo check --target ${{ matrix.target }} --no-default-features -F no_std
+
+  #
+  alloc:
+    name: "${{ matrix.target }}"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [thumbv7m-none-eabi, aarch64-unknown-none]
+    steps:
+      - name: "checkout"
+        uses: actions/checkout@v3
+        with:
+            submodules: true
+
+      - name: "Install stable"
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: "rustup target add ${{ matrix.target }}"
+        run: rustup target add ${{ matrix.target }}
+
+      - name: "cargo check `alloc`"
+        # NOTE: custom
+        run: cargo check --target ${{ matrix.target }} --no-default-features -F alloc

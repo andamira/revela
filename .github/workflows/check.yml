@@ -1,21 +1,23 @@
 permissions:
   contents: read
+
 # runs on push to the main branch, and PRs
 on:
   push:
     branches: [main]
   pull_request:
 name: check
-jobs:
 
+jobs:
   # 1. format
   fmt:
-    runs-on: ubuntu-latest
     name: "stable / fmt"
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-        # with:
-        #   submodules: true
+      - name: "checkout"
+        uses: actions/checkout@v3
+        with:
+            submodules: true
 
       - name: "Install stable"
         uses: dtolnay/rust-toolchain@stable
@@ -27,8 +29,8 @@ jobs:
 
   # 2. clippy lints
   clippy:
+    name: "${{ matrix.toolchain }} / clippy"
     runs-on: ubuntu-latest
-    name: ${{ matrix.toolchain }} / clippy
     permissions:
       contents: read
       checks: write
@@ -38,7 +40,10 @@ jobs:
         toolchain: [stable]
         # toolchain: [stable, beta]
     steps:
-      - uses: actions/checkout@v3
+      - name: "checkout"
+        uses: actions/checkout@v3
+        with:
+            submodules: true
 
       - name: "Install ${{ matrix.toolchain }}"
         uses: dtolnay/rust-toolchain@master
@@ -51,62 +56,45 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-  # 2. documentation
+  # 3. documentation
   doc:
+    name: "nightly / doc"
     runs-on: ubuntu-latest
-    name: nightly / doc
     steps:
-      - name: "Install build dependencies"
-        # libudev-dev    : girls
-        # libasound2-dev : kira, midir
-        run: |
-          sudo apt update
-          sudo apt install -y libasound2-dev libudev-dev libsdl2-dev libsdl2-gfx-dev
-
+       - name: "Install and build dependencies"
+         # libudev-dev    : girls
+         # libasound2-dev : kira, midir
+         run: |
+           sudo apt update
+           sudo apt install -y libasound2-dev libudev-dev libsdl2-dev libsdl2-gfx-dev
+ 
       - name: "checkout"
         uses: actions/checkout@v3
+        with:
+            submodules: true
 
       - name: "Install nightly"
         uses: dtolnay/rust-toolchain@nightly
 
       - name: "cargo doc"
-        # NOTE:CUSTOM
-        run: cargo doc --features=nightly,backends_all,notcurses?/vendored
+        run: cargo doc --features=nightly_docs
         env:
           RUSTDOCFLAGS: --cfg docsrs
 
-  # 2.
-  # TODO:IMPROVE
-  # hack:
-  #   runs-on: ubuntu-latest
-  #   name: ubuntu / stable / features
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #       with:
-  #         submodules: true
-  #     - name: Install stable
-  #       uses: dtolnay/rust-toolchain@stable
-  #     - name: cargo install cargo-hack
-  #       uses: taiki-e/install-action@cargo-hack
-  #     - name: cargo hack
-  #       run: cargo hack --feature-powerset check --lib --tests
-
-  # 2. MSRV
+  # 4. minimum supported Rust version
   msrv:
+    name: "ubuntu / ${{ matrix.msrv }}"
     runs-on: ubuntu-latest
     # we use a matrix here just because env can't be used in job names
     # https://docs.github.com/en/actions/learn-github-actions/contexts#context-availability
     strategy:
       matrix:
-        # NOTE: CUSTOM
-        msrv: [1.68.2]
-
-    name: "ubuntu / ${{ matrix.msrv }}"
+        msrv: [1.72.0] # sync with ../../{readme, Cargo.toml, check.sh}
     steps:
       - name: "checkout"
         uses: actions/checkout@v3
-        # with:
-        #   submodules: true
+        with:
+            submodules: true
 
       - name: "Install ${{ matrix.msrv }}"
         uses: dtolnay/rust-toolchain@master

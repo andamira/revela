@@ -16,7 +16,7 @@ use crate::all::{
     Canvas, Position, RevelaError as Error, RevelaResult as Result, Sdl2Backend, Size,
 };
 
-use acolor::Srgba8;
+use acolor::all::Srgba8;
 #[cfg(feature = "depura")]
 use depura::*;
 

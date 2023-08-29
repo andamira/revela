@@ -1,6 +1,6 @@
 // revela::backend::no_std
 //
-//! Utilities for `no-std`.
+//! Utilities for `no_std`.
 //
 
 /// A panic handler that prints the panic info and exits with exit error 1.

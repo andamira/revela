@@ -5,7 +5,7 @@
 
 use core::fmt;
 
-use acolor::Srgba8;
+use acolor::all::Srgba8;
 
 #[cfg(feature = "depura")]
 use depura::*;
