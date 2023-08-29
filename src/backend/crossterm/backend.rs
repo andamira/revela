@@ -43,18 +43,24 @@ impl CrosstermBackend {
     }
 
     /// Tells whether the raw mode is enabled.
+    //
+    // https://docs.rs/crossterm/latest/crossterm/terminal/fn.is_raw_mode_enabled.html
     #[inline]
     pub fn is_raw_mode(&self) -> Result<bool> {
         Ok(terminal::is_raw_mode_enabled()?)
     }
 
     /// Enables the raw mode.
+    //
+    // https://docs.rs/crossterm/latest/crossterm/terminal/fn.enable_raw_mode.html
     #[inline]
     pub fn enable_raw_mode(&self) -> Result<()> {
         Ok(terminal::enable_raw_mode()?)
     }
 
     /// Disables the raw mode.
+    //
+    // https://docs.rs/crossterm/latest/crossterm/terminal/fn.disable_raw_mode.html
     #[inline]
     pub fn disable_raw_mode(&self) -> Result<()> {
         Ok(terminal::disable_raw_mode()?)
@@ -75,10 +81,14 @@ impl CrosstermBackend {
     }
 
     /// Enables receiving mouse events.
+    //
+    // https://docs.rs/crossterm/latest/crossterm/event/struct.EnableMouseCapture.html
     pub fn enable_mouse(&mut self) -> Result<()> {
         Ok(execute!(io::stdout(), event::EnableMouseCapture)?)
     }
     /// Disables receiving mouse events.
+    //
+    // https://docs.rs/crossterm/latest/crossterm/event/struct.DisableMouseCapture.html
     pub fn disable_mouse(&mut self) -> Result<()> {
         Ok(execute!(io::stdout(), event::DisableMouseCapture)?)
     }

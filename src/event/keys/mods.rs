@@ -6,7 +6,7 @@
 #![allow(non_upper_case_globals)]
 
 bitflags::bitflags! {
-    #[derive(Default)]
+    #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
     struct InnerKeyModifiers: u8 {
         const None = 0;
         const All = 0b1111_1111;

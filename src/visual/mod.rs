@@ -5,8 +5,6 @@
 
 use crate::error::RevelaResult as Result;
 
-pub use ::cuadra as layout;
-
 mod canvas;
 mod text_grid;
 mod window;
@@ -14,6 +12,10 @@ mod window;
 /// Re-export of the [`acolor`](https://docs.rs/acolor) crate.
 #[doc(inline)]
 pub use ::acolor;
+
+/// Re-export of the [`cuadra`](https://docs.rs/cuadra) crate.
+#[doc(inline)]
+pub use ::cuadra as layout;
 
 pub use all::*;
 pub(crate) mod all {
