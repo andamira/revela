@@ -8,8 +8,8 @@
 // * cargo re_all ui-crossterm
 // * cargo rre_all ui-crossterm
 
-use depura::*;
-use devela::crate_root_string;
+use depura::all::*;
+use devela::all::crate_root_string;
 use espera::all::*;
 use revela::all::{RevelaResult as Result, *};
 

@@ -19,7 +19,7 @@ pub use all::*;
 pub(crate) mod all {
     #[doc(inline)]
     pub use super::{
-        acolor::{
+        acolor::all::{
             Color, LinearSrgb32, LinearSrgba32, Oklab32, Oklch32, Srgb32, Srgb8, Srgba32, Srgba8,
         },
         canvas::Canvas,
