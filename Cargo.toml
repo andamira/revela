@@ -1,7 +1,7 @@
 [package]
 name = "revela"
 description = "A user interface abstracted over a selection of backends."
-version = "0.0.7"
+version = "0.0.8"
 edition = "2021"
 rust-version = "1.72.0" # sync with readme, check.sh & .github/workflows/check.yml
 authors = ["José Luis Cruz <joseluis@andamira.net>"]
@@ -93,7 +93,7 @@ bitflags = "2.3.3" # 1.3.2 ? CHECK
 log = "0.4.17"
 
 # libera:
-acolor = { version = "0.0.9", default-features = false, features = ["rgb"] }
+acolor = { version = "0.0.10", default-features = false, features = ["rgb"] }
 cuadra = { version = "0.3.1", default-features = false }
 devela = { version = "0.8.0", default-features = false }
 ## (optional)
