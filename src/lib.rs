@@ -20,7 +20,10 @@ compile_error!("You can't enable the `std` and `no_std` features at the same tim
 compile_error!("You can't enable the `safe` and `unsafe` features at the same time.");
 // deprecated
 devela::deprecate_feature![old: "no-std", new: "no_std", since: "0.0.8"];
-devela::deprecate_feature![old: "backends_no-std", new: "backends_no_std", since: "0.0.8"];
+devela::deprecate_feature![old: "backends_no-std", new: "all_no_std", since: "0.0.8"];
+devela::deprecate_feature![old: "backends_no_std", new: "all_no_std", since: "0.0.9"];
+devela::deprecate_feature![old: "backends_alloc", new: "all_alloc", since: "0.0.9"];
+devela::deprecate_feature![old: "backends_std", new: "all_std", since: "0.0.9"];
 
 pub mod backend;
 pub mod error;

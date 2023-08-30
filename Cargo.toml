@@ -22,6 +22,7 @@ categories = ["gui", "accesibility", "multimedia", "api-bindings", "no-std::no-a
 keywords = ["terminal"]
 publish = true
 
+# ------------------------------------------------------------------------------
 
 [features]
 default = ["std"]
@@ -57,36 +58,38 @@ unsafest = [ # enable unsafe recursively
 nightly = [] # used only for enhanced documentation
 nightly_docs = [ # features for docs.rs
 	"nightly",
-	"backends_all",
+	"all_std",
 	"notcurses?/vendored",
 ]
 # deprecated features
 no-std = []
-bakends_no-std = []
+bakends_no-std = [] # since v0.0.8
+bakends_no_std = [] # since v0.0.9
+bakends_alloc = [] # since v0.0.9
+bakends_std = [] # since v0.0.9
 
-# backends:
-backends_all = [
+# backends
+all_std = [ # enable all backends compatible with `std`
 	"std",
 	"crossterm", "notcurses", "libc",
 	"sdl2", "gilrs", "midir", "kira",
 ]
-backends_alloc = [
+all_alloc = [ # enable all backends compatible with `alloc`
 	"alloc",
 	"no_std", "libc", "tiny-skia",
 ]
-backends_no_std = [
+all_no_std = [ # enable all backends compatible with `no_std`
 	"no_std", "libc", "tiny-skia",
 ]
-# optional dependencies enabled features
+
+# features enabled depending on optional dependencies
 libc = ["dep:libc", "libc-print"]
 midir = ["dep:midir", "std", "flume"]
 notcurses = ["dep:notcurses", "std"]
 sdl2 = ["dep:sdl2", "std", "acolor/sdl2", "raw-window-handle"]
 #crossterm_paste = ["crossterm/bracketed-paste"]
 
-
-#* dependencies *#
-# https://doc.rust-lang.org/cargo/reference/specifying-dependencies.html
+# ------------------------------------------------------------------------------
 
 [dependencies]
 bitflags = "2.3.3" # 1.3.2 ? CHECK
@@ -138,8 +141,7 @@ kira = { version = "0.8.4", optional = true }
 depura = { version = "0.3.0", default-features = false }
 espera = { version = "0.3.0", default-features = false }
 
-#* profiles *#
-# https://doc.rust-lang.org/cargo/reference/profiles.html
+# ------------------------------------------------------------------------------
 
 [profile.dev]
 split-debuginfo = "packed"
@@ -165,8 +167,7 @@ strip = true
 # overflow-checks = false
 # debug-assertions = false
 
-
-#* examples *#
+# ------------------------------------------------------------------------------
 
 [[example]]
 name = "ui-notcurses"
@@ -186,12 +187,10 @@ name = "no_alloc"
 # needs profile `no_std`
 required-features = ["no_std", "libc"]
 
+# ------------------------------------------------------------------------------
 
-#* misc. *#
+[package.metadata.docs.rs]
+features = ["nightly", "backends_all", "notcurses?/vendored"]
 
 [badges]
 maintenance = { status = "experimental" }
-
-# https://docs.rs/about/metadata
-[package.metadata.docs.rs]
-features = ["nightly", "backends_all", "notcurses?/vendored"]

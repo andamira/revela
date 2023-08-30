@@ -7,6 +7,11 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+- deprecate and rename `backends_all` to `all_std`.
+- deprecate and rename `backends_alloc` → `all_alloc`.
+- deprecate and rename `backends_no_std` → `all_no_std`.
+
 ## [0.0.8] - 2022-08-30
 
 ## [0.0.7] - 2022-04-11
