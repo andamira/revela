@@ -13,6 +13,7 @@ include = [
 	"/README.md",
 	"/LICENSE-*",
 	"/src/**/*.rs",
+	"/src/**/*.md",
 	"/examples/alloc.rs",
 	"/examples/no_alloc.rs",
 	"/examples/ui-notcurses.rs",

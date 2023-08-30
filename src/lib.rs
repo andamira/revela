@@ -1,6 +1,8 @@
 // revela::lib
 //
 //! A user interface abstracted over a selection of [`backend`]s.
+//!
+#![doc = include_str!("./Lib.md")]
 //
 
 // warnings

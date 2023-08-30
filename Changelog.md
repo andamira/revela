@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 - deprecate and rename `backends_all` to `all_std`.
 - deprecate and rename `backends_alloc` → `all_alloc`.
 - deprecate and rename `backends_no_std` → `all_no_std`.
+- separate lengthy module level docs into markdown files.
 
 ## [0.0.8] - 2022-08-30
 
