@@ -14,8 +14,8 @@ include = [
 	"/LICENSE-*",
 	"/src/**/*.rs",
 	"/src/**/*.md",
-	"/examples/alloc.rs",
-	"/examples/no_alloc.rs",
+	"/examples/no_std_alloc.rs",
+	"/examples/no_std_no_alloc_libc.rs",
 	"/examples/ui-notcurses.rs",
 	"/examples/ui-crossterm.rs",
 ]
@@ -179,12 +179,12 @@ name = "ui-crossterm"
 required-features = ["crossterm"]
 
 [[example]]
-name = "alloc"
+name = "no_std_alloc"
 # needs profile `no_std`
 required-features = ["alloc", "no_std", "libc"]
 
 [[example]]
-name = "no_alloc"
+name = "no_std_no_alloc_libc"
 # needs profile `no_std`
 required-features = ["no_std", "libc"]
 
