@@ -28,62 +28,68 @@ publish = true
 [features]
 default = ["std"]
 
-# environment features
-std = [ # features that depend on the standard library
+#* environment features *#
+std = [ # enables features that depend on the standard library
 	"alloc", "png",
 	"acolor/std", "cuadra/std", "devela/std",
 	"depura?/std", "espera?/std",
 	"libc?/std", "tiny-skia?/std",
 ]
-alloc = [ # features that depend on allocation
+alloc = [ # enables features that depend on allocation
 	"linked_list_allocator",
 ]
-no_std = [ # features incompatible with the standard library
+no_std = [ # enables features incompatible with the standard library
 	"acolor/no_std", "devela/no_std",
 	"tiny-skia?/no-std-float",
 ]
 
-# safety features
-safe = [] # forbid unsafe at the crate level
-safest = [ # forbid unsafe recursively
+#* safety features *#
+safe = [] # forbids unsafe at the crate level
+safest = [ # forbids unsafe recursively
 	"safe",
 	"acolor/safest", "devela/safest",
 	"depura?/safest", "espera?/safest",
 ]
-unsafe = [] # enable all the unsafe features (WIP)
-unsafest = [ # enable unsafe recursively
-	"unsafe", "acolor/unsafest", "devela/unsafest"
+unsafe = [ # enables all the unsafe features at the crate level
+	"unsafe_constructors", "unsafe_init", "unsafe_libc",
+]
+unsafe_constructors = [] # enables usage of unchecked constructors
+unsafe_init = [] # enables fast array initialization
+unsafe_libc = [] # enables unsafely interacting with `libc`
+unsafest = [ # enables unsafe recursively
+	"unsafe", "acolor/unsafest", "devela/unsafest",
 ]
 
-# nightly features
-nightly = [] # used only for enhanced documentation
+#* nightly features *#
+nightly = [] # enables the nightly features
 nightly_docs = [ # features for docs.rs
 	"nightly",
 	"all_std",
 	"notcurses?/vendored",
 ]
-# deprecated features
+
+#* deprecated features *#
 no-std = []
 bakends_no-std = [] # since v0.0.8
 bakends_no_std = [] # since v0.0.9
 bakends_alloc = [] # since v0.0.9
 bakends_std = [] # since v0.0.9
 
-# backends
-all_std = [ # enable all backends compatible with `std`
+#* backends *#
+all_std = [ # enables all the backends compatible with "std"
 	"std",
 	"crossterm", "notcurses", "libc",
 	"sdl2", "gilrs", "midir", "kira",
 ]
-all_alloc = [ # enable all backends compatible with `alloc`
+all_alloc = [ # enable all the backends compatible with "alloc"
 	"alloc",
 	"no_std", "libc", "tiny-skia",
 ]
-all_no_std = [ # enable all backends compatible with `no_std`
+all_no_std = [ # enable all the backends compatible with "no_std"
 	"no_std", "libc", "tiny-skia",
 ]
 
-# features enabled depending on optional dependencies
+#* features automatically enabled by optional dependencies *#
 libc = ["dep:libc", "libc-print"]
 midir = ["dep:midir", "std", "flume"]
 notcurses = ["dep:notcurses", "std"]
@@ -96,46 +102,46 @@ sdl2 = ["dep:sdl2", "std", "acolor/sdl2", "raw-window-handle"]
 bitflags = "2.3.3" # 1.3.2 ? CHECK
 log = "0.4.17"
 
-# libera:
+#* libera *#
 acolor = { version = "0.0.10", default-features = false, features = ["rgb"] }
 cuadra = { version = "0.3.1", default-features = false }
 devela = { version = "0.8.0", default-features = false }
-## (optional)
+# optional
 depura = { version = "0.3.0", optional = true, default-features = false }
 espera = { version = "0.3.0", optional = true, default-features = false }
 
-# backends:
+#* backends *#
 #
 ## system
 libc = { version = "0.2.140", default-features = false, optional = true }
 libc-print = { version = "0.1.21", optional = true }
 linked_list_allocator = { version = "0.10.5", optional = true }
 #
-## terminal
+# terminal
 crossterm = { version = "0.26.1", optional = true } # default-features = false
 notcurses = { version = "3.4.1", optional = true }
 #notcurses = { path = "../../notcurses/notcurses-rs", optional = true }
 #notcurses = { git = "https://github.com/dankamongmen/notcurses", optional = true }
 #
-## desktop
+# desktop
 sdl2 = { version = "0.35.2", optional = true, features = ["raw-window-handle", "gfx"] }
 #macroquad = { version = "0.3.24", optional = true }
 #tauri = { version = "1.2.4", optional = true }
 raw-window-handle = { version = "0.4.2", optional = true } # latest = 0.5.2, in sdl2: 0.4.2
 #
-## graphics
+# graphics
 png = { version = "0.17.8", optional = true } # needs-std
 tiny-skia = { version = "0.11.1", optional = true, default-features = false }
 #
-## gamepads
+# gamepads
 gilrs = { version = "0.10.2", optional = true }
 #
-## midi
+# midi
 midir = { version = "0.9.1", optional = true, default-features = false }
 flume = { version = "0.10.14", optional = true, default-features = false }
 midi-convert = { version = "0.1.3", default-features = false } # TODO 0.2.0 FIXME
 #
-## audio
+# audio
 kira = { version = "0.8.4", optional = true }
 
 [dev-dependencies]
@@ -181,12 +187,12 @@ required-features = ["crossterm"]
 [[example]]
 name = "no_std_alloc"
 # needs profile `no_std`
-required-features = ["alloc", "no_std", "libc"]
+required-features = ["alloc", "no_std", "libc", "unsafe_libc"]
 
 [[example]]
 name = "no_std_no_alloc_libc"
 # needs profile `no_std`
-required-features = ["no_std", "libc"]
+required-features = ["no_std", "libc", "unsafe_libc"]
 
 # ------------------------------------------------------------------------------
 

@@ -18,8 +18,11 @@ extern crate alloc;
 // safeguards
 #[cfg(all(feature = "std", feature = "no_std"))]
 compile_error!("You can't enable the `std` and `no_std` features at the same time.");
-#[cfg(all(feature = "safe", feature = "nonsafe"))]
-compile_error!("You can't enable the `safe` and `unsafe` features at the same time.");
+#[cfg(all(
+    feature = "safe",
+    any(feature = "unsafe", feature = "unsafe_init", feature = "unsafe_libc")
+))]
+compile_error!("You can't enable the `safe` and `unsafe*` features at the same time.");
 // deprecated
 devela::deprecate_feature![old: "no-std", new: "no_std", since: "0.0.8"];
 devela::deprecate_feature![old: "backends_no-std", new: "all_no_std", since: "0.0.8"];

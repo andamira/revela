@@ -4,6 +4,8 @@
 //
 
 use core::{fmt, num::NonZeroU64};
+#[cfg(feature = "unsafe_constructors")]
+use devela::iif;
 
 /// The time at which the event actually occurs.
 ///
@@ -14,14 +16,13 @@ pub struct EventTimeStamp(NonZeroU64);
 impl EventTimeStamp {
     /// New time stamp, starting at 1 µs.
     pub fn new(µs: u64) -> EventTimeStamp {
-        #[cfg(feature = "safe")]
+        #[cfg(not(feature = "unsafe_constructors"))]
         return EventTimeStamp(NonZeroU64::new(µs).or(NonZeroU64::new(1)).unwrap());
 
-        // CHECK BENCH
-        #[cfg(not(feature = "safe"))]
-        return EventTimeStamp(
-            NonZeroU64::new(µs).unwrap_or(unsafe { NonZeroU64::new_unchecked(1) }),
-        );
+        // TODO:CHECK:BENCH
+        #[cfg(feature = "unsafe_constructors")]
+        // SAFETY: we make sure to never pass 0
+        return EventTimeStamp(unsafe { NonZeroU64::new_unchecked(iif![µs==0;1;µs]) });
     }
 }
 

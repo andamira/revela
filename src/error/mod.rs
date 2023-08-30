@@ -64,7 +64,7 @@ pub type RevelaResult<N> = result::Result<N, RevelaError>;
 #[non_exhaustive]
 #[derive(Debug)]
 pub enum RevelaError {
-    /// A [`notcurses`][::notcurses] error.
+    /// A [`notcurses`] error.
     // https://docs.rs/notcurses/latest/notcurses/enum.Error.html
     #[cfg(feature = "notcurses")]
     #[cfg_attr(feature = "nightly", doc(cfg(feature = "notcurses")))]

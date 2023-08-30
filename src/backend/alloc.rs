@@ -13,10 +13,10 @@ use linked_list_allocator::LockedHeap;
 #[global_allocator]
 pub static ALLOCATOR: LockedHeap = LockedHeap::empty();
 
-#[cfg(all(feature = "libc", not(feature = "safe")))]
+#[cfg(all(feature = "libc", feature = "unsafe_libc", feature = "alloc"))]
 #[cfg_attr(
     feature = "nightly",
-    doc(cfg(all(feature = "libc", feature = "alloc", feature = "no_std")))
+    doc(cfg(all(feature = "libc", feature = "unsafe_libc", feature = "alloc")))
 )]
 pub use utils_libc::*;
 
@@ -29,6 +29,11 @@ mod utils_libc {
     use libc_print::libc_print as print;
 
     /// Prompts the user for an input.
+    #[cfg(all(feature = "libc", feature = "unsafe_libc"))]
+    #[cfg_attr(
+        feature = "nightly",
+        doc(cfg(all(feature = "libc", feature = "unsafe_libc")))
+    )]
     #[inline]
     pub fn prompt(text: &str) -> String {
         print!("{text}");
@@ -41,6 +46,11 @@ mod utils_libc {
     }
 
     /// Reads a string with a maximum `BUF_LEN` -1 number of bytes.
+    #[cfg(all(feature = "libc", feature = "unsafe_libc"))]
+    #[cfg_attr(
+        feature = "nightly",
+        doc(cfg(all(feature = "libc", feature = "unsafe_libc")))
+    )]
     pub fn read_string_buf<const BUF_LEN: usize>() -> String {
         let mut buf = [0_u8; BUF_LEN];
         let mut i = 0;
@@ -70,6 +80,11 @@ mod utils_libc {
     /// Reads a string.
     //
     // More convenient, more binary size (about 4KiB).
+    #[cfg(all(feature = "libc", feature = "unsafe_libc"))]
+    #[cfg_attr(
+        feature = "nightly",
+        doc(cfg(all(feature = "libc", feature = "unsafe_libc")))
+    )]
     pub fn read_string() -> String {
         let mut buf = Vec::<u8>::new();
         loop {

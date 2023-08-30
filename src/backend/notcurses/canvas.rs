@@ -78,11 +78,11 @@ impl NotcursesCanvas {
         // 2. new constructor: from_buffer / from_rgba_slice
 
         // slower
-        #[cfg(feature = "safe")]
+        #[cfg(not(feature = "unsafe"))]
         let buffer = vec![255; num_bytes];
 
         // faster
-        #[cfg(not(feature = "safe"))]
+        #[cfg(feature = "unsafe")]
         let buffer = {
             let mut v: Vec<u8> = Vec::with_capacity(num_bytes);
             for (_n, item) in v.spare_capacity_mut().iter_mut().enumerate() {

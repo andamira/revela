@@ -7,13 +7,20 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## [Unreleased]
 
+### Added
+- new features: `unsafe_init`, `unsafe_libc`, `unsafe_constructors`.
+
 ### Changed
 - rename example `alloc` to `no_std_alloc`.
 - rename example `no_alloc` to `no_std_no_alloc_libc`.
 - deprecate and rename feature `backends_all` to `all_std`.
 - deprecate and rename feature `backends_alloc` → `all_alloc`.
 - deprecate and rename feature `backends_no_std` → `all_no_std`.
+- change `not(feature = "safe")` for `feature = "unsafe_*"`
 - separate lengthy module level docs into markdown files.
+
+### Fixed
+- improve features and safety documentation.
 
 ## [0.0.8] - 2022-08-30
 

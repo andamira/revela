@@ -9,6 +9,9 @@
 - `safe`: forbids unsafe at the crate level.
 - `safest`: forbids unsafe recursively.
 - `unsafe`: enables all the unsafe features:
+  - `unsafe_constructors`: enables usage of unchecked constructors.
+  - `unsafe_init`: enables fast array initialization.
+  - `unsafe_libc`: enables unsafely interacting with `libc`.
 - `unsafest`: enables unsafe recursively.
 ---
 - `all_std`: enables all backends compatible with `std`.
