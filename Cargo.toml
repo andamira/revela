@@ -70,10 +70,10 @@ nightly_docs = [ # features for docs.rs
 
 #* deprecated features *#
 no-std = []
-bakends_no-std = [] # since v0.0.8
-bakends_no_std = [] # since v0.0.9
-bakends_alloc = [] # since v0.0.9
-bakends_std = [] # since v0.0.9
+backends_no-std = [] # since v0.0.8
+backends_no_std = [] # since v0.0.9
+backends_alloc = [] # since v0.0.9
+backends_std = [] # since v0.0.9
 
 #* backends *#
 all_std = [ # enables all the backends compatible with "std"
@@ -197,7 +197,8 @@ required-features = ["no_std", "libc", "unsafe_libc"]
 # ------------------------------------------------------------------------------
 
 [package.metadata.docs.rs]
-features = ["nightly", "backends_all", "notcurses?/vendored"]
+no-default-features = true
+features = ["nightly_docs"]
 
 [badges]
 maintenance = { status = "experimental" }
