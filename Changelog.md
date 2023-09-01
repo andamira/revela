@@ -7,6 +7,8 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## [Unreleased]
 
+## [0.0.9] - 2022-09-01
+
 ### Added
 - new features: `unsafe_init`, `unsafe_libc`, `unsafe_constructors`.
 
@@ -21,6 +23,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ### Fixed
 - improve features and safety documentation.
+- update `flume`.
 
 ## [0.0.8] - 2022-08-30
 
@@ -38,7 +41,8 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## [0.0.1] - 2023-02-09
 
-[unreleased]: https://github.com/andamira/revela/compare/v0.0.8...HEAD
+[unreleased]: https://github.com/andamira/revela/compare/v0.0.9...HEAD
+[0.0.9]: https://github.com/andamira/revela/releases/tag/v0.0.9
 [0.0.8]: https://github.com/andamira/revela/releases/tag/v0.0.8
 [0.0.7]: https://github.com/andamira/revela/releases/tag/v0.0.7
 [0.0.6]: https://github.com/andamira/revela/releases/tag/v0.0.6
