@@ -68,13 +68,6 @@ nightly_docs = [ # features for docs.rs
 	"notcurses?/vendored",
 ]
 
-#* deprecated features *#
-no-std = []
-backends_no-std = [] # since v0.0.8
-backends_no_std = [] # since v0.0.9
-backends_alloc = [] # since v0.0.9
-backends_std = [] # since v0.0.9
-
 #* backends *#
 all_std = [ # enables all the backends compatible with "std"
 	"std",
