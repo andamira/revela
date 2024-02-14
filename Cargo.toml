@@ -23,6 +23,7 @@ publish = true
 # Features are grouped in the following categories:
 # - Miscellaneous
 # - Environment
+# - OS
 # - Safety
 # - Nightly
 # - Dependency
@@ -31,7 +32,9 @@ publish = true
 
 #* miscellaneous features *#
 
-# default = [] # no default features
+default = [
+
+]
 _exclude_example = [] # from testing
 
 # enables the most complete version of the documentation:
@@ -51,17 +54,35 @@ no_std = [ # enables features incompatible with the standard library
 	"devela/no_std",
 ]
 
+#* os features *#
+
+linux = []
+web = []
+windows = ["crossterm?/windows"]
+
 #* safety features *#
+
 safe = [] # forbids unsafe at the crate level
-safest = [ # forbids unsafe recursively
-	"safe",
-	"devela/safe",
-]
+safest = [ "safe", "devela/safe" ] # forbids unsafe recursively
 unsafe = [ # enables all the unsafe features at the crate level
+	# "unsafe_constructors", "unsafe_init", "unsafe_libc",
+	"unsafe_array", "unsafe_async", "unsafe_const", "unsafe_dyn",
+	"unsafe_niche", "unsafe_ptr", "unsafe_slice", "unsafe_str",
 	] # for specific purposes:
-unsafest = [ # enables unsafe recursively
-	"unsafe", "devela/unsafe",
-]
+	# unsafe_constructors = [] # enables usage of unchecked constructors
+	# unsafe_init = [] # enables fast array initialization
+	# unsafe_libc = [] # enables unsafely interacting with `libc`
+
+	# devela's unsafe features (v0.20.0)
+	unsafe_array = ["devela/unsafe_array"] # faster array initialization.
+	unsafe_async = ["devela/unsafe_async"] # custom task waker, coroutine impls.
+	unsafe_const = ["devela/unsafe_const"] # extra const methods.
+	unsafe_dyn = ["devela/unsafe_dyn"] # DSTs in the stack, no_std Error dyn impls.
+	unsafe_niche = ["devela/unsafe_niche"] # unchecked niche constructors.
+	unsafe_ptr = ["devela/unsafe_ptr"] # pop methods without Clone.
+	unsafe_slice = ["devela/unsafe_slice"] # extra slice methods, avoid bound checks.
+	unsafe_str = ["devela/unsafe_str"] # unchecked utf-8 char and &str conversions.
+unsafest = [ "unsafe", "devela/unsafe" ] # enables unsafe recursively
 
 
 #* nightly features *#
@@ -74,14 +95,25 @@ nightly = [ # enables nightly features
 #* dependency features *#
 
 all_std = [ # enables all the backends compatible with "std"
-  	"std",
+	"std",
+	"crossterm", "notcurses",
+	"macroquad", "notan",
 ]
 all_alloc = [ # enable all the backends compatible with "alloc"
-  	"alloc",
+	"alloc",
 ]
 all_no_std = [ # enable all the backends compatible with "no_std"
-  	"no_std", "libc", "tiny-skia",
+	"no_std",
 ]
+
+#* features automatically enabled by optional dependencies *#
+
+crossterm = ["dep:crossterm", "std"]
+notcurses = ["dep:notcurses", "std"]
+macroquad = ["dep:macroquad", "std"]
+notan = ["dep:notan", "std"]
+# sdl2 = ["dep:sdl2", "std", "acolor/sdl2", "raw-window-handle"]
+# midir = ["dep:midir", "std", "flume"]
 
 
 # ------------------------------------------------------------------------------
@@ -96,8 +128,15 @@ devela = { "path" = "../devela" } # WIP
 ## system
 #
 # terminal
+crossterm = { version = "0.27.0", optional = true, default-features = false, features = [ "bracketed-paste", "events" ]}
+# notcurses = { version = "3.5.0", optional = true }
+notcurses = { path = "../../notcurses/notcurses-rs", optional = true }
 #
 # desktop
+macroquad = { version = "0.4.4", optional = true }
+notan = { version = "0.11.0", optional = true }
+#sdl2 = { version = "0.36.2", optional = true, features = ["raw-window-handle", "gfx"] }
+#raw-window-handle = { version = "0.5.0", optional = true } # latest = 0.6.0, in sdl2: 0.5.0
 #
 # graphics
 #
@@ -107,8 +146,8 @@ devela = { "path" = "../devela" } # WIP
 #
 # audio
 
-[dev-dependencies]
 
+[dev-dependencies]
 
 # ------------------------------------------------------------------------------
 
