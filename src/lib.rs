@@ -1,36 +1,44 @@
 // revela::lib
 //
-//! A user interface abstracted over a selection of [`backend`]s.
+//! A cohesive user interface layer.
 //!
 #![doc = include_str!("./Lib.md")]
 //
 
-// warnings
+//* global config *//
+//
+// warnings:
 #![warn(clippy::all)]
-#![allow(uncommon_codepoints, clippy::module_inception, non_upper_case_globals)]
-// nightly, safety, environment
-#![cfg_attr(feature = "nightly", feature(doc_cfg))]
+//
+// safety:
 #![cfg_attr(feature = "safe", forbid(unsafe_code))]
+//
+// environment:
 #![cfg_attr(not(feature = "std"), no_std)]
-#[cfg(feature = "alloc")]
-extern crate alloc;
+//
+// nightly:
+#![cfg_attr(feature = "nightly", feature(doc_cfg))]
 
-// safeguards
+// safeguard environment:
 #[cfg(all(feature = "std", feature = "no_std"))]
 compile_error!("You can't enable the `std` and `no_std` features at the same time.");
+// safeguard safety:
 #[cfg(all(
     feature = "safe",
     any(feature = "unsafe", feature = "unsafe_init", feature = "unsafe_libc")
 ))]
 compile_error!("You can't enable the `safe` and `unsafe*` features at the same time.");
 
-pub mod backend;
-pub mod error;
-pub mod event;
-pub mod visual;
+#[cfg(feature = "alloc")]
+use devela::_deps::alloc;
 
-/// All items are reexported here.
+// pub mod backend;
+// pub mod error;
+// pub mod event;
+// pub mod visual;
+
+/// All the items are reexported here.
 pub mod all {
-    #[doc(inline)]
-    pub use super::{backend::all::*, error::*, event::all::*, visual::all::*};
+    // #[doc(inline)]
+    // pub use super::{backend::all::*, error::*, event::all::*, visual::all::*};
 }
