@@ -2,7 +2,7 @@
 
 [![Crate](https://img.shields.io/crates/v/revela.svg)](https://crates.io/crates/revela)
 [![API](https://docs.rs/revela/badge.svg)](https://docs.rs/revela/)
-[![MSRV: 1.76.0](https://flat.badgen.net/badge/MSRV/1.76.0/purple)](https://releases.rs/docs/1.76.0/)
+[![MSRV: 1.80.0](https://flat.badgen.net/badge/MSRV/1.80.0/purple)](https://releases.rs/docs/1.80.0/)
 
 A cohesive user interface backend abstraction.
 
