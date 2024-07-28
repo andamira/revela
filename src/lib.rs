@@ -1,8 +1,6 @@
 // revela::lib
 //
-//! A cohesive user interface layer.
-//!
-#![doc = include_str!("./Lib.md")]
+//! A modular user interface abstracted over multiple backends.
 //
 
 //* global config *//
@@ -45,4 +43,17 @@ compile_error!("You can't enable the `safe` and `unsafe*` features at the same t
 pub mod all {
     // #[doc(inline)]
     // pub use super::{backend::all::*, error::*, event::all::*, visual::all::*};
+}
+
+/// Information about the library
+pub mod _info {
+    // /// Documented examples.
+    // #[cfg(any(doc, test))]
+    // pub mod examples;
+
+    /// Cargo features.
+    pub mod features {
+        #![cfg_attr(not(feature = "all"), allow(rustdoc::private_intra_doc_links))]
+        #![doc = include_str!("./_info/features.md")]
+    }
 }

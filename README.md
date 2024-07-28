@@ -4,7 +4,7 @@
 [![API](https://docs.rs/revela/badge.svg)](https://docs.rs/revela/)
 [![MSRV: 1.80.0](https://flat.badgen.net/badge/MSRV/1.80.0/purple)](https://releases.rs/docs/1.80.0/)
 
-A cohesive user interface backend abstraction.
+A modular user interface abstracted over multiple backends.
 
 See [the documentation](https://docs.rs/revela/) for more information.
 
