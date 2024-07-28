@@ -1,6 +1,9 @@
+# https://doc.rust-lang.org/cargo/reference/manifest.html
+# ==============================================================================
+
 [package]
 name = "revela"
-description = "A user interface abstraction over multiple backends."
+description = "A modular user interface abstracted over multiple backends."
 version = "0.1.0-wip"
 edition = "2021"
 rust-version = "1.80.0" # sync with readme, .github/workflows/check.yml
@@ -19,27 +22,34 @@ categories = ["gui", "accesibility", "multimedia", "api-bindings", "no-std::no-a
 keywords = ["terminal"]
 publish = true
 
+
+[features] # 36 (300 max)
+# ==============================================================================
 # Features are grouped in the following categories:
 # - Miscellaneous
 # - Environment
+# - Module
 # - OS
 # - Safety
 # - Nightly
-# - Dependency
+# - Capability
+# - Dependencies
+#
+# Sintax:
+# - ["name"]: Normal public-facing features.
+# - ["_name"]: Hidden extra capability features.
+# - ["__name"]: Hidden miscellaneous features.
+#
+# Features are in sync with: src/_info/features.md
 
-[features] # 28 (300 max)
-# ==============================================================================
 
-#* miscellaneous features *#
+#* Miscellaneous features *#
 # ------------------------------------------------------------------------------
 
-default = [
+# default = []
 
-]
-_exclude_example = [] # from testing
-
-# enables the most complete version of the documentation:
-docsrs = [ "nightly", "std", "unsafe" ]
+# __dbg = [] # for debugging purposes, shows enabled features
+__notest = [] # allows excluding examples from being tested
 
 
 #* Environment features *#
@@ -56,17 +66,36 @@ no_std = [ # enables features incompatible with the standard library
 	"devela/no_std",
 ]
 
+#* Module features *#
+# ------------------------------------------------------------------------------
+
+all = [ # enables all the modules and submodules
+	"audio", "color", "font", "image", "ui", "video",
+	]
+audio = []
+color = []
+font = []
+image = []
+ui = []
+video = []
+
+
 #* OS features *#
 # ------------------------------------------------------------------------------
 
 linux = []
 web = []
 windows = ["crossterm?/windows"]
+term =  []
+
 
 #* Safety features *#
 # ------------------------------------------------------------------------------
+# IMPROVE: allow to enable separately safety features from devela and revela.
 
 safe = [] # forbids unsafe at the crate level
+safest = [ "safe", "devela/safe" ] # forbids unsafe recursively
+unsafest = [ "unsafe", "devela/unsafe" ] # enables unsafe recursively
 
 unsafe = [ # enables all the unsafe features at the crate level
 	"unsafe_array", "unsafe_async", "unsafe_const", "unsafe_dyn",
@@ -82,9 +111,6 @@ unsafe = [ # enables all the unsafe features at the crate level
 	unsafe_slice = ["devela/unsafe_slice"] # extra slice methods, avoid bound checks.
 	unsafe_str = ["devela/unsafe_str"] # unchecked utf-8 char and &str conversions.
 
-safest = [ "safe", "devela/safe" ] # forbids unsafe recursively
-unsafest = [ "unsafe", "devela/unsafe" ] # enables unsafe recursively
-
 
 #* Nightly features *#
 # ------------------------------------------------------------------------------
@@ -92,22 +118,36 @@ unsafest = [ "unsafe", "devela/unsafe" ] # enables unsafe recursively
 nightly = [ # enables nightly features
 	"devela/nightly",
 ]
+	# devela's nightly features (v0.21.0)
+	nightly_coro= ["devela/nightly_coro"] # coroutines, coroutine_trait, iter_from_coroutine
+	nightly_doc = ["devela/nightly_doc"] # doc_cfg, doc_notable_trait
+	nightly_simd = ["devela/nightly_simd"] # portable_simd
+	nightly_stabilized = ["devela/nightly_stabilized"] # stabilized features to be released soon
 
 
-#* Dependency features *#
+#* Capability features *#
+# ------------------------------------------------------------------------------
+# These features are prefixed with an underscore (_) and therefore semi-hidden.
+
+# The most complete versions of the documentation:
+_docsrs_stable = ["std", "unsafe", "dep_std"]
+_docsrs = ["_docsrs_stable", "nightly"]
+
+
+#* Dependencies features *#
 # ------------------------------------------------------------------------------
 
-all_std = [ # enables all the backends compatible with "std"
+dep_std = [ # enables all the backends compatible with "std"
 	"std",
 	"crossterm", "miniquad", "notcurses",
 	# "macroquad", # "notan",
 	# "libc", "sdl2", "gilrs", "midir", "kira",
 ]
-all_alloc = [ # enable all the backends compatible with "alloc"
+dep_alloc = [ # enable all the backends compatible with "alloc"
 	"alloc",
 	# "no_std", "libc", "tiny-skia",
 ]
-all_no_std = [ # enable all the backends compatible with "no_std"
+dep_no_std = [ # enable all the backends compatible with "no_std"
 	"no_std",
 	# "libc", "tiny-skia",
 ]
@@ -115,7 +155,7 @@ all_no_std = [ # enable all the backends compatible with "no_std"
 #* features automatically enabled by optional dependencies *#
 
 crossterm = ["dep:crossterm", "std"]
-#macroquad = ["dep:macroquad", "std"]
+# macroquad = ["dep:macroquad", "std"]
 miniquad = ["dep:miniquad"]
 notcurses = ["dep:notcurses"]
 # notan = ["dep:notan", "std"]
@@ -132,10 +172,8 @@ path = "../devela"
 default-features = false
 
 
-#* backends *#
-# ------------------------------------------------------------------------------
-
 # system
+# ------------------------------------------------------------------------------
 
 # [dependencies.libc]
 # version = "0.2.140"
@@ -150,7 +188,8 @@ default-features = false
 # version = "0.10.5"
 # optional = true
 
-# window
+# windowing
+# ------------------------------------------------------------------------------
 
 [dependencies.miniquad]
 version = "0.4.5"
@@ -178,6 +217,7 @@ default-features = false
 # features = ["raw-window-handle", "gfx"]
 
 # graphics
+# ------------------------------------------------------------------------------
 
 # [dependencies.png] # needs-std
 # version = "0.17.8"
@@ -189,6 +229,7 @@ default-features = false
 # default-features = false
 
 # terminal
+# ------------------------------------------------------------------------------
 
 [dependencies.crossterm]
 version = "0.27.0"
@@ -203,12 +244,14 @@ optional = true
 default-features = false
 
 # gamepads
+# ------------------------------------------------------------------------------
 
 # [dependencies.gilrs]
 # version = "0.10.2"
 # default-features = false
 
 # audio
+# ------------------------------------------------------------------------------
 
 # [dependencies.kira]
 # version = "0.8.4"
@@ -216,6 +259,7 @@ default-features = false
 # default-features = false
 
 # midi
+# ------------------------------------------------------------------------------
 
 # [dependencies.midir]
 # version = "0.9.1"
@@ -228,7 +272,7 @@ default-features = false
 # default-features = false
 
 # [dependencies.midi-convert]
-# version = "0.1.3" # TODO 0.2.0 FIXME
+# version = "0.1.3" # TODO 0.2.0
 # default-features = false
 
 
@@ -239,7 +283,7 @@ default-features = false
 [package.metadata.docs.rs]
 # ------------------------------------------------------------------------------
 no-default-features = true
-features = ["docsrs"]
+features = ["_docsrs"]
 
 [badges]
 # ------------------------------------------------------------------------------

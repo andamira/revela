@@ -34,10 +34,24 @@ compile_error!("You can't enable the `safe` and `unsafe*` features at the same t
 // #[cfg(feature = "alloc")]
 // use devela::_liballoc;
 
-// pub mod backend;
-// pub mod error;
-// pub mod event;
-// pub mod visual;
+// #[cfg(feature = "audio")]
+// #[cfg_attr(feature = "nightly_doc", doc(cfg(feature = "audio")))]
+// pub mod audio;
+// #[cfg(feature = "color")]
+// #[cfg_attr(feature = "nightly_doc", doc(cfg(feature = "color")))]
+// pub mod color;
+// #[cfg(feature = "font")]
+// #[cfg_attr(feature = "nightly_doc", doc(cfg(feature = "font")))]
+// pub mod font;
+// #[cfg(feature = "image")]
+// #[cfg_attr(feature = "nightly_doc", doc(cfg(feature = "image")))]
+// pub mod image;
+// #[cfg(feature = "ui")]
+// #[cfg_attr(feature = "nightly_doc", doc(cfg(feature = "ui")))]
+// pub mod ui;
+// #[cfg(feature = "video")]
+// #[cfg_attr(feature = "nightly_doc", doc(cfg(feature = "video")))]
+// pub mod video;
 
 /// All the items are reexported here.
 pub mod all {

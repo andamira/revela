@@ -16,14 +16,14 @@
 cl = "clippy"
 #
 # backends:
-cl_all = "clippy -F all_std"
+cl_all = "clippy -F dep_std"
 cl_ct = "clippy -F crossterm"
 cl_nc = "clippy -F notcurses"
 cl_sdl = "clippy -F sdl2"
 # unsafe:
-cl_unsafe = "clippy --no-default-features -F all_std,depura"
-cl_no_std = "clippy --profile no_std --no-default-features -F all_all_no_std,depura"
-cl_alloc = "clippy --profile no_std --no-default-features -F all_alloc,depura"
+cl_unsafe = "clippy --no-default-features -F dep_std"
+cl_no_std = "clippy --profile no_std --no-default-features -F dep_dep_no_std"
+cl_alloc = "clippy --profile no_std --no-default-features -F dep_alloc"
 
 # CLEAN PACKAGE
 cp = "clean --package"
@@ -35,15 +35,15 @@ do = "doc --no-deps --open"
 dd = "doc"
 ddo = "doc --open"
 #
-d_all = "doc --no-deps -F all_std"
-do_all = "doc --no-deps --open -F all_std"
-dd_all = "doc -F all_std"
-ddo_all = "doc --open -F all_std"
+d_all = "doc --no-deps -F dep_std"
+do_all = "doc --no-deps --open -F dep_std"
+dd_all = "doc -F dep_std"
+ddo_all = "doc --open -F dep_std"
 # +nightly; document everything
-nd = "doc --no-deps -F nightly,all_std"
-ndo = "doc --no-deps --open -F nightly,all_std"
-ndd = "doc -F nightly,all_std"
-nddo = "doc --open -F nightly,all_std"
+nd = "doc --no-deps -F nightly,dep_std"
+ndo = "doc --no-deps --open -F nightly,dep_std"
+ndd = "doc -F nightly,dep_std"
+nddo = "doc --open -F nightly,dep_std"
 
 # BUILD
 b = "build"
@@ -74,17 +74,17 @@ br_sdl = "build --release -F sdl2"
 brb_sdl = "build --release -F sdl2 --bin"
 bre_sdl = "build --release -F sdl2 --example"
 # all
-b_all = "build -F all_std"
-bb_all = "build -F all_std --bin"
-be_all = "build -F all_std --example"
-br_all = "build --release -F all_std"
-brb_all = "build --release -F all_std --bin"
-bre_all = "build --release -F all_std --example"
+b_all = "build -F dep_std"
+bb_all = "build -F dep_std --bin"
+be_all = "build -F dep_std --example"
+br_all = "build --release -F dep_std"
+brb_all = "build --release -F dep_std --bin"
+bre_all = "build --release -F dep_std --example"
 # no_std | alloc
-be_no_std = "build --profile no_std --no-default-features -F all_no_std,unsafe_libc --example"
-be_alloc = "build --profile no_std --no-default-features -F all_alloc,unsafe_libc --example"
-bre_no_std = "build --profile no_std-release --release --no-default-features -F all_no_std,unsafe_libc --example"
-bre_alloc = "build --profile no_std-release --release --no-default-features -F all_alloc,unsafe_libc --example"
+be_no_std = "build --profile no_std --no-default-features -F dep_no_std,unsafe_libc --example"
+be_alloc = "build --profile no_std --no-default-features -F dep_alloc,unsafe_libc --example"
+bre_no_std = "build --profile no_std-release --release --no-default-features -F dep_no_std,unsafe_libc --example"
+bre_alloc = "build --profile no_std-release --release --no-default-features -F dep_alloc,unsafe_libc --example"
 
 
 # RUN
@@ -116,24 +116,24 @@ rr_sdl = "run --release -F sdl2"
 rrb_sdl = "run --release -F sdl2 --bin"
 rre_sdl = "run --release -F sdl2 --example"
 # all
-r_all = "run -F all_std"
-rr_all = "run --release -F all_std"
-rb_all = "run -F all_std --bin"
-re_all = "run -F all_std --example"
-rrb_all = "run --release -F all_std --bin"
-rre_all = "run --release -F all_std --example"
-# all_unsafe
-r_all_unsafe = "run --no-default-features -F all_std,depura"
-rr_all_unsafe = "run --release --no-default-features -F all_std,depura"
-rb_all_unsafe = "run --no-default-features -F all_std,depura --bin"
-re_all_unsafe = "run --no-default-features -F all_std,depura --example"
-rrb_all_unsafe = "run --release --no-default-features -F all_std,depura --bin"
-rre_all_unsafe = "run --release --no-default-features -F all_std,depura --example"
+r_all = "run -F dep_std"
+rr_all = "run --release -F dep_std"
+rb_all = "run -F dep_std --bin"
+re_all = "run -F dep_std --example"
+rrb_all = "run --release -F dep_std --bin"
+rre_all = "run --release -F dep_std --example"
+# dep_unsafe
+r_dep_unsafe = "run --no-default-features -F dep_std"
+rr_dep_unsafe = "run --release --no-default-features -F dep_std"
+rb_dep_unsafe = "run --no-default-features -F dep_std --bin"
+re_dep_unsafe = "run --no-default-features -F dep_std --example"
+rrb_dep_unsafe = "run --release --no-default-features -F dep_std --bin"
+rre_dep_unsafe = "run --release --no-default-features -F dep_std --example"
 # no_std | alloc
-re_no_std = "run --profile no_std --no-default-features -F all_no_std --example"
-re_alloc = "run --profile no_std --no-default-features -F all_alloc --example"
-rre_no_std = "run --profile no_std-release --release --no-default-features -F all_no_std --example"
-rre_alloc = "run --profile no_std-release --release --no-default-features -F all_alloc --example"
+re_no_std = "run --profile no_std --no-default-features -F dep_no_std --example"
+re_alloc = "run --profile no_std --no-default-features -F dep_alloc --example"
+rre_no_std = "run --profile no_std-release --release --no-default-features -F dep_no_std --example"
+rre_alloc = "run --profile no_std-release --release --no-default-features -F dep_alloc --example"
 
 # TEST
 t = "test"
@@ -147,8 +147,8 @@ td_ct = "test --doc -F crossterm"
 t_nc = "test -F notcurses"
 td_nc = "test --doc -F notcurses"
 #
-t_all = "test -F all_std"
-td_all = "test --doc -F all_std"
+t_all = "test -F dep_std"
+td_all = "test --doc -F dep_std"
 
 # TREE
 tr = "tree"
@@ -167,9 +167,9 @@ tr_sdl = "tree -F sdl2"
 trf_sdl = "tree --format {p}:{f} -F sdl2"
 trr_sdl = "tree --format {p}:{r} -F sdl2"
 # all
-tr_all = "tree -F all_std"
-trf_all = "tree --format {p}:{f} -F all_std"
-trr_all = "tree --format {p}:{r} -F all_std"
+tr_all = "tree -F dep_std"
+trf_all = "tree --format {p}:{f} -F dep_std"
+trr_all = "tree --format {p}:{r} -F dep_std"
 
 # PUBLISH
 p = "publish --dry-run"
@@ -199,9 +199,9 @@ Eb_sdl = "expand --bin -F sdl2"
 Ee_sdl = "expand --example -F sdl2"
 El_sdl = "expand --lib -F sdl2"
 # all
-E_all = "expand  -F all_std"
-Eb_all = "expand --bin -F all_std"
-Ee_all = "expand --example -F all_std"
-El_all = "expand --lib -F all_std"
+E_all = "expand  -F dep_std"
+Eb_all = "expand --bin -F dep_std"
+Ee_all = "expand --example -F dep_std"
+El_all = "expand --lib -F dep_std"
 
 [build]
