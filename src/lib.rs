@@ -25,12 +25,16 @@ compile_error!("You can't enable the `std` and `no_std` features at the same tim
 // safeguard safety:
 #[cfg(all(
     feature = "safe",
-    any(feature = "unsafe", feature = "unsafe_init", feature = "unsafe_libc")
+    any(feature = "unsafe", // includes all below:
+        feature = "unsafe_array", feature = "unsafe_async", feature = "unsafe_const",
+        feature = "unsafe_dyn", feature = "unsafe_niche", feature = "unsafe_ptr",
+        feature = "unsafe_slice", feature = "unsafe_str",
+    )
 ))]
 compile_error!("You can't enable the `safe` and `unsafe*` features at the same time.");
 
-#[cfg(feature = "alloc")]
-use devela::_deps::alloc;
+// #[cfg(feature = "alloc")]
+// use devela::_liballoc;
 
 // pub mod backend;
 // pub mod error;
