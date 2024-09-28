@@ -5,7 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog], and this project adheres to
 [Semantic Versioning].
 
-## [Unreleased]
+## Unreleased [0.1.0-wip]
+> major overhaul
+
+## Added
+- new features: linux, windows, web.
+
+## Removed
+- remove features:
+  - unsafe_constructors, unsafe_init, unsafe_libc.
+- remove dependencies:
+  - acolor, depura, espera
+  - png, tiny-skia
+  - libc, libc-print? linked_list_allocator
+  - sdl2, macroquad, tauri, raw-window-handle
+  - gilrs, midir, midi-convert, flume,
+  - kira
+
+## Changed
+- bump msrv to 1.81.0.
+- update dependencies: `devela`, `crossterm`.
+- remove `std` from default features.
+
 
 ## [0.0.9] - 2022-09-01
 
@@ -24,6 +45,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 ### Fixed
 - improve features and safety documentation.
 - update `flume`.
+
 
 ## [0.0.8] - 2022-08-30
 
