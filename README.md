@@ -2,7 +2,7 @@
 
 [![Crate](https://img.shields.io/crates/v/revela.svg)](https://crates.io/crates/revela)
 [![API](https://docs.rs/revela/badge.svg)](https://docs.rs/revela/)
-[![MSRV: 1.80.0](https://flat.badgen.net/badge/MSRV/1.80.0/purple)](https://releases.rs/docs/1.80.0/)
+[![MSRV: 1.81.0](https://flat.badgen.net/badge/MSRV/1.81.0/purple)](https://releases.rs/docs/1.81.0/)
 
 A modular user interface abstracted over multiple backends.
 
