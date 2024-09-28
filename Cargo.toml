@@ -48,7 +48,7 @@ publish = true
 
 # default = []
 
-# __dbg = [] # for debugging purposes, shows enabled features
+__dbg = ["devela/__dbg"] # for debugging purposes, shows enabled features
 __notest = [] # allows excluding examples from being tested
 
 
@@ -98,18 +98,23 @@ safest = [ "safe", "devela/safe" ] # forbids unsafe recursively
 unsafest = [ "unsafe", "devela/unsafe" ] # enables unsafe recursively
 
 unsafe = [ # enables all the unsafe features at the crate level
-	"unsafe_array", "unsafe_async", "unsafe_const", "unsafe_dyn",
-	"unsafe_niche", "unsafe_ptr", "unsafe_slice", "unsafe_str",
+	"unsafe_array", "unsafe_async", "unsafe_const", "unsafe_hint",
+	"unsafe_layout", "unsafe_niche", "unsafe_ptr", "unsafe_slice",
+	"unsafe_str", "unsafe_sync", "unsafe_syscall", "unsafe_thread",
 	]
-	# devela's unsafe features (v0.21.0)
-	unsafe_array = ["devela/unsafe_array"] # faster array initialization.
-	unsafe_async = ["devela/unsafe_async"] # custom task waker, coroutine impls.
+	# devela's unsafe features (v0.22.0)
+	unsafe_array = ["devela/unsafe_array"] # faster array initialization, UninitArray.
+	unsafe_async = ["devela/unsafe_async"] # task_waker_noop, CoroRun.
 	unsafe_const = ["devela/unsafe_const"] # extra const methods.
-	unsafe_dyn = ["devela/unsafe_dyn"] # DSTs in the stack, no_std Error dyn impls.
+	unsafe_hint = ["devela/unsafe_hint"] # unreachable_unchecked, assert_unchecked.
+	unsafe_layout = ["devela/unsafe_layout"] # MemPod, DSTs in the stack, ExtAny::downcast*.
 	unsafe_niche = ["devela/unsafe_niche"] # unchecked niche constructors.
-	unsafe_ptr = ["devela/unsafe_ptr"] # pop methods without Clone.
+	unsafe_ptr = ["devela/unsafe_ptr"] # Pinned, pop methods without Clone.
 	unsafe_slice = ["devela/unsafe_slice"] # extra slice methods, avoid bound checks.
 	unsafe_str = ["devela/unsafe_str"] # unchecked utf-8 char and &str conversions.
+	unsafe_sync = ["devela/unsafe_sync"] # Send and Sync impls.
+	unsafe_syscall = ["devela/unsafe_syscall"] # os syscalls.
+	unsafe_thread = ["devela/unsafe_thread"] # Logging::set_logger_racy, Env::{remove_var, set_var}.
 
 
 #* Nightly features *#
@@ -167,8 +172,8 @@ miniquad = ["dep:miniquad"]
 # ==============================================================================
 
 [dependencies.devela]
-# version = "0.21.0"
-path = "../devela"
+# version = "0.21.2"
+path = "../devela" # 0.22-wip
 default-features = false
 
 
