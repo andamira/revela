@@ -43,9 +43,9 @@ compile_error!("You can't enable the `safe` and `unsafe*` features at the same t
 // #[cfg(feature = "font")]
 // #[cfg_attr(feature = "nightly_doc", doc(cfg(feature = "font")))]
 // pub mod font;
-// #[cfg(feature = "image")]
-// #[cfg_attr(feature = "nightly_doc", doc(cfg(feature = "image")))]
-// pub mod image;
+// #[cfg(feature = "gfx")]
+// #[cfg_attr(feature = "nightly_doc", doc(cfg(feature = "gfx")))]
+// pub mod gfx;
 // #[cfg(feature = "ui")]
 // #[cfg_attr(feature = "nightly_doc", doc(cfg(feature = "ui")))]
 // pub mod ui;

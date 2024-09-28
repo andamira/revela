@@ -70,12 +70,12 @@ no_std = [ # enables features incompatible with the standard library
 # ------------------------------------------------------------------------------
 
 all = [ # enables all the modules and submodules
-	"audio", "color", "font", "image", "ui", "video",
+	"audio", "color", "font", "gfx", "ui", "video",
 	]
 audio = []
 color = []
 font = []
-image = []
+gfx = []
 ui = []
 video = []
 
