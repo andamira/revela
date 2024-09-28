@@ -139,7 +139,7 @@ _docsrs = ["_docsrs_stable", "nightly"]
 
 dep_std = [ # enables all the backends compatible with "std"
 	"std",
-	"crossterm", "miniquad", "notcurses",
+	"crossterm", "miniquad", # "notcurses",
 	# "macroquad", # "notan",
 	# "libc", "sdl2", "gilrs", "midir", "kira",
 ]
@@ -157,7 +157,7 @@ dep_no_std = [ # enable all the backends compatible with "no_std"
 crossterm = ["dep:crossterm", "std"]
 # macroquad = ["dep:macroquad", "std"]
 miniquad = ["dep:miniquad"]
-notcurses = ["dep:notcurses"]
+# notcurses = ["dep:notcurses"]
 # notan = ["dep:notan", "std"]
 # sdl2 = ["dep:sdl2", "std", "acolor/sdl2", "raw-window-handle"]
 # midir = ["dep:midir", "std", "flume"]
@@ -237,11 +237,11 @@ optional = true
 default-features = false
 features = ["events", "bracketed-paste"]
 
-[dependencies.notcurses]
-version = "3.5.0"
-path = "../../notcurses/notcurses-rs"
-optional = true
-default-features = false
+# [dependencies.notcurses]
+# version = "3.5.0"
+# path = "../../notcurses/notcurses-rs"
+# optional = true
+# default-features = false
 
 # gamepads
 # ------------------------------------------------------------------------------
