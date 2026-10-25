@@ -1,324 +1,123 @@
-# https://doc.rust-lang.org/cargo/reference/manifest.html
+# revela manifest
 # ==============================================================================
+#
+
+[lib]
+path = "src/_.rs"
+bench = false
 
 [package]
 name = "revela"
-description = "A modular user interface abstracted over multiple backends."
-version = "0.1.0-wip"
-edition = "2021"
-rust-version = "1.81.0" # sync with README.md, .github/workflows/check.yml
-authors = ["José Luis Cruz <joseluis@andamira.net>"]
+description = "A revelation of structured knowledge."
 repository = "https://github.com/andamira/revela"
 documentation = "https://docs.rs/revela"
+rust-version = "1.99.0" # in sync with .github/workflows/check.yml
+edition = "2024"
+version = "0.1.0-wip"
+authors = ["José Luis Cruz <joseluis@andamira.net>"]
 license = "MIT OR Apache-2.0"
+categories = [] # IMPROVE
+keywords = [] # IMPROVE
+autoexamples = false
+autobenches = false
+publish = true
 include = [
 	"/Cargo.toml",
-	"/README.md",
-	"/LICENSE-*",
-	"/src/**/*.rs",
-	"/src/**/*.md",
+	## source code
+	"/src/**/*.rs", "/src/**/*.md",
+	## documentation
+	"/LICENSE*",
 ]
-categories = ["gui", "accesibility", "multimedia", "api-bindings", "no-std::no-alloc"]
-keywords = ["terminal"]
-publish = true
+
+[package.metadata.docs.rs]
+# ------------------------------------------------------------------------------
+no-default-features = true
+features = ["_docs"]
 
 
-[features] # 36 (300 max)
+[features] # 13/300 (287 remaining), 8 visible, 5 hidden
 # ==============================================================================
-# Features are grouped in the following categories:
-# - Miscellaneous
-# - Environment
-# - Platform
-# - Modules
-# - Safety
-# - Nightly
-# - Capability
-# - Dependencies
-#
-# Sintax:
-# - ["name"]: Normal public-facing features.
-# - ["_name"]: Hidden extra capability features.
-# - ["__name"]: Hidden miscellaneous features.
-#
-# Features are in sync with: src/_info/features.md
 
-
-#* Miscellaneous features *#
+#* Development features *#
 # ------------------------------------------------------------------------------
 
-# default = []
+__dbg = [] # shows extra debugging information
 
-__dbg = ["devela/__dbg"] # for debugging purposes, shows enabled features
-__notest = [] # allows excluding examples from being tested
+# enabled when publishing to crates.io or building online docs (see /src/code/util/_doclink!)
+__publish = ["devela/__publish"]
+
+__docs_internal = [] # enables documentation for internal items
 
 
 #* Environment features *#
 # ------------------------------------------------------------------------------
 
-std = [ # enables features that depend on the standard library
+alloc = [ # enables `alloc` functionality
+	"devela/alloc",
+]
+std = [ # disables `no_std` compatibility and enables `std` functionality
 	"alloc",
 	"devela/std",
 ]
-alloc = [ # enables features that depend on allocation
-	"devela/alloc",
-]
-no_std = [ # enables features incompatible with the standard library
+no_std = [ # enables functionality incompatible with or substitute of `std`
 	"devela/no_std",
 ]
 
 
-#* Platform features *#
-# ------------------------------------------------------------------------------
-
-linux = []
-web = []
-windows = ["crossterm?/windows"]
-term =  []
-
-
-#* Modules features *#
+#* Module features *#
 # ------------------------------------------------------------------------------
 
 all = [ # enables all the modules and submodules
-	"audio", "color", "font", "gfx", "ui", "video",
-	]
-audio = []
-color = []
-font = []
-gfx = []
-ui = []
-video = []
+]
 
 
 #* Safety features *#
 # ------------------------------------------------------------------------------
-# IMPROVE: allow to enable separately safety features from devela and revela.
 
-safe = [] # forbids unsafe at the crate level
 safest = [ "safe", "devela/safe" ] # forbids unsafe recursively
+safe = [] # forbids unsafe at the crate level
+unsafe = [] # enables all `unsafe` (as long as it isn't forbidden in that module)
 unsafest = [ "unsafe", "devela/unsafe" ] # enables unsafe recursively
 
-unsafe = [ # enables all the unsafe features at the crate level
-	"unsafe_array", "unsafe_async", "unsafe_const", "unsafe_hint",
-	"unsafe_layout", "unsafe_niche", "unsafe_ptr", "unsafe_slice",
-	"unsafe_str", "unsafe_sync", "unsafe_syscall", "unsafe_thread",
-	]
-	# devela's unsafe features (v0.22.0)
-	unsafe_array = ["devela/unsafe_array"] # faster array initialization, UninitArray.
-	unsafe_async = ["devela/unsafe_async"] # task_waker_noop, CoroRun.
-	unsafe_const = ["devela/unsafe_const"] # extra const methods.
-	unsafe_hint = ["devela/unsafe_hint"] # unreachable_unchecked, assert_unchecked.
-	unsafe_layout = ["devela/unsafe_layout"] # MemPod, DSTs in the stack, ExtAny::downcast*.
-	unsafe_niche = ["devela/unsafe_niche"] # unchecked niche constructors.
-	unsafe_ptr = ["devela/unsafe_ptr"] # Pinned, pop methods without Clone.
-	unsafe_slice = ["devela/unsafe_slice"] # extra slice methods, avoid bound checks.
-	unsafe_str = ["devela/unsafe_str"] # unchecked utf-8 char and &str conversions.
-	unsafe_sync = ["devela/unsafe_sync"] # Send and Sync impls.
-	unsafe_syscall = ["devela/unsafe_syscall"] # os syscalls.
-	unsafe_thread = ["devela/unsafe_thread"] # Logging::set_logger_racy, Env::{remove_var, set_var}.
 
-
-#* Nightly features *#
-# ------------------------------------------------------------------------------
-
-nightly = [ # enables nightly features
-	"devela/nightly",
-]
-	# devela's nightly features (v0.21.0)
-	nightly_coro= ["devela/nightly_coro"] # coroutines, coroutine_trait, iter_from_coroutine
-	nightly_doc = ["devela/nightly_doc"] # doc_cfg, doc_notable_trait
-	nightly_simd = ["devela/nightly_simd"] # portable_simd
-	nightly_stabilized = ["devela/nightly_stabilized"] # stabilized features to be released soon
-
-
-#* Capability features *#
+#* Scope features *#
 # ------------------------------------------------------------------------------
 # These features are prefixed with an underscore (_) and therefore semi-hidden.
 
+# default = []
+
 # The most complete versions of the documentation:
-_docsrs_stable = ["std", "unsafe", "dep_std"]
-_docsrs = ["_docsrs_stable", "nightly"]
+_docs_min = ["std", "unsafe"]
+_docs = ["_docs_min"]
 
 
-#* Dependencies features *#
-# ------------------------------------------------------------------------------
-
-dep_std = [ # enables all the backends compatible with "std"
-	"std",
-	"crossterm", "miniquad", # "notcurses",
-	# "macroquad", # "notan",
-	# "libc", "sdl2", "gilrs", "midir", "kira",
-]
-dep_alloc = [ # enable all the backends compatible with "alloc"
-	"alloc",
-	# "no_std", "libc", "tiny-skia",
-]
-dep_no_std = [ # enable all the backends compatible with "no_std"
-	"no_std",
-	# "libc", "tiny-skia",
-]
-
-#* features automatically enabled by optional dependencies *#
-
-crossterm = ["dep:crossterm", "std"]
-# macroquad = ["dep:macroquad", "std"]
-miniquad = ["dep:miniquad"]
-# notcurses = ["dep:notcurses"]
-# notan = ["dep:notan", "std"]
-# sdl2 = ["dep:sdl2", "std", "acolor/sdl2", "raw-window-handle"]
-# midir = ["dep:midir", "std", "flume"]
-
-
-[dependencies]
+[dependencies] # 1
 # ==============================================================================
 
 [dependencies.devela]
-# version = "0.21.2"
-path = "../devela" # 0.22-wip
+version = "0.30.0"
+# path = "../devela"
 default-features = false
 
-
-# system
-# ------------------------------------------------------------------------------
-
-# [dependencies.libc]
-# version = "0.2.140"
-# optional = true
-# default-features = false
-
-# [dependencies.libc-print]
-# version = "0.1.21"
-# optional = true
-
-# [dependencies.linked_list_allocator]
-# version = "0.10.5"
-# optional = true
-
-# windowing
-# ------------------------------------------------------------------------------
-
-[dependencies.miniquad]
-version = "0.4.5"
-optional = true
-default-features = false
-
-# [dependencies.macroquad]
-# version = "0.4.5"
-# optional = true
-# default-features = false
-
-# [dependencies.notan]
-# version = "0.12.0"
-# optional = true
-# default-features = false
-
-# [dependencies.raw-window-handle]
-# version = "0.5.0" # latest = 0.6.0, in sdl2: 0.5.0
-# optional = true
-
-# [dependencies.sdl2]
-# version = "0.36.2"
-# optional = true
-# default-features = false
-# features = ["raw-window-handle", "gfx"]
-
-# graphics
-# ------------------------------------------------------------------------------
-
-# [dependencies.png] # needs-std
-# version = "0.17.8"
-# optional = true
-
-# [dependencies.tiny-skia]
-# version = "0.11.1"
-# optional = true
-# default-features = false
-
-# terminal
-# ------------------------------------------------------------------------------
-
-[dependencies.crossterm]
-version = "0.27.0"
-optional = true
-default-features = false
-features = ["events", "bracketed-paste"]
-
-# [dependencies.notcurses]
-# version = "3.5.0"
-# path = "../../notcurses/notcurses-rs"
-# optional = true
-# default-features = false
-
-# gamepads
-# ------------------------------------------------------------------------------
-
-# [dependencies.gilrs]
-# version = "0.10.2"
-# default-features = false
-
-# audio
-# ------------------------------------------------------------------------------
-
-# [dependencies.kira]
-# version = "0.8.4"
-# optional = true
-# default-features = false
-
-# midi
-# ------------------------------------------------------------------------------
-
-# [dependencies.midir]
-# version = "0.9.1"
-# optional = true
-# default-features = false
-
-# [dependencies.flume]
-# version = "0.11.0"
-# optional = true
-# default-features = false
-
-# [dependencies.midi-convert]
-# version = "0.1.3" # TODO 0.2.0
-# default-features = false
-
-
-[dev-dependencies]
-# ------------------------------------------------------------------------------
-
-
-[package.metadata.docs.rs]
-# ------------------------------------------------------------------------------
-no-default-features = true
-features = ["_docsrs"]
 
 [badges]
-# ------------------------------------------------------------------------------
 maintenance = { status = "experimental" }
 
+[lints]
+[lints.rust.unexpected_cfgs]
+level = "warn"
+check-cfg = [ # Allowed configuration flags:
+	"cfg(nightly)", # [12] (in sync with build/main/features.rs::FLAGS_NIGHTLY & src/_.rs)
+		# Unstable nightly features without clear stabilization timeline
+		"cfg(nightly_unstable)",
+			# WAIT: [doc_cfg](https://github.com/rust-lang/rust/issues/43781)
+			# LINK: https://github.com/rust-lang/rfcs/blob/master/text/3631-rustdoc-cfgs-handling.md
+			# WAIT: [doc_notable_trait](https://github.com/rust-lang/rust/issues/45040)
+			"cfg(nightly_doc)",
+]
 
 # profiles
-# ==============================================================================
 
-[profile.dev]
-split-debuginfo = "packed"
+# binaries
 
-[profile.release]
-strip = "debuginfo"
-
-[profile.no_std]
-inherits = "dev"
-lto = true
-opt-level = "s" # "z"
-panic = "abort"
-# overflow-checks = true
-# debug-assertions = true
-
-[profile.no_std-release]
-inherits = "release"
-lto = true
-opt-level = "s" # "z"
-panic = "abort"
-codegen-units = 1
-strip = true
-# overflow-checks = false
-# debug-assertions = false
+# examples

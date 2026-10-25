@@ -1,19 +1,18 @@
 # revela
 
 [![Crate](https://img.shields.io/crates/v/revela.svg)](https://crates.io/crates/revela)
-[![API](https://docs.rs/revela/badge.svg)](https://docs.rs/revela/)
-[![MSRV: 1.81.0](https://flat.badgen.net/badge/MSRV/1.81.0/purple)](https://releases.rs/docs/1.81.0/)
+[![MSRV](https://img.shields.io/crates/msrv/revela?label=MSRV)](https://crates.io/crates/revela)
+[![docs.rs](https://img.shields.io/docsrs/revela?label=docs.rs)](https://docs.rs/revela/latest/revela/)
+[![WIP docs](https://img.shields.io/badge/docs-WIP-blue)](https://andamira.github.io/revela/wip/revela/)
 
-A modular user interface abstracted over multiple backends.
+---
 
-See [the documentation](https://docs.rs/revela/) for more information.
+> A revelation of structured knowledge
 
-## Status
+`revela` explores how foundational computational mechanisms can be composed
+into meaningful representations and processes. Built upon [`devela`], it develops
+vocabulary for modeling and interpreting physical, living, and social phenomena.
 
-This is an experimental work in progress.
+The crate is experimental. Its initial modules are directions for exploration.
 
-## Contributing
-
-Contributions are welcomed to help refine and improve this library over time.
-If you notice a bug, have an idea for a new feature, or simply want to suggest
-improvements to the existing codebase, please get in touch.
+[`devela`]: https://github.com/andamira/devela

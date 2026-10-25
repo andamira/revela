@@ -1,3 +1,16 @@
-/target
+# Rust
+
+target/
 Cargo.lock
-log*.log
+# !examples/**/Cargo.lock
+
+# Media generated artifacts
+
+**/examples/**/*.wav
+
+
+# Local tool overrides
+
+/tools/x-env-local.sh
+/tools/x-env-local-nightly.sh
+/tools/_local/

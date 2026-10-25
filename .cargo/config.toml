@@ -1,3 +1,17 @@
+# ./cargo/config.toml
+
+
+[build]
+# ==============================================================================
+
+
+[env]
+# ==============================================================================
+CARGO_TARGET_DIR = { value = "target", relative = true }
+
+
+[alias]
+# ==============================================================================
 # NOTE: there are alias suffixes configured for different backends:
 #
 # _all         all backends
@@ -9,8 +23,6 @@
 # _ct          crossterm
 # _nc          notcurses
 # _sdl         sdl2
-#
-[alias]
 
 # CHECK
 cl = "clippy"
@@ -203,5 +215,3 @@ E_all = "expand  -F dep_std"
 Eb_all = "expand --bin -F dep_std"
 Ee_all = "expand --example -F dep_std"
 El_all = "expand --lib -F dep_std"
-
-[build]
